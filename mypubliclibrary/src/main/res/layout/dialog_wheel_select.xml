@@ -1,0 +1,85 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/ll_title_background"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true"
+    android:background="@drawable/comments_value_bg"
+    android:orientation="vertical">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/rl_title"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/tv_confirm"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginRight="15dp"
+            android:gravity="center_vertical"
+            android:text="完成"
+            android:textColor="@color/colorGreen"
+            android:textSize="18sp"
+            app:layout_constraintRight_toRightOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:gravity="center_vertical"
+            android:text="请选择"
+            android:textColor="@color/colorGreen"
+            android:textSize="18sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
+
+        <!--<TextView-->
+        <!--android:id="@+id/tv_cancel"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_alignParentLeft="true"-->
+        <!--android:layout_marginLeft="15dp"-->
+        <!--android:gravity="center_vertical"-->
+        <!--android:text="取消"-->
+        <!--android:textColor="@color/colorPrimary"-->
+        <!--android:textSize="18sp" />-->
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.example.myaries.widget.wheel.SelectWheelView
+        android:id="@+id/wlv_select_one"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/wlv_select_two"
+        app:layout_constraintTop_toBottomOf="@+id/rl_title">
+
+    </com.example.myaries.widget.wheel.SelectWheelView>
+
+    <com.example.myaries.widget.wheel.SelectWheelView
+        android:id="@+id/wlv_select_two"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintLeft_toRightOf="@+id/wlv_select_one"
+        app:layout_constraintRight_toLeftOf="@+id/wlv_select_three"
+        app:layout_constraintTop_toBottomOf="@+id/rl_title">
+
+    </com.example.myaries.widget.wheel.SelectWheelView>
+
+    <com.example.myaries.widget.wheel.SelectWheelView
+        android:id="@+id/wlv_select_three"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintLeft_toRightOf="@+id/wlv_select_two"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rl_title">
+
+    </com.example.myaries.widget.wheel.SelectWheelView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

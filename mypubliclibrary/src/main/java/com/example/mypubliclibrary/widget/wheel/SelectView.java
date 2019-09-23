@@ -8,10 +8,10 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
-import com.example.myaries.R;
-import com.example.myaries.util.WindowUtils;
-import com.example.myaries.widget.wheel.constant.SelectViewConfig;
+import com.example.mypubliclibrary.R;
+import com.example.mypubliclibrary.util.WindowUtils;
 import com.example.mypubliclibrary.widget.wheel.adapters.WheelContentAdapter;
+import com.example.mypubliclibrary.widget.wheel.constant.SelectViewConfig;
 import com.example.mypubliclibrary.widget.wheel.interfaces.OnSelectChangedListener;
 import com.example.mypubliclibrary.widget.wheel.interfaces.OnSelectData;
 
@@ -228,7 +228,6 @@ public abstract class SelectView<T> implements OnSelectChangedListener, OnSelect
                     popWindow.dismiss();
                 }
             });
-            popWindow.setAnimationStyle(R.style.WheelSelect);
         }
     }
 
