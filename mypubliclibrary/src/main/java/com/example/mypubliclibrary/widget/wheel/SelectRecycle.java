@@ -22,8 +22,6 @@ package com.example.mypubliclibrary.widget.wheel;
 import android.view.View;
 import android.widget.LinearLayout;
 
-import com.lljjcoder.style.citypickerview.widget.wheel.ItemsRange;
-
 import java.util.LinkedList;
 import java.util.List;
 

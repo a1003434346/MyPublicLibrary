@@ -26,6 +26,7 @@ import com.example.mypubliclibrary.widget.interfaces.WidgetInterface;
 public class WarningDialog {
     private Context context;
 
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     public WarningDialog(Context context, String shouValue) {
         this.context = context;
         this.showValue = shouValue;
