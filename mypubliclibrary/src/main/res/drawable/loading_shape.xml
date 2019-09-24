@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--<shape xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--android:shape="ring"-->
+    <!--android:useLevel="false"-->
+    <!--android:innerRadius="20dp"-->
+    <!--android:thickness="4dp">-->
+    <!--<size-->
+        <!--android:width="60dp"-->
+        <!--android:height="50dp" />-->
+    <!--<solid android:color="@color/colorAccent" />-->
+    <!--<gradient android:centerColor="@color/activity_bg" android:startColor="@color/colorAccent" android:type="sweep" android:endColor="@color/colorAccent"></gradient>-->
+<!--</shape>-->
+
+<!-- 圆环-线性渐变 -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="ring"
+    android:innerRadius="20dp"
+    android:thickness="5dp"
+    android:useLevel="false">
+
+
+    <size
+        android:width="60dp"
+        android:height="60dp" />
+
+    <!--扫描渐变shape不能设置角度  #00ff0000  #80ff0000 ffff0000 -->
+    <gradient
+        android:centerColor="@color/colorCyan"
+        android:endColor="@color/colorGreen"
+        android:startColor="@color/colorCyanine"
+        android:type="sweep" />
+</shape>

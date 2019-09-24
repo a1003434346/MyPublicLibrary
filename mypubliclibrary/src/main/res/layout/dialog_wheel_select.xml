@@ -49,7 +49,7 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <com.example.myaries.widget.wheel.SelectWheelView
+    <com.example.mypubliclibrary.widget.wheel.SelectWheelView
         android:id="@+id/wlv_select_one"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -57,9 +57,9 @@
         app:layout_constraintRight_toLeftOf="@+id/wlv_select_two"
         app:layout_constraintTop_toBottomOf="@+id/rl_title">
 
-    </com.example.myaries.widget.wheel.SelectWheelView>
+    </com.example.mypubliclibrary.widget.wheel.SelectWheelView>
 
-    <com.example.myaries.widget.wheel.SelectWheelView
+    <com.example.mypubliclibrary.widget.wheel.SelectWheelView
         android:id="@+id/wlv_select_two"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -68,9 +68,9 @@
         app:layout_constraintRight_toLeftOf="@+id/wlv_select_three"
         app:layout_constraintTop_toBottomOf="@+id/rl_title">
 
-    </com.example.myaries.widget.wheel.SelectWheelView>
+    </com.example.mypubliclibrary.widget.wheel.SelectWheelView>
 
-    <com.example.myaries.widget.wheel.SelectWheelView
+    <com.example.mypubliclibrary.widget.wheel.SelectWheelView
         android:id="@+id/wlv_select_three"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -79,7 +79,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/rl_title">
 
-    </com.example.myaries.widget.wheel.SelectWheelView>
+    </com.example.mypubliclibrary.widget.wheel.SelectWheelView>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

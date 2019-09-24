@@ -1,0 +1,67 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/ctl_layout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/ctl_content"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/ctl_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorSystemDf"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <EditText
+            android:id="@+id/et_input_value"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/comments_value_bg"
+            android:hint="@string/comments"
+            android:maxHeight="120dp"
+            android:paddingStart="4dp"
+            android:paddingTop="6dp"
+            android:paddingEnd="2dp"
+            android:paddingBottom="6dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/bt_send"
+            app:layout_constraintTop_toTopOf="parent"
+            android:paddingLeft="4dp"
+            android:paddingRight="2dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="10dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/et_input_value" />
+
+
+        <Button
+            android:id="@+id/bt_send"
+            android:layout_width="0dp"
+            android:layout_height="34dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="2dp"
+            android:background="@drawable/send_false_bg"
+            android:text="@string/done"
+            android:textColor="@color/colorSilverGrey"
+            app:layout_constraintBottom_toBottomOf="@+id/et_input_value"
+            app:layout_constraintLeft_toRightOf="@+id/et_input_value"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintWidth_percent="0.16"
+            android:layout_marginRight="10dp" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

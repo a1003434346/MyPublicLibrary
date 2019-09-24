@@ -4,4 +4,10 @@
     <color name="colorThinGrey">#f5f5f5</color>
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorWindowBack">#FAFAFA</color>
+    <color name="colorCyan">#B3E8E4</color>
+    <color name="colorCyanine">#d7f0ee</color>
+    <color name="colorSystemDf">#F8F9FB</color>
+    <color name="colorSilverGrey">#E8E8E8</color>
+    <color name="colorPrairieGreen">#07c160</color>
+    <color name="colorDeepGreen">#06AE56</color>
 </resources>
