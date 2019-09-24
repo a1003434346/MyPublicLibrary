@@ -82,7 +82,7 @@ public abstract class BasesActivity extends SwipeBackActivity implements View.On
         return WindowUtils.dip2px(this, px);
     }
 
-    private CountDownTimer countDownTimer;
+//    private CountDownTimer countDownTimer;
 
     public int getResourcesColor(int color) {
         return getResources().getColor(color);
