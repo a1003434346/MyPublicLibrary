@@ -41,8 +41,6 @@ import java.util.List;
  */
 public class WindowUtils {
 
-//    private static int dialogShowNumber = 0;
-
     /**
      * 设置背景阴影(蒙色)
      *
@@ -51,29 +49,10 @@ public class WindowUtils {
      */
     public static void setBackgroundAlpha(Context mContext, float... bgAlpha) {
         if (bgAlpha.length == 0) {
-//            if (dialogShowNumber > 0)
-//                dialogShowNumber--;
-//            if (dialogShowNumber == 0)
             clearDim((Activity) mContext);
         } else {
-//            if (dialogShowNumber == 0)
             applyDim((Activity) mContext, bgAlpha[0]);
-//            dialogShowNumber++;
         }
-    }
-
-    private static volatile WindowUtils windowUtils;
-
-
-    public static WindowUtils getBuild() {
-        return windowUtils;
-    }
-
-    //初始化的时候实例化一次
-    public static WindowUtils build() {
-        //只在从新登录的时候构建
-        windowUtils = new WindowUtils();
-        return windowUtils;
     }
 
     /**

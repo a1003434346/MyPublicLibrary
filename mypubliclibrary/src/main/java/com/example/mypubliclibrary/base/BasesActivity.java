@@ -381,17 +381,7 @@ public abstract class BasesActivity extends SwipeBackActivity implements View.On
     public boolean isEqualsDrawable(int imageViewId, int drawableId) {
         return ((ImageView) bindId(imageViewId)).getDrawable().getConstantState().equals(getResources().getDrawable(drawableId).getConstantState());
     }
-//    @Override
-//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-//        if (requestCode == PackageManager.PERMISSION_GRANTED) {//
-//            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-//                if (onPermissions != null) onPermissions.onPermissionsSuccess();
-//            } else {
-//                if (onPermissions != null) onPermissions.onPermissionsError();
-//            }
-//        }
-//    }
+
 
 
     /**
