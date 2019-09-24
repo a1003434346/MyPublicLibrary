@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment;
 import com.example.mypubliclibrary.R;
 import com.example.mypubliclibrary.base.bean.EventMsg;
 import com.example.mypubliclibrary.util.EventBusUtils;
+import com.example.mypubliclibrary.util.ObjectUtil;
 import com.example.mypubliclibrary.util.WindowUtils;
 import com.example.mypubliclibrary.widget.dialog.CProgressDialog;
 import com.example.mypubliclibrary.widget.dialog.WarningDialog;
@@ -24,6 +25,8 @@ import com.example.mypubliclibrary.widget.dialog.WarningDialog;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.List;
 import java.util.TreeMap;
 
@@ -32,7 +35,8 @@ import java.util.TreeMap;
  * describe:
  * Created By LiQiang on 2019/7/5.
  */
-public abstract class BaseFragment extends Fragment implements View.OnClickListener {
+public abstract class BasesFragment<T> extends Fragment implements View.OnClickListener {
+    protected T mPresenter;
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public abstract void onEvent(EventMsg message);
@@ -45,8 +49,8 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
 
     protected View myView;
 
-    //开启缓存
-    protected boolean openCache;
+    //开启数据更新
+    protected boolean DataUpdate;
 
     protected BasesActivity activity;
 
@@ -57,9 +61,10 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
         if (myView == null) {
             myView = inflater.inflate(onRegistered(), container, false);
             activity = (BasesActivity) getActivity();
+            mPresenter = ObjectUtil.getT(this.getClass());
             initView();
             initData();
-        } else if (openCache) {
+        } else if (DataUpdate) {
             initData();
         }
         return myView;
@@ -214,7 +219,6 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
     public int getDP(int px) {
         return WindowUtils.dip2px(myView.getContext(), px);
     }
-
 
 
     /**

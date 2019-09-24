@@ -5,6 +5,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 
 /**
  * function:
@@ -13,7 +15,8 @@ import java.io.Serializable;
  */
 public class ObjectUtil {
     /**
-     *  深度拷贝对象
+     * 深度拷贝对象
+     *
      * @param obj 目标对象
      * @param <T> 对象
      * @return T
@@ -38,5 +41,24 @@ public class ObjectUtil {
             e.printStackTrace();
         }
         return cloneObj;
+    }
+
+    public static <T> T getT(Class<?> cClass) {
+        Type genType = cClass.getGenericSuperclass();
+        T t = null;
+        //如果泛型不等于Null
+        if (!genType.getClass().getName().equals("java.lang.Class")) {
+            Type[] params = ((ParameterizedType) genType).getActualTypeArguments();
+            Class<?> aClass = (Class) params[0];
+            try {
+                //实例化泛型
+                t = (T) aClass.newInstance();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (java.lang.InstantiationException e) {
+                e.printStackTrace();
+            }
+        }
+        return t;
     }
 }

@@ -4,6 +4,7 @@ package com.example.mypubliclibrary.base;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Point;
 import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 import android.os.Build;
@@ -26,6 +27,7 @@ import com.example.mypubliclibrary.R;
 import com.example.mypubliclibrary.base.bean.EventMsg;
 import com.example.mypubliclibrary.base.interfaces.CallPermission;
 import com.example.mypubliclibrary.util.EventBusUtils;
+import com.example.mypubliclibrary.util.ObjectUtil;
 import com.example.mypubliclibrary.util.ToastUtils;
 import com.example.mypubliclibrary.util.WindowUtils;
 import com.example.mypubliclibrary.widget.dialog.CProgressDialog;
@@ -35,6 +37,8 @@ import com.example.mypubliclibrary.widget.dialog.WarningDialog;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Timer;
@@ -49,7 +53,8 @@ import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
  * describe:
  * Created By LiQiang on 2019/7/5.
  */
-public abstract class BasesActivity extends SwipeBackActivity implements View.OnClickListener, CallPermission {
+public abstract class BasesActivity<T> extends SwipeBackActivity implements View.OnClickListener, CallPermission {
+    protected T mPresenter;
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public abstract void onEvent(EventMsg message);
@@ -201,9 +206,11 @@ public abstract class BasesActivity extends SwipeBackActivity implements View.On
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         setContentView(onRegistered());
         imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        mPresenter = ObjectUtil.getT(this.getClass());
         initView();
         initData();
     }
+
 
     //设置沉浸式状态栏，并把状态栏颜色改为透明色
     protected void setStatusBar() {
@@ -381,7 +388,6 @@ public abstract class BasesActivity extends SwipeBackActivity implements View.On
     public boolean isEqualsDrawable(int imageViewId, int drawableId) {
         return ((ImageView) bindId(imageViewId)).getDrawable().getConstantState().equals(getResources().getDrawable(drawableId).getConstantState());
     }
-
 
 
     /**
