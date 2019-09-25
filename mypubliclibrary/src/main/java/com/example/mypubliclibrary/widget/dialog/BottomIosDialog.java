@@ -15,7 +15,7 @@ import android.widget.TextView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.example.mypubliclibrary.R;
-import com.example.mypubliclibrary.util.SelectorFactory;
+import com.example.mypubliclibrary.util.SelectorUtils;
 import com.example.mypubliclibrary.util.ShapeUtils;
 import com.example.mypubliclibrary.util.WindowUtils;
 
@@ -90,7 +90,7 @@ public abstract class BottomIosDialog implements View.OnClickListener {
     }
 
     private void addViews() {
-        SelectorFactory.ShapeSelector shapeSelector = SelectorFactory.newShapeSelector()
+        SelectorUtils.ShapeSelector shapeSelector = SelectorUtils.newShapeSelector()
                 .setDefaultStrokeColor(Color.parseColor("#FFFFFF"))
                 .setPressedBgColor(Color.parseColor("#f5f5f5"));
         for (int i = 0; i < items.size(); i++) {
