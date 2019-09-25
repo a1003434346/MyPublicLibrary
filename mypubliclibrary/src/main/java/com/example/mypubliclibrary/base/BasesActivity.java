@@ -509,7 +509,7 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
      * @param viewId viewId
      * @param value  value
      */
-    public void setTextValue(int viewId, String value) {
+    public void setTextValue(int viewId, CharSequence value) {
         ((TextView) bindId(viewId)).setText(value);
     }
 
@@ -529,7 +529,7 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
      * @param viewId viewId
      * @param value  value
      */
-    public void setTextValue(View view, int viewId, String value) {
+    public void setTextValue(View view, int viewId, CharSequence value) {
         ((TextView) bindId(view, viewId)).setText(value);
     }
 

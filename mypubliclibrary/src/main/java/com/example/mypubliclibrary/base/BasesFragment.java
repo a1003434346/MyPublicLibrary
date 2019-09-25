@@ -25,8 +25,6 @@ import com.example.mypubliclibrary.widget.dialog.WarningDialog;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
 import java.util.List;
 import java.util.TreeMap;
 
@@ -221,17 +219,7 @@ public abstract class BasesFragment<T> extends Fragment implements View.OnClickL
     }
 
 
-    /**
-     * 赋值Text,显示text,隐藏editText
-     *
-     * @param textView text
-     * @param editText editText
-     */
-    protected void setTextHideEditText(TextView textView, EditText editText, String value) {
-        setTextView(textView, value);
-        showView(textView.getId());
-        hideView(editText.getId());
-    }
+
 
     /**
      * 给view设置Text内容
@@ -239,19 +227,10 @@ public abstract class BasesFragment<T> extends Fragment implements View.OnClickL
      * @param viewId viewId
      * @param value  value
      */
-    public void setTextValue(int viewId, String value) {
+    public void setTextValue(int viewId, CharSequence value) {
         ((TextView) bindId(viewId)).setText(value);
     }
 
-    /**
-     * 给TextView设置内容
-     *
-     * @param text  textView
-     * @param value value
-     */
-    protected void setTextView(TextView text, String value) {
-        text.setText(value);
-    }
 
 
     /**
