@@ -9,6 +9,7 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.mypubliclibrary.base.BasesActivity;
 
 /**
  * function:
@@ -67,6 +68,22 @@ public class ImageUtils {
      */
     public static void setImageDrawable(ImageView imageView, int resId) {
         imageView.setImageResource(resId);
+    }
+
+    /**
+     * 设置Image的Drawable
+     *
+     * @param viewId viewId
+     * @param resId  resId
+     */
+    public void setImageDrawable(BasesActivity activity, int viewId, int resId) {
+        ((ImageView) activity.bindId(viewId)).setImageResource(resId);
+    }
+
+
+    //判断图片是否使用某一个图片
+    public boolean isEqualsDrawable(BasesActivity activity, int imageViewId, int drawableId) {
+        return ((ImageView) activity.bindId(imageViewId)).getDrawable().getConstantState().equals(activity.getResources().getDrawable(drawableId).getConstantState());
     }
 
 }

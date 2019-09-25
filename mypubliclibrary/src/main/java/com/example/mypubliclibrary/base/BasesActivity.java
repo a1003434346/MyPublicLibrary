@@ -4,12 +4,10 @@ package com.example.mypubliclibrary.base;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Point;
 import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.provider.Settings;
 import android.view.View;
 import android.view.WindowManager;
@@ -37,8 +35,6 @@ import com.example.mypubliclibrary.widget.dialog.WarningDialog;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Timer;
@@ -376,18 +372,7 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
         }
     }
 
-    public void setImageDrawable(int viewId, int resId) {
-        ((ImageView) bindId(viewId)).setImageResource(resId);
-    }
 
-    public void setImageDrawable(ImageView imageView, int resId) {
-        imageView.setImageResource(resId);
-    }
-
-    //判断图片是否使用某一个图片
-    public boolean isEqualsDrawable(int imageViewId, int drawableId) {
-        return ((ImageView) bindId(imageViewId)).getDrawable().getConstantState().equals(getResources().getDrawable(drawableId).getConstantState());
-    }
 
 
     /**
