@@ -76,13 +76,13 @@ public class ImageUtils {
      * @param viewId viewId
      * @param resId  resId
      */
-    public void setImageDrawable(BasesActivity activity, int viewId, int resId) {
+    public static void setImageDrawable(BasesActivity activity, int viewId, int resId) {
         ((ImageView) activity.bindId(viewId)).setImageResource(resId);
     }
 
 
     //判断图片是否使用某一个图片
-    public boolean isEqualsDrawable(BasesActivity activity, int imageViewId, int drawableId) {
+    public static boolean isEqualsDrawable(BasesActivity activity, int imageViewId, int drawableId) {
         return ((ImageView) activity.bindId(imageViewId)).getDrawable().getConstantState().equals(activity.getResources().getDrawable(drawableId).getConstantState());
     }
 
