@@ -47,10 +47,10 @@ public abstract class BasesFragment<T> extends Fragment implements View.OnClickL
 
     protected View myView;
 
+    public CProgressDialog loadingDialog;
+
     //开启数据更新
     protected boolean DataUpdate;
-
-    protected BasesActivity activity;
 
 
     @Nullable
@@ -58,7 +58,6 @@ public abstract class BasesFragment<T> extends Fragment implements View.OnClickL
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (myView == null) {
             myView = inflater.inflate(onRegistered(), container, false);
-            activity = (BasesActivity) getActivity();
             mPresenter = ObjectUtil.getT(this.getClass());
             initView();
             initData();
@@ -95,13 +94,13 @@ public abstract class BasesFragment<T> extends Fragment implements View.OnClickL
      * 显示加载提示，可取消为透明背景色，不可取消为蒙色背景
      */
     public CProgressDialog showLoading(boolean cancelable) {
-        if (activity.loadingDialog == null)
-            activity.loadingDialog = new CProgressDialog(getContext());
-        if (!activity.loadingDialog.isShowing()) {
-            activity.loadingDialog.cancelable(cancelable);
-            activity.loadingDialog.show();
+        if (loadingDialog == null)
+            loadingDialog = new CProgressDialog(getContext());
+        if (!loadingDialog.isShowing()) {
+            loadingDialog.cancelable(cancelable);
+            loadingDialog.show();
         }
-        return activity.loadingDialog;
+        return loadingDialog;
 
 //        loadingDialog.setProgressText(text.length > 0 ? text[0] : "加载中...");
     }
@@ -110,8 +109,8 @@ public abstract class BasesFragment<T> extends Fragment implements View.OnClickL
      * 关闭加载等待
      */
     public void dismissLoading() {
-        if (activity.loadingDialog != null && activity.loadingDialog.isShowing()) {
-            activity.loadingDialog.dismiss();
+        if (loadingDialog != null && loadingDialog.isShowing()) {
+            loadingDialog.dismiss();
         }
     }
 
@@ -219,8 +218,6 @@ public abstract class BasesFragment<T> extends Fragment implements View.OnClickL
     }
 
 
-
-
     /**
      * 给view设置Text内容
      *
@@ -230,7 +227,6 @@ public abstract class BasesFragment<T> extends Fragment implements View.OnClickL
     public void setTextValue(int viewId, CharSequence value) {
         ((TextView) bindId(viewId)).setText(value);
     }
-
 
 
     /**

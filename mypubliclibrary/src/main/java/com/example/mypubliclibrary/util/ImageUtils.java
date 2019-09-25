@@ -86,4 +86,12 @@ public class ImageUtils {
         return ((ImageView) activity.bindId(imageViewId)).getDrawable().getConstantState().equals(activity.getResources().getDrawable(drawableId).getConstantState());
     }
 
+    public static void setCheckImage(BasesActivity activity, int viewId, int checkImage, int notCheckImage) {
+        if (ImageUtils.isEqualsDrawable(activity, viewId, checkImage)) {
+            ImageUtils.setImageDrawable(activity, viewId, notCheckImage);
+        } else {
+            ImageUtils.setImageDrawable(activity, viewId, checkImage);
+        }
+    }
+
 }

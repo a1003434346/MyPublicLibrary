@@ -4,7 +4,9 @@ package com.example.mypubliclibrary.base;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.StateListDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -26,6 +28,7 @@ import com.example.mypubliclibrary.base.bean.EventMsg;
 import com.example.mypubliclibrary.base.interfaces.CallPermission;
 import com.example.mypubliclibrary.util.EventBusUtils;
 import com.example.mypubliclibrary.util.ObjectUtil;
+import com.example.mypubliclibrary.util.SelectorUtils;
 import com.example.mypubliclibrary.util.ToastUtils;
 import com.example.mypubliclibrary.util.WindowUtils;
 import com.example.mypubliclibrary.widget.dialog.CProgressDialog;
@@ -207,6 +210,20 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
         initData();
     }
 
+    /**
+     * 设置背景色和圆角
+     *
+     * @param color  背景色
+     * @param radius 圆角
+     * @return StateListDrawable
+     */
+    public StateListDrawable getBackRadius(int color, int radius) {
+        return SelectorUtils.newShapeSelector().setDefaultBgColor(getResourcesColor(color)).setCornerRadius(new float[]{getDP(radius)}).create();
+    }
+
+    public void setBackground(int viewId, Drawable backGround) {
+        bindId(viewId).setBackground(backGround);
+    }
 
     //设置沉浸式状态栏，并把状态栏颜色改为透明色
     protected void setStatusBar() {
@@ -371,8 +388,6 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
             bindId(myView, viewId).setBackground(gradientDrawable);
         }
     }
-
-
 
 
     /**
