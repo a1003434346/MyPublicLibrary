@@ -63,5 +63,9 @@ dependencies {
     implementation 'com.squareup.okhttp3:okhttp:3.10.0'
     //图片加载框架
     implementation 'com.github.bumptech.glide:glide:4.8.0'
+    //下拉刷新框架
+    implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-andx-16'
+    //header工具类
+    implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.0-andx-16'
 
 }
