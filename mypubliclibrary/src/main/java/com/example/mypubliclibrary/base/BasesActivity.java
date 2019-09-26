@@ -72,13 +72,10 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
      * @param noBack 是否不可以返回,默认false
      */
     public void jumpActivity(Class<?> aClass, boolean... noBack) {
+        startActivity(new Intent(this, aClass).addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
         if (noBack.length > 0) {
-//            startActivity(new Intent(this, aClass).addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY));
-            startActivity(new Intent(this, aClass).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
-        } else {
-            startActivity(new Intent(this, aClass).addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
+            finish();
         }
-
     }
 
 

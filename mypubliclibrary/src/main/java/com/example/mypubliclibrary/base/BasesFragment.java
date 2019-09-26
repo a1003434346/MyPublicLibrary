@@ -2,6 +2,7 @@ package com.example.mypubliclibrary.base;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.StateListDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,7 @@ import com.example.mypubliclibrary.R;
 import com.example.mypubliclibrary.base.bean.EventMsg;
 import com.example.mypubliclibrary.util.EventBusUtils;
 import com.example.mypubliclibrary.util.ObjectUtil;
+import com.example.mypubliclibrary.util.SelectorUtils;
 import com.example.mypubliclibrary.util.WindowUtils;
 import com.example.mypubliclibrary.widget.dialog.CProgressDialog;
 import com.example.mypubliclibrary.widget.dialog.WarningDialog;
@@ -65,6 +67,17 @@ public abstract class BasesFragment<T> extends Fragment implements View.OnClickL
             initData();
         }
         return myView;
+    }
+
+    /**
+     * 设置背景色和圆角
+     *
+     * @param color  背景色
+     * @param radius 圆角
+     * @return StateListDrawable
+     */
+    public StateListDrawable getBackRadius(int color, int radius) {
+        return SelectorUtils.newShapeSelector().setDefaultBgColor(getResourcesColor(color)).setCornerRadius(new float[]{getDP(radius)}).create();
     }
 
 
@@ -120,12 +133,54 @@ public abstract class BasesFragment<T> extends Fragment implements View.OnClickL
     }
 
     /**
-     * 跳转到Activity 带参数跳转
+     * 跳转到Activity 带参数跳转,Bundle传值时给TreeMap的value里new BundleUtils().put("recruit", recruitBean),如果是list数据,需要强制转换为
+     * new BundleUtils().put("recruit", (Serializable)list);
+     * 取值时User user = (User) getIntent().getExtras().getSerializable(key);
      *
      * @param aClass Activity的Class
      */
     public void jumpActivity(Class<?> aClass, TreeMap<String, Object> paramMap) {
-        Intent intent = new Intent(getActivity(), aClass).addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        startActivity(paramIntent(aClass, paramMap).addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
+    }
+
+    /**
+     * 跳转到Activity
+     *
+     * @param aClass      Activity的Class
+     * @param requestCode 回调onActivityResult里的requestCode参数
+     */
+    public void jumpActivity(Class<?> aClass, int requestCode) {
+        startActivityForResult(new Intent(getContext(), aClass).addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT), requestCode);
+    }
+
+    /**
+     * 带参数跳转到Activity，回退返回结果
+     *
+     * @param aClass      Activity的Class
+     * @param requestCode 回调onActivityResult里的requestCode参数
+     */
+    public void jumpActivity(Class<?> aClass, TreeMap<String, Object> paramMap, int requestCode) {
+        startActivityForResult(paramIntent(aClass, paramMap).addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT), requestCode);
+    }
+
+    /**
+     * 跳转到Activity
+     *
+     * @param aClass Activity的Class
+     * @param noBack 是否不可以返回,默认false
+     */
+    public void jumpActivity(Class<?> aClass, boolean... noBack) {
+        if (noBack.length > 0) {
+//            startActivity(new Intent(this, aClass).addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY));
+            startActivity(new Intent(getContext(), aClass).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
+        } else {
+            startActivity(new Intent(getContext(), aClass).addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
+        }
+
+    }
+
+    private Intent paramIntent(Class<?> aClass, TreeMap<String, Object> paramMap) {
+        Intent intent = new Intent(getContext(), aClass);
         for (String key : paramMap.keySet()) {
             Object value = paramMap.get(key);
             if (value instanceof String) {
@@ -134,8 +189,11 @@ public abstract class BasesFragment<T> extends Fragment implements View.OnClickL
             if (value instanceof Integer) {
                 intent.putExtra(key, (Integer) paramMap.get(key));
             }
+            if (value instanceof Bundle) {
+                intent.putExtras((Bundle) value);
+            }
         }
-        startActivity(intent);
+        return intent;
     }
 
     /**
