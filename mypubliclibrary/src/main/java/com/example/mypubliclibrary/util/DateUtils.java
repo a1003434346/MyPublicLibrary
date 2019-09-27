@@ -69,6 +69,26 @@ public class DateUtils {
     }
 
     /**
+     * 获取间隔时间秒
+     *
+     * @param current 当前的时间，用System.currentTimeMillis()获取
+     * @param start   开始的时间，用System.currentTimeMillis()获取
+     * @return 秒
+     */
+    public static int getIntervalSeconds(long current, long start) {
+        return (int) ((current - start) / 1000);
+    }
+
+    /**
+     * 获取日期
+     *
+     * @return Date
+     */
+    public static Date getDate() {
+        return new Date(System.currentTimeMillis());
+    }
+
+    /**
      * 根据传进去的日期转换成Date
      *
      * @param dayOfNumber 日期

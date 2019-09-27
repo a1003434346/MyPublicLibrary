@@ -1,8 +1,11 @@
 package com.example.mypubliclibrary.util;
 
+import android.os.Build;
+
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 /**
  * function:
@@ -59,7 +62,54 @@ public class NumberUtil {
         return s != null && s.matches("[-+]?\\d*\\.?\\d+");
     }
 
+    /**
+     * 获取随机数
+     *
+     * @param min 最小
+     * @param max 最大
+     * @return value
+     */
     public static int getRandom(int min, int max) {
         return new Random().nextInt(max) % (max - min + 1) + min;
     }
+
+    /**
+     * 获取间隔时间
+     *
+     * @param start 开始值，推荐用System.nanoTime()获取
+     * @param end   结束值，推荐用System.nanoTime()获取
+     * @param unit  单位，0,1,2,3,4,5,6 分别代表纳秒、微妙、毫秒、秒、分钟、小时、天
+     * @return value
+     */
+    public static long getIntervalTime(long start, long end, int unit) {
+        long period = start - end;
+        long value = 0;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
+            switch (unit) {
+                case 0:
+                    value = TimeUnit.NANOSECONDS.toNanos(period);
+                    break;
+                case 1:
+                    value = TimeUnit.NANOSECONDS.toMicros(period);
+                    break;
+                case 2:
+                    value = TimeUnit.NANOSECONDS.toMillis(period);
+                    break;
+                case 3:
+                    value = TimeUnit.NANOSECONDS.toSeconds(period);
+                    break;
+                case 4:
+                    value = TimeUnit.NANOSECONDS.toMinutes(period);
+                    break;
+                case 5:
+                    value = TimeUnit.NANOSECONDS.toHours(period);
+                    break;
+                case 6:
+                    value = TimeUnit.NANOSECONDS.toDays(period);
+                    break;
+            }
+        }
+        return value;
+    }
+
 }

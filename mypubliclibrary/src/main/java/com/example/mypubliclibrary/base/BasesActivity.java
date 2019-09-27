@@ -198,6 +198,15 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //首次启动 Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT 为 0，再次点击图标启动时就不为零了
+        if ((getIntent().getFlags() & Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT) != 0) {
+            /**
+             * fixme 加这句是因为非MainActivity时按home键，再打开程序进入MainActivity
+             * 只有第一次安装时会出现  进程杀死以后 再打开 这个现象就消失了
+             */
+            finish();
+            return;
+        }
         setStatusBar();
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         setContentView(onRegistered());
