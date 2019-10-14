@@ -25,7 +25,6 @@ import androidx.fragment.app.Fragment;
 
 import com.example.mypubliclibrary.R;
 import com.example.mypubliclibrary.base.interfaces.CallPermission;
-import com.example.mypubliclibrary.util.EventBusUtils;
 import com.example.mypubliclibrary.util.ObjectUtil;
 import com.example.mypubliclibrary.util.SelectorUtils;
 import com.example.mypubliclibrary.util.ToastUtils;
@@ -403,18 +402,6 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
         return true;
     }
 
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        EventBusUtils.unregister(this);
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        EventBusUtils.register(this);
-    }
 
 
     /**

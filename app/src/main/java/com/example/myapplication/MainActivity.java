@@ -7,16 +7,19 @@ import android.view.View;
 
 import com.example.mypubliclibrary.base.BasesActivity;
 import com.example.mypubliclibrary.base.bean.EventMsg;
+import com.example.mypubliclibrary.util.EventBusUtils;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 public class MainActivity extends BasesActivity<TestPre> {
 
-    @Override
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(EventMsg message) {
-
+        if(message.getType().equals("test")){
+            mPresenter.test(this);
+        }
     }
 
     @Override
@@ -26,12 +29,13 @@ public class MainActivity extends BasesActivity<TestPre> {
 
     @Override
     protected void initView() {
-
+        EventBusUtils.register(this);
     }
 
     @Override
     protected void initData() {
-        mPresenter.test(this);
+
+        EventBusUtils.post(new EventMsg<>().setType("test"));
     }
 
 
