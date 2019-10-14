@@ -40,7 +40,7 @@ public abstract class InputDialog {
     private Context context;
     //输入内容
     private EditText etInputValue;
-    //提交按钮
+    //提交按钮,默认显示
     private Button btSend;
     //连接同步输入的view
     private TextView connectTextView;
@@ -193,6 +193,7 @@ public abstract class InputDialog {
 
     /**
      * 设置允许输入哪些值
+     * 如果设置了setInputType，该参数则会被替换掉，同时设置需要先设置setInputType再设置该属性
      *
      * @param value 允许输入的内容
      * @return InputDialog
@@ -228,6 +229,12 @@ public abstract class InputDialog {
         return this;
     }
 
+    /**
+     * 设置提交按钮的显示状态，不设置默认为显示
+     *
+     * @param visibility true/false
+     * @return InputDialog
+     */
     public InputDialog setSubmitVisibility(boolean visibility) {
         btSend.setVisibility(visibility ? View.VISIBLE : View.GONE);
         return this;

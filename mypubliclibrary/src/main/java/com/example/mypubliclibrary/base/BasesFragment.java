@@ -1,8 +1,10 @@
 package com.example.mypubliclibrary.base;
 
+
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.StateListDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,8 +40,6 @@ import java.util.TreeMap;
 public abstract class BasesFragment<T> extends Fragment implements View.OnClickListener {
     protected T mPresenter;
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public abstract void onEvent(EventMsg message);
 
     protected abstract int onRegistered();
 
@@ -47,9 +47,11 @@ public abstract class BasesFragment<T> extends Fragment implements View.OnClickL
 
     protected abstract void initData();
 
+//    protected abstract void getBaseActivity();
+
     protected View myView;
 
-    public CProgressDialog loadingDialog;
+//    public CProgressDialog loadingDialog;
 
     //开启数据更新
     protected boolean DataUpdate;
@@ -60,6 +62,7 @@ public abstract class BasesFragment<T> extends Fragment implements View.OnClickL
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (myView == null) {
             myView = inflater.inflate(onRegistered(), container, false);
+//            getBaseActivity();
             mPresenter = ObjectUtil.getT(this.getClass());
             initView();
             initData();
@@ -103,146 +106,143 @@ public abstract class BasesFragment<T> extends Fragment implements View.OnClickL
     }
 
 
-    /**
-     * 显示加载提示，可取消为透明背景色，不可取消为蒙色背景
-     */
-    public CProgressDialog showLoading(boolean cancelable) {
-        if (loadingDialog == null)
-            loadingDialog = new CProgressDialog(getContext());
-        if (!loadingDialog.isShowing()) {
-            loadingDialog.cancelable(cancelable);
-            loadingDialog.show();
-        }
-        return loadingDialog;
+//    /**
+//     * 显示加载提示，可取消为透明背景色，不可取消为蒙色背景
+//     */
+//    public void showLoading(boolean... cancelable) {
+//        activity.showLoading(cancelable);
+////        if (loadingDialog == null)
+////            loadingDialog = new CProgressDialog(getContext());
+////        if (!loadingDialog.isShowing()) {
+////            loadingDialog.cancelable(cancelable);
+////            loadingDialog.show();
+////        }
+////        return loadingDialog;
+//
+//
+////        loadingDialog.setProgressText(text.length > 0 ? text[0] : "加载中...");
+//    }
 
-//        loadingDialog.setProgressText(text.length > 0 ? text[0] : "加载中...");
-    }
+//    /**
+//     * 关闭加载等待
+//     */
+//    public void dismissLoading() {
+////        if (loadingDialog != null && loadingDialog.isShowing()) {
+////            loadingDialog.dismiss();
+////        }
+//
+//        activity.dismissLoading();
+//    }
 
-    /**
-     * 关闭加载等待
-     */
-    public void dismissLoading() {
-        if (loadingDialog != null && loadingDialog.isShowing()) {
-            loadingDialog.dismiss();
-        }
-    }
-
-
-    public void jumpActivity(Class<?> aClass) {
-        startActivity(new Intent(new Intent(getActivity(), aClass)).addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
-    }
-
-    /**
-     * 跳转到Activity 带参数跳转,Bundle传值时给TreeMap的value里new BundleUtils().put("recruit", recruitBean),如果是list数据,需要强制转换为
-     * new BundleUtils().put("recruit", (Serializable)list);
-     * 取值时User user = (User) getIntent().getExtras().getSerializable(key);
-     *
-     * @param aClass Activity的Class
-     */
-    public void jumpActivity(Class<?> aClass, TreeMap<String, Object> paramMap) {
-        startActivity(paramIntent(aClass, paramMap).addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
-    }
-
-    /**
-     * 跳转到Activity
-     *
-     * @param aClass      Activity的Class
-     * @param requestCode 回调onActivityResult里的requestCode参数
-     */
-    public void jumpActivity(Class<?> aClass, int requestCode) {
-        startActivityForResult(new Intent(getContext(), aClass).addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT), requestCode);
-    }
-
-    /**
-     * 带参数跳转到Activity，回退返回结果
-     *
-     * @param aClass      Activity的Class
-     * @param requestCode 回调onActivityResult里的requestCode参数
-     */
-    public void jumpActivity(Class<?> aClass, TreeMap<String, Object> paramMap, int requestCode) {
-        startActivityForResult(paramIntent(aClass, paramMap).addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT), requestCode);
-    }
-
-    /**
-     * 跳转到Activity
-     *
-     * @param aClass Activity的Class
-     * @param noBack 是否不可以返回,默认false
-     */
-    public void jumpActivity(Class<?> aClass, boolean... noBack) {
-        if (noBack.length > 0) {
-//            startActivity(new Intent(this, aClass).addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY));
-            startActivity(new Intent(getContext(), aClass).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
-        } else {
-            startActivity(new Intent(getContext(), aClass).addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
-        }
-
-    }
-
-    private Intent paramIntent(Class<?> aClass, TreeMap<String, Object> paramMap) {
-        Intent intent = new Intent(getContext(), aClass);
-        for (String key : paramMap.keySet()) {
-            Object value = paramMap.get(key);
-            if (value instanceof String) {
-                intent.putExtra(key, (String) paramMap.get(key));
-            }
-            if (value instanceof Integer) {
-                intent.putExtra(key, (Integer) paramMap.get(key));
-            }
-            if (value instanceof Bundle) {
-                intent.putExtras((Bundle) value);
-            }
-        }
-        return intent;
-    }
-
-    /**
-     * 获取提示框
-     *
-     * @param showValue WarningDialog
-     *                  记得调用.show()方法显示
-     */
-    public WarningDialog getWarningDialog(String title, String showValue) {
-        return WindowUtils.getWarningDialog(getContext(), title, showValue);
-    }
-
-    /**
-     * 跳转到Fragment
-     *
-     * @param containerViewId 所在布局ID
-     * @param fragment        fragment
-     */
-    public void jumpFragment(int containerViewId, Fragment fragment) {
-        getActivity().getSupportFragmentManager().beginTransaction().replace(containerViewId, fragment, fragment.getClass().getSimpleName()).commit();
-    }
-
-    /**
-     * 带参数跳转Fragment,Bundle传值时给TreeMap的value里new BundleUtils().put("recruit", recruitBean)
-     * 取值时User user = (User) getArguments().getSerializable(key);
-     *
-     * @param containerViewId id
-     * @param fragment        fragment
-     * @param paramMap        参数
-     *                        跳转过去以后取值
-     *                        getArguments().getString(key)
-     */
-    public void jumpFragment(int containerViewId, Fragment fragment, TreeMap<String, Object> paramMap) {
-        Intent intent = new Intent();
-        for (String key : paramMap.keySet()) {
-            Object value = paramMap.get(key);
-            if (value instanceof String) {
-                intent.putExtra(key, (String) paramMap.get(key));
-            }
-            if (value instanceof Integer) {
-                intent.putExtra(key, (Integer) paramMap.get(key));
-            }
-            if (value instanceof Bundle) {
-                intent.putExtras((Bundle) value);
-            }
-        }
-        fragment.setArguments(intent.getExtras());
-        getActivity().getSupportFragmentManager().beginTransaction().replace(containerViewId, fragment, fragment.getClass().getSimpleName()).commit();
-    }
+//
+//    /**
+//     * 跳转到Activity 带参数跳转,Bundle传值时给TreeMap的value里new BundleUtils().put("recruit", recruitBean),如果是list数据,需要强制转换为
+//     * new BundleUtils().put("recruit", (Serializable)list);
+//     * 取值时User user = (User) getIntent().getExtras().getSerializable(key);
+//     *
+//     * @param aClass Activity的Class
+//     */
+//    public void jumpActivity(Class<?> aClass, TreeMap<String, Object> paramMap) {
+//        startActivity(paramIntent(aClass, paramMap).addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
+//    }
+//
+//    /**
+//     * 跳转到Activity
+//     *
+//     * @param aClass      Activity的Class
+//     * @param requestCode 回调onActivityResult里的requestCode参数
+//     */
+//    public void jumpActivity(Class<?> aClass, int requestCode) {
+//        startActivityForResult(new Intent(getContext(), aClass).addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT), requestCode);
+//    }
+//
+//    /**
+//     * 带参数跳转到Activity，回退返回结果
+//     *
+//     * @param aClass      Activity的Class
+//     * @param requestCode 回调onActivityResult里的requestCode参数
+//     */
+//    public void jumpActivity(Class<?> aClass, TreeMap<String, Object> paramMap, int requestCode) {
+//        startActivityForResult(paramIntent(aClass, paramMap).addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT), requestCode);
+//    }
+//
+//    /**
+//     * 跳转到Activity
+//     *
+//     * @param aClass Activity的Class
+//     * @param noBack 是否不可以返回,默认false
+//     */
+//    public void jumpActivity(Class<?> aClass, boolean... noBack) {
+//        startActivity(new Intent(getContext(), aClass).addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
+//        if (noBack.length > 0) {
+//            getActivity().finish();
+//        }
+//    }
+//
+//    private Intent paramIntent(Class<?> aClass, TreeMap<String, Object> paramMap) {
+//        Intent intent = new Intent(getContext(), aClass);
+//        for (String key : paramMap.keySet()) {
+//            Object value = paramMap.get(key);
+//            if (value instanceof String) {
+//                intent.putExtra(key, (String) paramMap.get(key));
+//            }
+//            if (value instanceof Integer) {
+//                intent.putExtra(key, (Integer) paramMap.get(key));
+//            }
+//            if (value instanceof Bundle) {
+//                intent.putExtras((Bundle) value);
+//            }
+//        }
+//        return intent;
+//    }
+//
+//    /**
+//     * 获取提示框
+//     *
+//     * @param showValue WarningDialog
+//     *                  记得调用.show()方法显示
+//     */
+//    public WarningDialog getWarningDialog(String title, String showValue) {
+//        return WindowUtils.getWarningDialog(getContext(), title, showValue);
+//    }
+//
+//    /**
+//     * 跳转到Fragment
+//     *
+//     * @param containerViewId 所在布局ID
+//     * @param fragment        fragment
+//     */
+//    public void jumpFragment(int containerViewId, Fragment fragment) {
+//        getActivity().getSupportFragmentManager().beginTransaction().replace(containerViewId, fragment, fragment.getClass().getSimpleName()).commit();
+//    }
+//
+//    /**
+//     * 带参数跳转Fragment,Bundle传值时给TreeMap的value里new BundleUtils().put("recruit", recruitBean)
+//     * 取值时User user = (User) getArguments().getSerializable(key);
+//     *
+//     * @param containerViewId id
+//     * @param fragment        fragment
+//     * @param paramMap        参数
+//     *                        跳转过去以后取值
+//     *                        getArguments().getString(key)
+//     */
+//    public void jumpFragment(int containerViewId, Fragment fragment, TreeMap<String, Object> paramMap) {
+//        Intent intent = new Intent();
+//        for (String key : paramMap.keySet()) {
+//            Object value = paramMap.get(key);
+//            if (value instanceof String) {
+//                intent.putExtra(key, (String) paramMap.get(key));
+//            }
+//            if (value instanceof Integer) {
+//                intent.putExtra(key, (Integer) paramMap.get(key));
+//            }
+//            if (value instanceof Bundle) {
+//                intent.putExtras((Bundle) value);
+//            }
+//        }
+//        fragment.setArguments(intent.getExtras());
+//        getActivity().getSupportFragmentManager().beginTransaction().replace(containerViewId, fragment, fragment.getClass().getSimpleName()).commit();
+//    }
 
 
     public void bindClick(int viewId) {
@@ -311,8 +311,9 @@ public abstract class BasesFragment<T> extends Fragment implements View.OnClickL
      * @param etId 对应EditText
      */
     protected void closeKeyboard(EditText etId) {
-//        setSoftInput(etId, false);
-        ((InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(etId.getWindowToken(), 0);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.CUPCAKE) {
+            ((InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(etId.getWindowToken(), 0);
+        }
     }
 
     /**

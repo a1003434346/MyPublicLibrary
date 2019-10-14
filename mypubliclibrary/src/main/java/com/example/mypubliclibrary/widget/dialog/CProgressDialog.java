@@ -1,10 +1,11 @@
 package com.example.mypubliclibrary.widget.dialog;
 
 import android.content.Context;
+import android.os.Build;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.Animation;
-import android.view.animation.LinearInterpolator;
+import android.view.animation.AnticipateInterpolator;
 import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -56,8 +57,10 @@ public class CProgressDialog extends BaseDialog {
     private void initData() {
         rotateAnimation = new RotateAnimation(0, 360, Animation.RELATIVE_TO_SELF, 0.5F, Animation.RELATIVE_TO_SELF, 0.5F);
         rotateAnimation.setRepeatCount(Animation.INFINITE);
-        rotateAnimation.setDuration(2000);
-        rotateAnimation.setInterpolator(new LinearInterpolator());
+        rotateAnimation.setDuration(1600);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.DONUT) {
+            rotateAnimation.setInterpolator(new AnticipateInterpolator());
+        }
     }
 
     /**

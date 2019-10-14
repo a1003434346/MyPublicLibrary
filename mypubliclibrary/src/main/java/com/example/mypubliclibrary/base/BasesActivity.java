@@ -24,19 +24,14 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.mypubliclibrary.R;
-import com.example.mypubliclibrary.base.bean.EventMsg;
 import com.example.mypubliclibrary.base.interfaces.CallPermission;
 import com.example.mypubliclibrary.util.EventBusUtils;
 import com.example.mypubliclibrary.util.ObjectUtil;
 import com.example.mypubliclibrary.util.SelectorUtils;
 import com.example.mypubliclibrary.util.ToastUtils;
 import com.example.mypubliclibrary.util.WindowUtils;
-import com.example.mypubliclibrary.widget.dialog.CProgressDialog;
 import com.example.mypubliclibrary.widget.dialog.InputDialog;
 import com.example.mypubliclibrary.widget.dialog.WarningDialog;
-
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -54,9 +49,7 @@ import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
  */
 public abstract class BasesActivity<T> extends SwipeBackActivity implements View.OnClickListener, CallPermission {
     protected T mPresenter;
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public abstract void onEvent(EventMsg message);
+//    public CProgressDialog loadingDialog;
 
     protected abstract int onRegistered();
 
@@ -64,6 +57,34 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
 
     protected abstract void initData();
 
+
+
+
+
+    public int getDP(int px) {
+        return WindowUtils.dip2px(this, px);
+    }
+
+
+    public int getResourcesColor(int color) {
+        return getResources().getColor(color);
+    }
+
+
+    /**
+     * 跳转到Activity
+     *
+     * @param aClass      Activity的Class
+     * @param requestCode 回调onActivityResult里的requestCode参数
+     *                    传值：
+     *                    getIntent().putExtra("useraddress",userAddressBeanList.get(position));
+     *                    //必须在finish()前调用,否则resultCode会默认成为0
+     *                    setResult(10,getIntent());
+     *                    finish();
+     */
+    public void jumpActivity(Class<?> aClass, int requestCode) {
+        startActivityForResult(new Intent(this, aClass).addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT), requestCode);
+    }
 
     /**
      * 跳转到Activity
@@ -78,59 +99,6 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
         }
     }
 
-
-    public int getDP(int px) {
-        return WindowUtils.dip2px(this, px);
-    }
-
-//    private CountDownTimer countDownTimer;
-
-    public int getResourcesColor(int color) {
-        return getResources().getColor(color);
-    }
-
-//    /**
-//     * 开始倒计时验证码
-//     */
-//    protected void startSendCode(TextView textView, String originalText) {
-//        //发送验证码
-//        new CountDownTimer(60 * 1000, 1000) {
-//            int time = 60;
-//
-//            @Override
-//            public void onTick(long millisUntilFinished) {
-//                //当前任务每完成一次倒计时间隔回调
-//                textView.setText((--time + "S后重试"));
-//            }
-//
-//            @Override
-//            public void onFinish() {
-//                //执行完成
-//                textView.setText(originalText);
-//            }
-//        }.start();
-//    }
-
-    /**
-     * 跳转到Activity
-     *
-     * @param aClass      Activity的Class
-     * @param requestCode 回调onActivityResult里的requestCode参数
-     */
-    public void jumpActivity(Class<?> aClass, int requestCode) {
-        startActivityForResult(new Intent(this, aClass).addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT), requestCode);
-    }
-
-    /**
-     * 带参数跳转到Activity，回退返回结果
-     *
-     * @param aClass      Activity的Class
-     * @param requestCode 回调onActivityResult里的requestCode参数
-     */
-    public void jumpActivity(Class<?> aClass, TreeMap<String, Object> paramMap, int requestCode) {
-        startActivityForResult(paramIntent(aClass, paramMap).addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT), requestCode);
-    }
-
     /**
      * 跳转到Activity 带参数跳转,Bundle传值时给TreeMap的value里new BundleUtils().put("recruit", recruitBean),如果是list数据,需要强制转换为
      * new BundleUtils().put("recruit", (Serializable)list);
@@ -140,6 +108,22 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
      */
     public void jumpActivity(Class<?> aClass, TreeMap<String, Object> paramMap) {
         startActivity(paramIntent(aClass, paramMap).addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
+    }
+
+
+    /**
+     * 带参数跳转到Activity，回退返回结果
+     *
+     * @param aClass      Activity的Class
+     * @param requestCode 回调onActivityResult里的requestCode参数
+     *                    传值：
+     *                    getIntent().putExtra("useraddress",userAddressBeanList.get(position));
+     *                    //必须在finish()前调用,否则resultCode会默认成为0
+     *                    setResult(10,getIntent());
+     *                    finish();
+     */
+    public void jumpActivity(Class<?> aClass, TreeMap<String, Object> paramMap, int requestCode) {
+        startActivityForResult(paramIntent(aClass, paramMap).addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT), requestCode);
     }
 
     /**
@@ -179,33 +163,19 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
         return WindowUtils.getWarningDialog(this, title, showValue);
     }
 
-
-    /**
-     * protected Boolean formValidation(TreeMap<Integer, String> editMap, String type) {
-     * switch (type) {
-     * case "EditText":
-     * for (Integer key : editMap.keySet()) {
-     * if (((EditText) findViewById(key)).getText().toString().trim().isEmpty()) {
-     * ToastUtils.showLongToast(this, editMap.get(key) + "为空");
-     * return false;
-     * }
-     * }
-     */
-
-    public CProgressDialog loadingDialog;
-
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //首次启动 Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT 为 0，再次点击图标启动时就不为零了
-        if ((getIntent().getFlags() & Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT) != 0) {
-            /**
-             * fixme 加这句是因为非MainActivity时按home键，再打开程序进入MainActivity
-             * 只有第一次安装时会出现  进程杀死以后 再打开 这个现象就消失了
-             */
-            finish();
-            return;
+        //避免按Home键 会重新实例化入口类的activity
+        if (!this.isTaskRoot()) {
+            Intent intent = getIntent();
+            if (intent != null) {
+                String action = intent.getAction();
+                if (intent.hasCategory(Intent.CATEGORY_LAUNCHER) && Intent.ACTION_MAIN.equals(action)) {
+                    finish();
+                    return;
+                }
+            }
         }
         setStatusBar();
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
@@ -239,20 +209,6 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
 
     private InputMethodManager imm;
 
-//    /**
-//     * 关闭/打开键盘
-//     *
-//     * @param editText editText
-//     */
-//    public void setSoftInput(EditText editText, Boolean isOpen) {
-//        if (imm != null && imm.isActive()) {
-//            if (isOpen) {
-//                imm.showSoftInput(editText, 0);
-//            } else {
-//                imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
-//            }
-//        }
-//    }
 
     @Override
     public void onContentChanged() {
@@ -273,35 +229,21 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
         WindowUtils.setStatusTitle(this, bindId(R.id.ctl_title));
     }
 
-    //    public boolean checkPermission() {
-//        boolean isGranted = true;
-//        if (android.os.Build.VERSION.SDK_INT >= 23) {
-////            if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-////                //如果没有写sd卡权限
-////                isGranted = false;
-////            }
-////            if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-////                isGranted = false;
-////            }
-//            //Fragment调用((Activity) mCPContext).requestPermissions
-//            if (!isPermission(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-//                requestPermissions(
-//                        new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission
-//                                .ACCESS_FINE_LOCATION,
-//                                Manifest.permission.READ_EXTERNAL_STORAGE,
-//                                Manifest.permission.WRITE_EXTERNAL_STORAGE},
-//                        102);
-//            }
-//        }
-//
-//        return isGranted;
-//
-//    }
 
     /**
-     * 请求权限
-     * 默认拒绝请求处理：
-     * 如果不再询问状态会自动跳转到权限设置，拒绝会Toast未获得权限
+     * 请求权限，一般配合isPermission使用，调用示例：
+     * //判断权限
+     * if (!isPermission(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.RECORD_AUDIO
+     * , Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE
+     * )) {
+     * //请求权限
+     * requestPermission(1, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.RECORD_AUDIO
+     * , Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE
+     * );
+     * }
+     * 请求成功后如果需要对成功的结果做回调，需要重写onPermissionSuccess方法
+     * 用户拒绝权限请求，默认会弹出“未获得权限”的提示，如果需要额外对拒绝请求做出回调，需要重写onPermissionError方法
+     * 如果用户勾选了不再询问，那么默认会提醒用户打开权限，并在2秒后自动跳转到设置权限页面，如果需要对不再询问单独做处理，需要重写onPermissionForbid方法
      *
      * @param requestCode 请求码,如果要对拒绝请求做处理，可以用requestCode判断来自于哪一个申请
      * @param permissions Manifest.permission.XX(权限名称)
@@ -396,18 +338,17 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
     }
 
 
-    /**
-     * 显示加载提示，可取消为透明背景色，不可取消为蒙色背景
-     */
-    public CProgressDialog showLoading(boolean cancelable) {
-        if (loadingDialog == null) loadingDialog = new CProgressDialog(this);
-        if (!loadingDialog.isShowing()) {
-            loadingDialog.cancelable(cancelable);
-            loadingDialog.show();
-        }
-        return loadingDialog;
-//        loadingDialog.setProgressText(text.length > 0 ? text[0] : "加载中...");
-    }
+//    /**
+//     * 显示加载提示，true为透明背景色，false为蒙色背景，不传默认为false
+//     */
+//    public void showLoading(boolean... cancelable) {
+//        if (loadingDialog == null) loadingDialog = new CProgressDialog(this);
+//        if (!loadingDialog.isShowing()) {
+//            loadingDialog.cancelable(cancelable.length == 0 || cancelable[0]);
+//            loadingDialog.show();
+//        }
+////        loadingDialog.setProgressText(text.length > 0 ? text[0] : "加载中...");
+//    }
 
 
     /**
@@ -420,14 +361,14 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
             }
     }
 
-    /**
-     * 关闭加载等待
-     */
-    public void dismissLoading() {
-        if (loadingDialog != null && loadingDialog.isShowing()) {
-            loadingDialog.dismiss();
-        }
-    }
+//    /**
+//     * 关闭加载等待
+//     */
+//    public void dismissLoading() {
+//        if (loadingDialog != null && loadingDialog.isShowing()) {
+//            loadingDialog.dismiss();
+//        }
+//    }
 
 
     /**
@@ -509,19 +450,6 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
     public <T extends View> T bindId(View view, int viewId) {
         return view.findViewById(viewId);
     }
-
-
-//    /**
-//     * 赋值Text,显示text,隐藏editText
-//     *
-//     * @param textView text
-//     * @param editText editText
-//     */
-//    protected void setTextHideEditText(TextView textView, EditText editText, String value) {
-//        setTextValue(textView.getId(), value);
-//        showView(textView);
-//        hideView(editText);
-//    }
 
 
     /**
@@ -682,7 +610,6 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
      * @param etId 对应EditText
      */
     public void closeKeyboard(EditText etId) {
-//        setSoftInput(etId, false);
         imm.hideSoftInputFromWindow(etId.getWindowToken(), 0);
     }
 
@@ -703,7 +630,6 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
      * @param etId 对应EditText
      */
     public void openKeyboard(EditText etId) {
-//        setSoftInput(etId, true);
         imm.showSoftInput(etId, 0);
     }
 }

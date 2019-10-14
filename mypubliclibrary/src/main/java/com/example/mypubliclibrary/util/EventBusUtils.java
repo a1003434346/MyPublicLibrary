@@ -2,6 +2,7 @@ package com.example.mypubliclibrary.util;
 
 import android.content.Context;
 
+import com.example.mypubliclibrary.base.BasesActivity;
 import com.example.mypubliclibrary.base.bean.EventMsg;
 import com.example.mypubliclibrary.util.constant.DataInterface;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -37,17 +38,21 @@ public class EventBusUtils {
     /**
      * API是否请求成功
      *
-     * @param context  context
-     * @param eventMsg 消息
+     * @param context   context
+     * @param eventMsg  消息
+     * @param isDismiss 是否关闭    dismissLoading,不传默认为关闭
      * @return true请求成功
      */
-    public static boolean isSuccess(Context context, EventMsg eventMsg) {
+    public static boolean isSuccess(BasesActivity context, EventMsg eventMsg, boolean... isDismiss) {
+        boolean result = true;
         if (eventMsg.getMessage() != null && !eventMsg.getMessage().equals(DataInterface.SUCCESS)) {
             ToastUtils.showLongToast(context, eventMsg.getMessage());
-            return false;
+            result = false;
         }
-        return true;
+        if (isDismiss.length == 0 || isDismiss[0]) context.dismissLoading();
+        return result;
     }
+
 
     /**
      * API请求错误信息是否为指定内容
@@ -60,22 +65,6 @@ public class EventBusUtils {
         return eventMsg.getMessage() != null && eventMsg.getMessage().equals(message);
     }
 
-
-    /**
-     * API是否请求成功
-     *
-     * @param context  context
-     * @param eventMsg 消息
-     * @return true请求成功
-     */
-    public static boolean isSuccess(RefreshLayout refreshlayout, Context context, EventMsg eventMsg) {
-        if (!eventMsg.getMessage().equals(DataInterface.SUCCESS)) {
-            ToastUtils.showLongToast(context, eventMsg.getMessage());
-            refreshlayout.finishRefresh(false/*false*/);//传入false表示刷新失败
-            return false;
-        }
-        return true;
-    }
 
     public static <T> void post(EventMsg<T> eventMsg) {
         EventBus.getDefault().post(eventMsg);

@@ -50,7 +50,7 @@ public class CodeUtils {
             timing(number, countdownView, originalText);
             result = true;
         } else if (DateUtils.getIntervalSeconds(System.currentTimeMillis(), codeSendTime) < 60) {
-            ToastUtils.showLongToast(context, "验证码获取频繁");
+            ToastUtils.showLongToast(context, "获取验证码频繁");
         } else {
             //超过60秒，开始倒计时
             timing(number, countdownView, originalText);

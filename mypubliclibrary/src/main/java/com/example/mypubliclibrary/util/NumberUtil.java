@@ -38,6 +38,33 @@ public class NumberUtil {
     }
 
     /**
+     * 如果小数点后为零显示整数否则保留小数
+     *
+     * @param num num
+     * @return stringNum
+     */
+    public static String doubleTransl(double num) {
+        if (num % 1.0 == 0) {
+            return String.valueOf((long) num);
+        }
+        return String.valueOf(num);
+    }
+
+    /**
+     * 如果小数点后为零显示整数否则保留小数
+     *
+     * @param num num
+     * @return stringNum
+     */
+    public static Double doubleTransD(double num) {
+        if (num % 1.0 == 0) {
+            return Double.valueOf((long) num);
+        }
+        return Double.valueOf(num);
+    }
+
+
+    /**
      * 货币格式,千分位格式化
      *
      * @param money object
