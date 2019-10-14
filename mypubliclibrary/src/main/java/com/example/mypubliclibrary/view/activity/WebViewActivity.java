@@ -18,11 +18,6 @@ import org.greenrobot.eventbus.ThreadMode;
 
 public class WebViewActivity extends BasesActivity {
 
-    @Override
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEvent(EventMsg message) {
-
-    }
 
     @Override
     protected int onRegistered() {

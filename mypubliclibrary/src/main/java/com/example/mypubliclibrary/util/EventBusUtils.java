@@ -40,16 +40,14 @@ public class EventBusUtils {
      *
      * @param context   context
      * @param eventMsg  消息
-     * @param isDismiss 是否关闭    dismissLoading,不传默认为关闭
      * @return true请求成功
      */
-    public static boolean isSuccess(BasesActivity context, EventMsg eventMsg, boolean... isDismiss) {
+    public static boolean isSuccess(BasesActivity context, EventMsg eventMsg) {
         boolean result = true;
         if (eventMsg.getMessage() != null && !eventMsg.getMessage().equals(DataInterface.SUCCESS)) {
             ToastUtils.showLongToast(context, eventMsg.getMessage());
             result = false;
         }
-        if (isDismiss.length == 0 || isDismiss[0]) context.dismissLoading();
         return result;
     }
 
