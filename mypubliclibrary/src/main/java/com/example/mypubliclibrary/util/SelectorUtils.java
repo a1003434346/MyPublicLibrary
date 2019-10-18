@@ -78,7 +78,7 @@ public class SelectorUtils {
             //聚焦时的描边色
             mFocusedStrokeColor = Color.TRANSPARENT;
             //初始化默认圆角
-            mCornerRadius[0] = 0;
+            mCornerRadius = new float[]{0};
         }
 
 
