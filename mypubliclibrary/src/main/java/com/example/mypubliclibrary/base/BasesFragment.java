@@ -270,7 +270,7 @@ public abstract class BasesFragment<T> extends Fragment implements View.OnClickL
      * @param color  color
      */
     public void setTextColor(int viewId, int color) {
-        ((TextView) bindId(viewId)).setTextColor(getResourcesColor(color));
+        ((EditText) bindId(viewId)).setTextColor(getResourcesColor(color));
     }
 
 
