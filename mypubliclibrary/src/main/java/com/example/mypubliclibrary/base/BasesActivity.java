@@ -452,7 +452,7 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
      * @param color  color
      */
     public void setTextColor(int viewId, int color) {
-        ((EditText) bindId(viewId)).setTextColor(getResourcesColor(color));
+        ((TextView) bindId(viewId)).setTextColor(getResourcesColor(color));
     }
 
     /**
