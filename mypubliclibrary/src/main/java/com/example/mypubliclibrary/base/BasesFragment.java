@@ -263,6 +263,15 @@ public abstract class BasesFragment<T> extends Fragment implements View.OnClickL
     public <T extends View> T bindId(View view, int viewId) {
         return view.findViewById(viewId);
     }
+    /**
+     * 设置TextColor
+     *
+     * @param viewId viewId
+     * @param color  color
+     */
+    public void setTextColor(int viewId, int color) {
+        ((TextView) bindId(viewId)).setTextColor(getResourcesColor(color));
+    }
 
 
     public int getDP(int px) {

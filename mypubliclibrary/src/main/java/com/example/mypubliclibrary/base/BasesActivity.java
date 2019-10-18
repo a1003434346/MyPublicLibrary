@@ -57,9 +57,6 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
     protected abstract void initData();
 
 
-
-
-
     public int getDP(int px) {
         return WindowUtils.dip2px(this, px);
     }
@@ -403,7 +400,6 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
     }
 
 
-
     /**
      * 跳转到Fragment
      *
@@ -447,6 +443,16 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
      */
     public void setTextValue(int viewId, CharSequence value) {
         ((TextView) bindId(viewId)).setText(value);
+    }
+
+    /**
+     * 设置TextColor
+     *
+     * @param viewId viewId
+     * @param color  color
+     */
+    public void setTextColor(int viewId, int color) {
+        ((TextView) bindId(viewId)).setTextColor(getResourcesColor(color));
     }
 
     /**
