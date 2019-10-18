@@ -65,7 +65,7 @@ public class SelectorFactory {
      * .setFocusedColor(Color.RED)
      * .create());
      * SelectorFactory.newShapeSelector().setDefaultBgColor(getColor(R.color.colorTextHint))
-     *                             .setCornerRadius(new float[]{getDP(180)}).create()
+     * .setCornerRadius(new float[]{getDP(180)}).create()
      */
     public static ShapeSelector newShapeSelector() {
         return new ShapeSelector();
@@ -116,7 +116,7 @@ public class SelectorFactory {
             mPressedStrokeColor = Color.TRANSPARENT;
             mSelectedStrokeColor = Color.TRANSPARENT;
             mFocusedStrokeColor = Color.TRANSPARENT;
-            mCornerRadius[0] = 0;
+            mCornerRadius = new float[]{0};
         }
 
         public ShapeSelector setShape(@Shape int shape) {
