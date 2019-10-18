@@ -116,7 +116,7 @@ public class SelectorFactory {
             mPressedStrokeColor = Color.TRANSPARENT;
             mSelectedStrokeColor = Color.TRANSPARENT;
             mFocusedStrokeColor = Color.TRANSPARENT;
-//            mCornerRadius[0] = 0;
+            mCornerRadius[0] = 0;
         }
 
         public ShapeSelector setShape(@Shape int shape) {

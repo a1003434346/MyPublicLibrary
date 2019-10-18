@@ -251,7 +251,8 @@ public abstract class BasesFragment<T> extends Fragment implements View.OnClickL
         }
     }
 
-    public View bindId(int viewId) {
+
+    public <T extends View> T bindId(int viewId) {
         return myView.findViewById(viewId);
     }
 
@@ -259,9 +260,10 @@ public abstract class BasesFragment<T> extends Fragment implements View.OnClickL
         return getResources().getColor(color);
     }
 
-    public View bindId(View view, int viewId) {
+    public <T extends View> T bindId(View view, int viewId) {
         return view.findViewById(viewId);
     }
+
 
     public int getDP(int px) {
         return WindowUtils.dip2px(myView.getContext(), px);
