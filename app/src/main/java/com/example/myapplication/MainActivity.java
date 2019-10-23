@@ -34,6 +34,11 @@ public class MainActivity extends BasesActivity<TestPre> {
         EventBusUtils.post(new EventMsg<>().setType("test"));
     }
 
+    @Override
+    protected void initEvent() {
+
+    }
+
 
     @Override
     public void onClick(View view) {

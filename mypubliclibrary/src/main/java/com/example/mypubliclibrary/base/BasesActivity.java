@@ -449,7 +449,9 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
             } catch (InstantiationException e) {
                 e.printStackTrace();
             }
-            mFragmentManager.beginTransaction().hide(mCurrentShowFragment).add(containerViewId, fragment, fragment.getClass().getSimpleName()).commit();
+            if (mCurrentShowFragment != null)
+                mFragmentManager.beginTransaction().hide(mCurrentShowFragment);
+            mFragmentManager.beginTransaction().add(containerViewId, fragment, fragment.getClass().getSimpleName()).commit();
         } else {
             mFragmentManager.beginTransaction().hide(mCurrentShowFragment).show(fragment).commit();
         }
