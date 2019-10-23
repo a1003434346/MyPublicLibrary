@@ -12,6 +12,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Looper;
 import android.os.MessageQueue;
+import android.os.PersistableBundle;
 import android.provider.Settings;
 import android.view.View;
 import android.view.WindowManager;
@@ -24,6 +25,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.mypubliclibrary.R;
 import com.example.mypubliclibrary.base.interfaces.CallPermission;
@@ -54,9 +57,18 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
 
     protected abstract int onRegistered();
 
+    //初始化View
     protected abstract void initView();
 
+    //初始化事件
     protected abstract void initData();
+
+    //初始化事件
+    protected abstract void initEvent();
+
+
+    //管理Fragment
+    private FragmentManager mFragmentManager;
 
 
     public int getDP(int px) {
@@ -182,10 +194,12 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
             @Override
             public boolean queueIdle() {
                 //Ui线程空闲下来后去执行
+                mFragmentManager = getSupportFragmentManager();
                 getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
                 imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 mPresenter = ObjectUtil.getT(this.getClass());
                 initData();
+                initEvent();
                 return false;
             }
         });
@@ -414,6 +428,8 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
         return true;
     }
 
+    //当前的Fragment
+    private Fragment mCurrentFragment;
 
     /**
      * 跳转到Fragment
@@ -422,7 +438,29 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
      * @param fragment        fragment
      */
     public void jumpFragment(int containerViewId, Fragment fragment) {
-        getSupportFragmentManager().beginTransaction().replace(containerViewId, fragment, fragment.getClass().getSimpleName()).commit();
+        if (!mFragmentManager.getFragments().contains(fragment)) {
+            //未添加Fragment
+            try {
+                if (fragment == null)
+                    fragment = fragment.getClass().newInstance();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (InstantiationException e) {
+                e.printStackTrace();
+            }
+            mFragmentManager.beginTransaction().add(containerViewId, fragment, fragment.getClass().getSimpleName()).commit();
+        } else {
+            mFragmentManager.beginTransaction().hide(mCurrentFragment).show(fragment);
+        }
+        mCurrentFragment = fragment;
+//        getSupportFragmentManager().beginTransaction().replace(containerViewId, fragment, fragment.getClass().getSimpleName()).commit();
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        //FragmentManager中的所有Fragment都清理掉，避免旋转屏幕的时候出现重叠
+        mFragmentManager.getFragments().clear();
     }
 
     public void bindClick(int viewId) {
@@ -434,6 +472,7 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
             bindClick(viewId);
         }
     }
+
 
     public void bindClick(View view, List<Integer> integers, View.OnClickListener listener) {
         for (int viewId : integers) {

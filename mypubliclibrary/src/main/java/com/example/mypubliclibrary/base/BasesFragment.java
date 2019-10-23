@@ -46,9 +46,14 @@ public abstract class BasesFragment<T> extends Fragment implements View.OnClickL
 
     protected abstract int onRegistered();
 
+    //初始化View
     protected abstract void initView();
 
+    //初始化数据
     protected abstract void initData();
+
+    //初始化事件
+    protected abstract void initEvent();
 
 //    protected abstract void getBaseActivity();
 
@@ -72,6 +77,7 @@ public abstract class BasesFragment<T> extends Fragment implements View.OnClickL
                     //Ui线程空闲下来后去执行
                     mPresenter = ObjectUtil.getT(this.getClass());
                     initData();
+                    initEvent();
                     return false;
                 }
             });
