@@ -72,6 +72,8 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
 
     //mFragmentManager里面当前显示的Fragment
     private Fragment mCurrentShowFragment;
+    //是否智能为状态栏设置背景色，默认为true
+    protected boolean isSetStatusColor;
 
 
     public int getDP(int px) {
@@ -190,6 +192,7 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
             }
         }
         super.onCreate(savedInstanceState);
+        isSetStatusColor = true;
         setStatusBar();
         setContentView(onRegistered());
         initView();
@@ -254,7 +257,7 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
     }
 
     private void setStatusTitle() {
-        WindowUtils.setStatusTitle(this, bindId(R.id.ctl_title));
+        WindowUtils.setStatusTitle(this, bindId(R.id.ctl_title), isSetStatusColor);
     }
 
 

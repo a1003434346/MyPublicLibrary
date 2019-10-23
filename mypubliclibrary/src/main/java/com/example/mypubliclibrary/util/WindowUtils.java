@@ -80,30 +80,43 @@ public class WindowUtils {
     }
 
     /**
-     * 设置状态栏的背景色为title的背景色,如果有title,给title增加状态栏间距
+     * 给Title设置状态栏的高度为间距，以及是否把状态栏的颜色设置为Title的背景色
      *
      * @param context   context
      * @param titleView titleView
      *                  调用示例
      *                  WindowUtils.setStatusTitle(getContext(), bindId(R.id.ctl_title));
      */
-    public static void setStatusTitle(Context context, View titleView) {
+    public static void setStatusTitle(Context context, View titleView, boolean isSetStatusColor) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             if (titleView != null) {
                 int statusHeight = getStatusBarHeight(context);
                 ViewGroup.LayoutParams layoutParams = titleView.getLayoutParams();
                 //设置间距
                 setLayoutMargin(layoutParams, 0, statusHeight, 0, 0);
-                //设置状态栏的背景色
-                ColorDrawable colorDrawable = (ColorDrawable) titleView.getBackground();
-                if (colorDrawable != null) {
-                    //设置状态栏背景色为标题背景色
-                    ((Activity) context).getWindow().setStatusBarColor(colorDrawable.getColor());
+                if (isSetStatusColor) {
+                    //设置状态栏的背景色
+                    ColorDrawable colorDrawable = (ColorDrawable) titleView.getBackground();
+                    if (colorDrawable != null) {
+                        //设置状态栏背景色为标题背景色
+                        ((Activity) context).getWindow().setStatusBarColor(colorDrawable.getColor());
+                    }
                 }
             } else {
                 //设置状态栏背景色为透明色
                 ((Activity) context).getWindow().setStatusBarColor(Color.TRANSPARENT);
             }
+        }
+    }
+
+    /**
+     * 给状态栏设置背景色
+     *
+     * @param color
+     */
+    public static void setStatusColor(Context context, int color) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            ((Activity) context).getWindow().setStatusBarColor(color);
         }
     }
 
