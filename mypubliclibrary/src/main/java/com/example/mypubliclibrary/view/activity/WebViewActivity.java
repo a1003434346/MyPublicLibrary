@@ -20,6 +20,11 @@ public class WebViewActivity extends BasesActivity {
 
 
     @Override
+    public void onEvent(EventMsg message) {
+
+    }
+
+    @Override
     protected int onRegistered() {
         return R.layout.activity_web_view;
     }
