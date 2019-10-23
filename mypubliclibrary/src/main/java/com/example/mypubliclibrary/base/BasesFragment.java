@@ -113,7 +113,7 @@ public abstract class BasesFragment<T> extends Fragment implements View.OnClickL
     public void onStart() {
 //        WindowUtils.setStatusBar(getActivity());
 //        setStatusBar();
-
+        WindowUtils.setStatusTitle(getContext(), bindId(R.id.ctl_title));
         super.onStart();
     }
 
