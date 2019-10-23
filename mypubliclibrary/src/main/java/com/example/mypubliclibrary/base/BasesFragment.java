@@ -113,7 +113,7 @@ public abstract class BasesFragment<T> extends Fragment implements View.OnClickL
     public void onStart() {
 //        WindowUtils.setStatusBar(getActivity());
 //        setStatusBar();
-        WindowUtils.setStatusTitle(getContext(), bindId(R.id.ctl_title));
+
         super.onStart();
     }
 
@@ -297,6 +297,26 @@ public abstract class BasesFragment<T> extends Fragment implements View.OnClickL
      */
     public void setTextColor(int viewId, int color) {
         ((TextView) bindId(viewId)).setTextColor(getResourcesColor(color));
+    }
+
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (hidden) {
+            onHideFragment();
+        } else {
+            onShowFragment();
+        }
+
+    }
+
+    protected void onHideFragment() {
+
+    }
+
+    protected void onShowFragment() {
+        WindowUtils.setStatusTitle(getContext(), bindId(R.id.ctl_title));
     }
 
 
