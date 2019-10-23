@@ -10,6 +10,8 @@ import android.graphics.drawable.StateListDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Looper;
+import android.os.MessageQueue;
 import android.provider.Settings;
 import android.view.View;
 import android.view.WindowManager;
@@ -161,7 +163,6 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         //避免按Home键 会重新实例化入口类的activity
         if (!this.isTaskRoot()) {
             Intent intent = getIntent();
@@ -173,13 +174,22 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
                 }
             }
         }
-        setStatusBar();
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
-        setContentView(onRegistered());
-        imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        mPresenter = ObjectUtil.getT(this.getClass());
-        initView();
-        initData();
+        super.onCreate(savedInstanceState);
+        Looper.myQueue().addIdleHandler(new MessageQueue.IdleHandler() {
+            @Override
+            public boolean queueIdle() {
+                setStatusBar();
+                getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+                setContentView(onRegistered());
+                imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                mPresenter = ObjectUtil.getT(this.getClass());
+                initView();
+                initData();
+                return false;
+            }
+        });
+
+
     }
 
     /**
@@ -190,11 +200,15 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
      * @return StateListDrawable
      */
     public StateListDrawable getBackRadius(int color, int radius) {
-        return SelectorUtils.newShapeSelector().setDefaultBgColor(getResourcesColor(color)).setCornerRadius(new float[]{getDP(radius)}).create();
+        return SelectorUtils.newShapeSelector().setDefaultBgColor(color).setCornerRadius(new float[]{getDP(radius)}).create();
     }
 
     public void setBackground(int viewId, Drawable backGround) {
         bindId(viewId).setBackground(backGround);
+    }
+
+    public void setBackground(View view, Drawable backGround) {
+        view.setBackground(backGround);
     }
 
     //设置沉浸式状态栏，并把状态栏颜色改为透明色
@@ -426,11 +440,11 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
         }
     }
 
-    public <T extends View> T bindId(int viewId) {
+    public final <T extends View> T bindId(int viewId) {
         return (T) findViewById(viewId);
     }
 
-    public <T extends View> T bindId(View view, int viewId) {
+    public final <T extends View> T bindId(View view, int viewId) {
         return view.findViewById(viewId);
     }
 
@@ -503,6 +517,7 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
         return inputDialog;
 
     }
+
 
     public String getTextValue(int textId) {
         return ((TextView) bindId(textId)).getText().toString();

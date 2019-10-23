@@ -3,9 +3,12 @@ package com.example.mypubliclibrary.base;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.graphics.drawable.StateListDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Looper;
+import android.os.MessageQueue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,10 +65,17 @@ public abstract class BasesFragment<T> extends Fragment implements View.OnClickL
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (myView == null) {
             myView = inflater.inflate(onRegistered(), container, false);
-//            getBaseActivity();
-            mPresenter = ObjectUtil.getT(this.getClass());
-            initView();
-            initData();
+            Looper.myQueue().addIdleHandler(new MessageQueue.IdleHandler() {
+                @Override
+                public boolean queueIdle() {
+                    //            getBaseActivity();
+                    mPresenter = ObjectUtil.getT(this.getClass());
+                    initView();
+                    initData();
+                    return false;
+                }
+            });
+
         } else if (DataUpdate) {
             initData();
         }
@@ -80,7 +90,16 @@ public abstract class BasesFragment<T> extends Fragment implements View.OnClickL
      * @return StateListDrawable
      */
     public StateListDrawable getBackRadius(int color, int radius) {
-        return SelectorUtils.newShapeSelector().setDefaultBgColor(getResourcesColor(color)).setCornerRadius(new float[]{getDP(radius)}).create();
+        return SelectorUtils.newShapeSelector().setDefaultBgColor(color).setCornerRadius(new float[]{getDP(radius)}).create();
+    }
+
+    public void setBackground(View view, Drawable backGround) {
+        view.setBackground(backGround);
+    }
+
+
+    public void setBackground(int viewId, Drawable backGround) {
+        bindId(viewId).setBackground(backGround);
     }
 
 
