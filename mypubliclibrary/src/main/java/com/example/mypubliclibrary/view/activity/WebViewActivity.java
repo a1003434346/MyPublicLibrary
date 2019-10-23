@@ -50,6 +50,10 @@ public class WebViewActivity extends BasesActivity {
         agentWeb.getAgentWebSettings().getWebSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
     }
 
+    @Override
+    protected void initEvent() {
+
+    }
 
 
     @Override

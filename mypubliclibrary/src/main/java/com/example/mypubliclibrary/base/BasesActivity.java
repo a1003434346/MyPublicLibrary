@@ -70,6 +70,9 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
     //管理Fragment
     private FragmentManager mFragmentManager;
 
+    //mFragmentManager里面当前显示的Fragment
+    private Fragment mCurrentShowFragment;
+
 
     public int getDP(int px) {
         return WindowUtils.dip2px(this, px);
@@ -428,8 +431,6 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
         return true;
     }
 
-    //当前的Fragment
-    private Fragment mCurrentFragment;
 
     /**
      * 跳转到Fragment
@@ -450,9 +451,9 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
             }
             mFragmentManager.beginTransaction().add(containerViewId, fragment, fragment.getClass().getSimpleName()).commit();
         } else {
-            mFragmentManager.beginTransaction().hide(mCurrentFragment).show(fragment);
+            mFragmentManager.beginTransaction().hide(mCurrentShowFragment).show(fragment);
         }
-        mCurrentFragment = fragment;
+        mCurrentShowFragment = fragment;
 //        getSupportFragmentManager().beginTransaction().replace(containerViewId, fragment, fragment.getClass().getSimpleName()).commit();
     }
 
