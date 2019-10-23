@@ -65,12 +65,12 @@ public abstract class BasesFragment<T> extends Fragment implements View.OnClickL
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (myView == null) {
             myView = inflater.inflate(onRegistered(), container, false);
+            initView();
             Looper.myQueue().addIdleHandler(new MessageQueue.IdleHandler() {
                 @Override
                 public boolean queueIdle() {
-                    //            getBaseActivity();
+                    //Ui线程空闲下来后去执行
                     mPresenter = ObjectUtil.getT(this.getClass());
-                    initView();
                     initData();
                     return false;
                 }

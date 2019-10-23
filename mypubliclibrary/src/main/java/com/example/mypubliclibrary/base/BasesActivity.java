@@ -175,15 +175,16 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
             }
         }
         super.onCreate(savedInstanceState);
+        setStatusBar();
+        setContentView(onRegistered());
+        initView();
         Looper.myQueue().addIdleHandler(new MessageQueue.IdleHandler() {
             @Override
             public boolean queueIdle() {
-                setStatusBar();
+                //Ui线程空闲下来后去执行
                 getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
-                setContentView(onRegistered());
                 imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 mPresenter = ObjectUtil.getT(this.getClass());
-                initView();
                 initData();
                 return false;
             }
