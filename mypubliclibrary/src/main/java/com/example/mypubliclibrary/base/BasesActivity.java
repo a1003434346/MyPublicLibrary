@@ -29,6 +29,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.mypubliclibrary.R;
+import com.example.mypubliclibrary.base.bean.EventMsg;
 import com.example.mypubliclibrary.base.interfaces.CallPermission;
 import com.example.mypubliclibrary.util.ObjectUtil;
 import com.example.mypubliclibrary.util.SelectorUtils;
@@ -36,6 +37,9 @@ import com.example.mypubliclibrary.util.ToastUtils;
 import com.example.mypubliclibrary.util.WindowUtils;
 import com.example.mypubliclibrary.widget.dialog.InputDialog;
 import com.example.mypubliclibrary.widget.dialog.WarningDialog;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -54,6 +58,9 @@ import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
 public abstract class BasesActivity<T> extends SwipeBackActivity implements View.OnClickListener, CallPermission {
     protected T mPresenter;
 //    public CProgressDialog loadingDialog;
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public abstract void onEvent(EventMsg message);
 
     protected abstract int onRegistered();
 
@@ -199,7 +206,7 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
         Looper.myQueue().addIdleHandler(new MessageQueue.IdleHandler() {
             @Override
             public boolean queueIdle() {
-                //Ui线程空闲下来后去执行
+                //Ui线程空闲下来后去执行（所有生命周期执行完以后才会去执行）
                 mFragmentManager = getSupportFragmentManager();
                 getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
                 imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);

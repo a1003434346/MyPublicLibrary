@@ -43,6 +43,8 @@ import java.util.TreeMap;
 public abstract class BasesFragment<T> extends Fragment implements View.OnClickListener {
     protected T mPresenter;
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public abstract void onEvent(EventMsg message);
 
     protected abstract int onRegistered();
 
@@ -80,7 +82,7 @@ public abstract class BasesFragment<T> extends Fragment implements View.OnClickL
             Looper.myQueue().addIdleHandler(new MessageQueue.IdleHandler() {
                 @Override
                 public boolean queueIdle() {
-                    //Ui线程空闲下来后去执行
+                    //Ui线程空闲下来后去执行（所有生命周期执行完以后才会去执行）
                     mPresenter = ObjectUtil.getT(this.getClass());
                     initData();
                     initEvent();
