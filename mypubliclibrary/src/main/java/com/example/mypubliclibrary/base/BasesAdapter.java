@@ -1,6 +1,7 @@
 package com.example.mypubliclibrary.base;
 
 import android.content.Context;
+import android.view.View;
 
 import com.zhy.adapter.recyclerview.CommonAdapter;
 
@@ -11,13 +12,11 @@ import java.util.List;
  * describe:
  * Created By LiQiang on 2019/8/19.
  */
-public abstract class BasesAdapter<T> extends CommonAdapter<T> {
-    protected BasesActivity activity;
-    protected List<T> datas;
+public abstract class BasesAdapter<T> extends CommonAdapter<T> implements View.OnClickListener{
+    protected BasesActivity mActivity;
 
     public BasesAdapter(Context context, int layoutId, List<T> datas) {
         super(context, layoutId, datas);
-        activity = (BasesActivity) context;
-        this.datas = datas;
+        mActivity = (BasesActivity) context;
     }
 }

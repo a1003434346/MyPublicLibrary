@@ -203,19 +203,25 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
         setStatusBar();
         setContentView(onRegistered());
         initView();
-        Looper.myQueue().addIdleHandler(new MessageQueue.IdleHandler() {
-            @Override
-            public boolean queueIdle() {
-                //Ui线程空闲下来后去执行（所有生命周期执行完以后才会去执行）
-                mFragmentManager = getSupportFragmentManager();
-                getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
-                imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                mPresenter = ObjectUtil.getT(this.getClass());
-                initData();
-                initEvent();
-                return false;
-            }
-        });
+        mFragmentManager = getSupportFragmentManager();
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+        imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        mPresenter = ObjectUtil.getT(this.getClass());
+        initData();
+        initEvent();
+//        Looper.myQueue().addIdleHandler(new MessageQueue.IdleHandler() {
+//            @Override
+//            public boolean queueIdle() {
+//                //Ui线程空闲下来后去执行（所有生命周期执行完以后才会去执行）
+//                mFragmentManager = getSupportFragmentManager();
+//                getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+//                imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+//                mPresenter = ObjectUtil.getT(this.getClass());
+//                initData();
+//                initEvent();
+//                return false;
+//            }
+//        });
 
 
     }
@@ -229,6 +235,19 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
      */
     public StateListDrawable getBackRadius(int color, int radius) {
         return SelectorUtils.newShapeSelector().setDefaultBgColor(color).setCornerRadius(new float[]{getDP(radius)}).create();
+    }
+
+    /**
+     * 获取Drawable
+     *
+     * @param id DrawableId
+     */
+    public Drawable getDrawableRes(int id) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            return getDrawable(id);
+        } else {
+            return getResources().getDrawable(id);
+        }
     }
 
     public void setBackground(int viewId, Drawable backGround) {
