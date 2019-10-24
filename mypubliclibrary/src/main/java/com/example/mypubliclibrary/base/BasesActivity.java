@@ -203,25 +203,25 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
         setStatusBar();
         setContentView(onRegistered());
         initView();
-        mFragmentManager = getSupportFragmentManager();
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
-        imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        mPresenter = ObjectUtil.getT(this.getClass());
-        initData();
-        initEvent();
-//        Looper.myQueue().addIdleHandler(new MessageQueue.IdleHandler() {
-//            @Override
-//            public boolean queueIdle() {
-//                //Ui线程空闲下来后去执行（所有生命周期执行完以后才会去执行）
-//                mFragmentManager = getSupportFragmentManager();
-//                getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
-//                imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-//                mPresenter = ObjectUtil.getT(this.getClass());
-//                initData();
-//                initEvent();
-//                return false;
-//            }
-//        });
+//        mFragmentManager = getSupportFragmentManager();
+//        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+//        imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+//        mPresenter = ObjectUtil.getT(this.getClass());
+//        initData();
+//        initEvent();
+        Looper.myQueue().addIdleHandler(new MessageQueue.IdleHandler() {
+            @Override
+            public boolean queueIdle() {
+                //Ui线程空闲下来后去执行（所有生命周期执行完以后才会去执行）
+                mFragmentManager = getSupportFragmentManager();
+                getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+                imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                mPresenter = ObjectUtil.getT(this.getClass());
+                initData();
+                initEvent();
+                return false;
+            }
+        });
 
 
     }
