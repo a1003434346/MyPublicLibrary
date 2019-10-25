@@ -17,9 +17,9 @@ public class StringUtils {
     }
 
     public static final class StringColor {
-        //开始位置,下标从1开始,不包含开始位置
+        //开始位置,下标从0开始,包含开始位置
         private int startIndex;
-        //结束位置，下标从1开始，包含结束位置
+        //结束位置，下标从0开始，不包含结束位置
         private int endIndex;
         //颜色
         private int color;

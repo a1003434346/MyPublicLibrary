@@ -78,6 +78,8 @@ public abstract class BasesFragment<T> extends Fragment implements View.OnClickL
             isSetStatus = true;
             isSetStatusColor = true;
             myView = inflater.inflate(onRegistered(), container, false);
+            if (isSetStatus)
+                WindowUtils.setStatusTitle(getContext(), bindId(R.id.ctl_title), isSetStatusColor);
             initView();
 //            mPresenter = ObjectUtil.getT(this.getClass());
 //            initData();
@@ -124,8 +126,7 @@ public abstract class BasesFragment<T> extends Fragment implements View.OnClickL
     public void onStart() {
 //        WindowUtils.setStatusBar(getActivity());
 //        setStatusBar();
-        if (isSetStatus)
-            WindowUtils.setStatusTitle(getContext(), bindId(R.id.ctl_title), isSetStatusColor);
+
         super.onStart();
     }
 

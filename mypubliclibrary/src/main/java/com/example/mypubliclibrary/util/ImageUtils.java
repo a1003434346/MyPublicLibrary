@@ -30,8 +30,8 @@ public class ImageUtils {
         RoundedCorners roundedCorners = new RoundedCorners(roundingRadius);//数字为圆角度数
         RequestOptions coverRequestOptions = new RequestOptions()
                 .transforms(new CenterCrop(), roundedCorners)
-                .diskCacheStrategy(DiskCacheStrategy.NONE)//不做磁盘缓存
-                .skipMemoryCache(true);//不做内存缓存
+                .diskCacheStrategy(DiskCacheStrategy.ALL)//磁盘缓存
+                .skipMemoryCache(false);//内存缓存
         //Glide 加载图片简单用法
         Glide.with(context).load(path)
                 .apply(coverRequestOptions).into(imageView);
