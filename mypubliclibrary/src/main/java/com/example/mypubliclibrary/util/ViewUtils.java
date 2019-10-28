@@ -115,7 +115,7 @@ public class ViewUtils {
         if (v.getLayoutParams() instanceof ViewGroup.MarginLayoutParams) {
             ViewGroup.MarginLayoutParams p = (ViewGroup.MarginLayoutParams) v.getLayoutParams();
             p.setMargins(l, t, r, b);
-            v.requestLayout();
+            v.setLayoutParams(p);
         }
     }
 

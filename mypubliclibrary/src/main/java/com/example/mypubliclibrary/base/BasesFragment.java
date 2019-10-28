@@ -279,6 +279,12 @@ public abstract class BasesFragment<T> extends Fragment implements View.OnClickL
         myView.findViewById(viewId).setOnClickListener(this);
     }
 
+    protected void bindClick(List<Integer> integers) {
+        for (int viewId : integers) {
+            bindClick(viewId);
+        }
+    }
+
     public void bindClick(View view, int viewId, View.OnClickListener listener) {
         view.findViewById(viewId).setOnClickListener(listener == null ? this : listener);
     }
