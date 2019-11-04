@@ -1,6 +1,7 @@
 package com.example.mypubliclibrary.util;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
@@ -163,6 +164,41 @@ public class WindowUtils {
             WindowManager.LayoutParams localLayoutParams = activity.getWindow().getAttributes();
             localLayoutParams.flags = (WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS | localLayoutParams.flags);
         }
+    }
+
+    /**
+     * APP是否运行在前台
+     *
+     * @param ctx context
+     * @return true/false
+     */
+    public static boolean isAppRunningForeground(Context ctx) {
+        ActivityManager activityManager = (ActivityManager) ctx.getSystemService(Context.ACTIVITY_SERVICE);
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT_WATCH) {
+            List<ActivityManager.RunningAppProcessInfo> runningProcesses = activityManager.getRunningAppProcesses();
+            if (runningProcesses == null) {
+                return false;
+            }
+            final String packageName = ctx.getPackageName();
+            for (ActivityManager.RunningAppProcessInfo processInfo : runningProcesses) {
+                if (processInfo.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND && processInfo.processName.equals(packageName)) {
+                    return true;
+                }
+            }
+            return false;
+        } else {
+            try {
+                List<ActivityManager.RunningTaskInfo> tasks = activityManager.getRunningTasks(1);
+                if (tasks == null || tasks.size() < 1) {
+                    return false;
+                }
+                boolean b = ctx.getPackageName().equalsIgnoreCase(tasks.get(0).baseActivity.getPackageName());
+                return b;
+            } catch (SecurityException e) {
+                e.printStackTrace();
+            }
+        }
+        return false;
     }
 
     /**

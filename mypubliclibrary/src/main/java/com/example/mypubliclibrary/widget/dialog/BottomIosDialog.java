@@ -35,10 +35,12 @@ public abstract class BottomIosDialog implements View.OnClickListener {
     protected PopupWindow popWindow;
 
     private Context context;
-
+    //文本的颜色
     private int itemColor;
 
     private TextView cancelView;
+    //上边线的颜色
+    private int lineColor;
 
 
     //点击窗口外部是否可以关闭
@@ -47,6 +49,7 @@ public abstract class BottomIosDialog implements View.OnClickListener {
     private List<String> items;
 
     private ConstraintLayout ctlContent;
+    private Button lastButtonView;
 
 //    public BottomIosDialog setItems(List<String> items) {
 //        this.items = items;
@@ -69,6 +72,29 @@ public abstract class BottomIosDialog implements View.OnClickListener {
         initView();
     }
 
+    /**
+     * 设置上边线的颜色，不设置默认为f5f5f5
+     *
+     * @param color 上边线的颜色
+     * @return BottomIosDialog
+     */
+    public BottomIosDialog setLineColor(int color) {
+        lineColor = color;
+        return this;
+    }
+
+    /**
+     * 设置选项的背景颜色，不设置默认为白色
+     *
+     * @param color 背景颜色
+     * @return BottomIosDialog
+     */
+    public BottomIosDialog setBackgroundColor(int color) {
+        popView.findViewById(R.id.ctl_cancel).setBackground(ShapeUtils.getRadiusRectangle(0, 0, getDP(12), color));
+        popView.findViewById(R.id.ctl_content).setBackground(ShapeUtils.getRadiusRectangle(0, 0, getDP(12), color));
+        return this;
+    }
+
 
     private void initView() {
         if (popView == null) {
@@ -78,7 +104,6 @@ public abstract class BottomIosDialog implements View.OnClickListener {
             popView = LayoutInflater.from(context).inflate(R.layout.dialog_bottom_ios, null);
             ctlContent = popView.findViewById(R.id.ctl_content);
             cancelView = popView.findViewById(R.id.tv_cancel);
-            addViews();
             popView.findViewById(R.id.ctl_cancel).setBackground(ShapeUtils.getRadiusRectangle(0, 0, getDP(12), getColor(R.color.colorWhite)));
             popView.findViewById(R.id.ctl_content).setBackground(ShapeUtils.getRadiusRectangle(0, 0, getDP(12), getColor(R.color.colorWhite)));
             popView.findViewById(R.id.ctl_dialog).setOnClickListener(view -> {
@@ -87,6 +112,22 @@ public abstract class BottomIosDialog implements View.OnClickListener {
             popView.findViewById(R.id.tv_cancel).setOnClickListener(view -> popWindow.dismiss());
             popWindow = WindowUtils.getPopupWindow(context, popView, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
         }
+    }
+
+    private void initData() {
+        addViews();
+        //设置popupWindow的显示和隐藏动画
+        popWindow.setAnimationStyle(R.style.BottomIosDialogAnimation);
+    }
+
+    /**
+     * 设置取消按钮是否显示
+     */
+    public BottomIosDialog setCancelShow(boolean show) {
+        popView.findViewById(R.id.ctl_cancel).setVisibility(show ? View.VISIBLE : View.GONE);
+        if (!show)
+            setCancel(true);
+        return this;
     }
 
     private void addViews() {
@@ -113,7 +154,6 @@ public abstract class BottomIosDialog implements View.OnClickListener {
         popWindow.dismiss();
     }
 
-    private Button lastButtonView;
 
     /**
      * 添加view
@@ -129,6 +169,7 @@ public abstract class BottomIosDialog implements View.OnClickListener {
         button.setId(View.generateViewId());
         button.setBackground(stateListDrawable);
         button.setTag(index);
+        button.setTextColor(itemColor);
         button.setOnClickListener(this);
         //构造宽高的属性
         ConstraintLayout.LayoutParams layoutParams = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, getDP(50));
@@ -143,7 +184,7 @@ public abstract class BottomIosDialog implements View.OnClickListener {
             ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, getDP(1));
             //添加上边线
             TextView lineView = new TextView(context);
-            lineView.setBackgroundColor(Color.parseColor("#f5f5f5"));
+            lineView.setBackgroundColor(lineColor == 0 ? Color.parseColor("#f5f5f5") : lineColor);
             params.topToTop = lastButtonView.getId();
             ctlContent.addView(lineView, params);
         }
@@ -160,6 +201,7 @@ public abstract class BottomIosDialog implements View.OnClickListener {
     }
 
     public BottomIosDialog show() {
+        initData();
         WindowUtils.setBackgroundAlpha(context, 0.5f);
         popWindow.showAtLocation(popView, Gravity.BOTTOM, 0, 0);
         return this;

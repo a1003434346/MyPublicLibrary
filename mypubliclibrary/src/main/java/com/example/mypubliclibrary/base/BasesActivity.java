@@ -71,7 +71,7 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
     protected abstract void initData();
 
     //初始化事件
-    protected abstract void initEvent();
+    protected abstract void initListener();
 
 
     //管理Fragment
@@ -208,7 +208,7 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
         imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         mPresenter = ObjectUtil.getT(this.getClass());
         initData();
-        initEvent();
+        initListener();
 //        Looper.myQueue().addIdleHandler(new MessageQueue.IdleHandler() {
 //            @Override
 //            public boolean queueIdle() {

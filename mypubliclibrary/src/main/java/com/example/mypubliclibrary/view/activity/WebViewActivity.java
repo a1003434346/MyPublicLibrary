@@ -56,7 +56,7 @@ public class WebViewActivity extends BasesActivity {
     }
 
     @Override
-    protected void initEvent() {
+    protected void initListener() {
 
     }
 
