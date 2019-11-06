@@ -94,12 +94,14 @@ public class WindowUtils {
      *                  调用示例
      *                  WindowUtils.setStatusTitle(getContext(), bindId(R.id.ctl_title));
      */
-    public static void setStatusTitle(Context context, View titleView, boolean isSetStatusColor) {
+    public static void setStatusTitle(Context context, View titleView) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             if (titleView != null) {
                 int statusHeight = getStatusBarHeight(context);
                 ViewGroup.LayoutParams layoutParams = titleView.getLayoutParams();
+                //拿到根布局
                 ConstraintLayout layout = (ConstraintLayout) ((ViewGroup) titleView.getRootView().findViewById(android.R.id.content)).getChildAt(0);
+                //是否有添加状态栏View
                 View view = layout.findViewById(R.id.status_back);
                 if (view == null) {
                     view = new View(context);
@@ -111,7 +113,7 @@ public class WindowUtils {
                 }
                 //设置间距
                 setLayoutMargin(layoutParams, 0, statusHeight, 0, 0);
-                if (isSetStatusColor) {
+//                if (isSetStatusColor) {
                     //设置状态栏的背景色
                     ColorDrawable colorDrawable = (ColorDrawable) titleView.getBackground();
                     if (colorDrawable != null) {
@@ -120,7 +122,7 @@ public class WindowUtils {
                         //设置状态栏背景色为标题背景色
 //                        ((Activity) context).getWindow().setStatusBarColor(colorDrawable.getColor());
                     }
-                }
+//                }
             } else {
                 //设置状态栏背景色为透明色
                 ((Activity) context).getWindow().setStatusBarColor(Color.TRANSPARENT);
