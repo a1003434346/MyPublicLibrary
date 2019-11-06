@@ -11,10 +11,12 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroupOverlay;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.DatePicker;
 import android.widget.FrameLayout;
@@ -26,8 +28,12 @@ import android.widget.TimePicker;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
+import androidx.fragment.app.Fragment;
 
 import com.example.mypubliclibrary.R;
+import com.example.mypubliclibrary.base.BasesActivity;
+import com.example.mypubliclibrary.base.BasesFragment;
 import com.example.mypubliclibrary.widget.dialog.WarningDialog;
 import com.example.mypubliclibrary.widget.interfaces.DataInterface;
 import com.example.mypubliclibrary.widget.interfaces.DateInterface;
@@ -93,6 +99,16 @@ public class WindowUtils {
             if (titleView != null) {
                 int statusHeight = getStatusBarHeight(context);
                 ViewGroup.LayoutParams layoutParams = titleView.getLayoutParams();
+                ConstraintLayout layout = (ConstraintLayout) ((ViewGroup) titleView.getRootView().findViewById(android.R.id.content)).getChildAt(0);
+                View view = layout.findViewById(R.id.status_back);
+                if (view == null) {
+                    view = new View(context);
+                    //添加状态栏View
+                    ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, 0);
+                    params.topToTop = ConstraintSet.PARENT_ID;
+                    params.bottomToTop = titleView.getId();
+                    layout.addView(view, params);
+                }
                 //设置间距
                 setLayoutMargin(layoutParams, 0, statusHeight, 0, 0);
                 if (isSetStatusColor) {
@@ -100,7 +116,9 @@ public class WindowUtils {
                     ColorDrawable colorDrawable = (ColorDrawable) titleView.getBackground();
                     if (colorDrawable != null) {
                         //设置状态栏背景色为标题背景色
-                        ((Activity) context).getWindow().setStatusBarColor(colorDrawable.getColor());
+                        view.setBackgroundColor(colorDrawable.getColor());
+                        //设置状态栏背景色为标题背景色
+//                        ((Activity) context).getWindow().setStatusBarColor(colorDrawable.getColor());
                     }
                 }
             } else {

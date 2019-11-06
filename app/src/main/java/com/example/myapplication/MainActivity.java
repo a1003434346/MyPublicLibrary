@@ -1,6 +1,7 @@
 package com.example.myapplication;
 
 import android.graphics.Color;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -32,6 +33,7 @@ public class MainActivity extends BasesActivity<TestPre> {
     @Override
     protected void initView() {
         EventBusUtils.register(this);
+        Log.i("testId", bindId(R.id.ctl_content).getId() + "");
 
     }
 
@@ -52,17 +54,18 @@ public class MainActivity extends BasesActivity<TestPre> {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_test:
-                new BottomIosDialog(this) {
-                    @Override
-                    protected List<String> getItems() {
-                        return new ListUtils<String>().add("播放完当前声音结束", "5分钟", "15分钟", "30分钟", "60分钟");
-                    }
-
-                    @Override
-                    protected void itemClicks(Button button, int position) {
-
-                    }
-                }.setBackgroundColor(Color.parseColor("#000000")).setLineColor(Color.parseColor("#565656")).setCancelShow(false).show();
+                jumpActivity(Main2Activity.class);
+//                new BottomIosDialog(this) {
+//                    @Override
+//                    protected List<String> getItems() {
+//                        return new ListUtils<String>().add("播放完当前声音结束", "5分钟", "15分钟", "30分钟", "60分钟");
+//                    }
+//
+//                    @Override
+//                    protected void itemClicks(Button button, int position) {
+//
+//                    }
+//                }.setBackgroundColor(Color.parseColor("#000000")).setLineColor(Color.parseColor("#565656")).setCancelShow(false).show();
                 break;
         }
     }
