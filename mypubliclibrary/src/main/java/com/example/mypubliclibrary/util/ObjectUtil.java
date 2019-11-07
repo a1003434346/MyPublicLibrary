@@ -1,5 +1,7 @@
 package com.example.mypubliclibrary.util;
 
+import android.util.Log;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectInputStream;
@@ -50,6 +52,7 @@ public class ObjectUtil {
         if (!genType.getClass().getName().equals("java.lang.Class")) {
             Type[] params = ((ParameterizedType) genType).getActualTypeArguments();
             Class<?> aClass = (Class) params[0];
+
             try {
                 //实例化泛型
                 t = (T) aClass.newInstance();

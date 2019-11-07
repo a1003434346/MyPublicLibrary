@@ -40,7 +40,7 @@ public class MainActivity extends BasesActivity<TestPre> {
 
     @Override
     protected void initData() {
-
+        mPresenter.test(this);
 //        EventBusUtils.post(new EventMsg<>().setType("test"));
     }
 
@@ -56,13 +56,7 @@ public class MainActivity extends BasesActivity<TestPre> {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_test:
-                if (!test) {
-                    WindowUtils.setStatusBarColor(this, true);
-                    test = !test;
-                } else {
-                    WindowUtils.setStatusBarColor(this, false);
-                    test = !test;
-                }
+                jumpFragment(R.id.fl_test, new BlankFragment());
 
 //                jumpActivity(Main2Activity.class);
 //                new BottomIosDialog(this) {

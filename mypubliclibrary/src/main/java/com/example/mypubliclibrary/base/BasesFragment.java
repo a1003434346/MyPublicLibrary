@@ -88,7 +88,7 @@ public abstract class BasesFragment<T> extends Fragment implements View.OnClickL
                 @Override
                 public boolean queueIdle() {
                     //Ui线程空闲下来后去执行（所有生命周期执行完以后才会去执行）
-                    mPresenter = ObjectUtil.getT(this.getClass());
+                    mPresenter = ObjectUtil.getT(BasesFragment.this.getClass());
                     initData();
                     initEvent();
                     return false;
