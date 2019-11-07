@@ -121,7 +121,7 @@ public class WindowUtils {
                         }
                     }
                     int titleColor = colorDrawable.getColor();
-                    setStatusBar((Activity) context, ColorUtils.isLightColor(titleColor));
+                    setStatusBarColor((Activity) context, ColorUtils.isLightColor(titleColor));
                     //设置状态栏背景色为标题背景色
                     statusView.setBackgroundColor(titleColor);
                     //设置状态栏背景色为标题背景色
@@ -130,20 +130,11 @@ public class WindowUtils {
             } else {
                 //设置状态栏背景色为透明色
                 ((Activity) context).getWindow().setStatusBarColor(Color.TRANSPARENT);
+                setStatusBarColor((Activity) context, false);
             }
         }
     }
 
-    /**
-     * 给状态栏设置背景色
-     *
-     * @param color
-     */
-    public static void setStatusColor(Context context, int color) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            ((Activity) context).getWindow().setStatusBarColor(color);
-        }
-    }
 
     /**
      * 设置间距
@@ -171,15 +162,32 @@ public class WindowUtils {
     }
 
     /**
+     * 改变状态栏电量时间颜色
+     *
+     * @param activity activity
+     * @param isWhite  是否设置为白色
+     */
+    public static void setStatusBarColor(Activity activity, boolean isWhite) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {//5.0及以上
+            View decorView = activity.getWindow().getDecorView();
+            int option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN;
+            if (!isWhite && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                option += View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+            }
+            decorView.setSystemUiVisibility(option);
+        }
+    }
+
+    /**
      * 设置沉浸式状态栏，并把状态栏颜色改为透明色
      */
-    public static void setStatusBar(Activity activity, boolean... isWhite) {
+    public static void setStatusBar(Activity activity) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {//5.0及以上
             View decorView = activity.getWindow().getDecorView();
             int option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                     | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                option += isWhite.length > 0 && isWhite[0] ? View.SYSTEM_UI_FLAG_VISIBLE : View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+                option += View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
                 //改成白色是SYSTEM_UI_FLAG_VISIBLE
             }
             decorView.setSystemUiVisibility(option);

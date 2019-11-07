@@ -9,6 +9,7 @@ import com.example.mypubliclibrary.base.BasesActivity;
 import com.example.mypubliclibrary.base.bean.EventMsg;
 import com.example.mypubliclibrary.util.EventBusUtils;
 import com.example.mypubliclibrary.util.ListUtils;
+import com.example.mypubliclibrary.util.WindowUtils;
 import com.example.mypubliclibrary.widget.dialog.BottomIosDialog;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -49,12 +50,21 @@ public class MainActivity extends BasesActivity<TestPre> {
 
     }
 
+    boolean test;
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_test:
-                jumpActivity(Main2Activity.class);
+                if (!test) {
+                    WindowUtils.setStatusBarColor(this, true);
+                    test = !test;
+                } else {
+                    WindowUtils.setStatusBarColor(this, false);
+                    test = !test;
+                }
+
+//                jumpActivity(Main2Activity.class);
 //                new BottomIosDialog(this) {
 //                    @Override
 //                    protected List<String> getItems() {
