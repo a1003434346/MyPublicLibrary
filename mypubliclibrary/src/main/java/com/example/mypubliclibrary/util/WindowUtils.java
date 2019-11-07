@@ -114,14 +114,14 @@ public class WindowUtils {
                 //设置间距
                 setLayoutMargin(layoutParams, 0, statusHeight, 0, 0);
 //                if (isSetStatusColor) {
-                    //设置状态栏的背景色
-                    ColorDrawable colorDrawable = (ColorDrawable) titleView.getBackground();
-                    if (colorDrawable != null) {
-                        //设置状态栏背景色为标题背景色
-                        view.setBackgroundColor(colorDrawable.getColor());
-                        //设置状态栏背景色为标题背景色
+                //设置状态栏的背景色
+                ColorDrawable colorDrawable = (ColorDrawable) titleView.getBackground();
+                if (colorDrawable != null) {
+                    //设置状态栏背景色为标题背景色
+                    view.setBackgroundColor(colorDrawable.getColor());
+                    //设置状态栏背景色为标题背景色
 //                        ((Activity) context).getWindow().setStatusBarColor(colorDrawable.getColor());
-                    }
+                }
 //                }
             } else {
                 //设置状态栏背景色为透明色
@@ -176,6 +176,7 @@ public class WindowUtils {
                     | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 option += View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+                //改成白色是SYSTEM_UI_FLAG_VISIBLE
             }
             decorView.setSystemUiVisibility(option);
             activity.getWindow().setStatusBarColor(Color.TRANSPARENT);

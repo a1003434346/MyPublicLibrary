@@ -199,9 +199,11 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
             }
         }
         super.onCreate(savedInstanceState);
-        isSetStatusColor = true;
+//        isSetStatusColor = true;
         setStatusBar();
         setContentView(onRegistered());
+        //设置状态栏的背景色为title的背景色,如果有title,给title增加状态栏间距
+        setStatusTitle();
         initView();
         mFragmentManager = getSupportFragmentManager();
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
@@ -278,8 +280,6 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
                     finish();
                 }
             });
-        //设置状态栏的背景色为title的背景色,如果有title,给title增加状态栏间距
-        setStatusTitle();
     }
 
     private void setStatusTitle() {
