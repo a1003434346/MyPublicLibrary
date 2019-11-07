@@ -111,6 +111,7 @@ public class WindowUtils {
                     View statusView = rootView.findViewById(R.id.status_back);
                     if (statusView == null) {
                         statusView = new View(context);
+                        statusView.setId(R.id.status_back);
                         //添加状态栏View
                         ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, 0);
                         params.topToTop = ConstraintSet.PARENT_ID;
@@ -119,8 +120,10 @@ public class WindowUtils {
                             ((ConstraintLayout) rootView).addView(statusView, params);
                         }
                     }
+                    int titleColor = colorDrawable.getColor();
+                    setStatusBar((Activity) context, ColorUtils.isLightColor(titleColor));
                     //设置状态栏背景色为标题背景色
-                    statusView.setBackgroundColor(colorDrawable.getColor());
+                    statusView.setBackgroundColor(titleColor);
                     //设置状态栏背景色为标题背景色
 //                        ((Activity) context).getWindow().setStatusBarColor(colorDrawable.getColor());
                 }
@@ -170,13 +173,13 @@ public class WindowUtils {
     /**
      * 设置沉浸式状态栏，并把状态栏颜色改为透明色
      */
-    public static void setStatusBar(Activity activity) {
+    public static void setStatusBar(Activity activity, boolean... isWhite) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {//5.0及以上
             View decorView = activity.getWindow().getDecorView();
             int option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                     | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                option += View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+                option += isWhite.length > 0 && isWhite[0] ? View.SYSTEM_UI_FLAG_VISIBLE : View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
                 //改成白色是SYSTEM_UI_FLAG_VISIBLE
             }
             decorView.setSystemUiVisibility(option);
