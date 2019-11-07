@@ -38,11 +38,11 @@ public class EventBusUtils {
     /**
      * API是否请求成功
      *
-     * @param context   context
-     * @param eventMsg  消息
+     * @param context  context
+     * @param eventMsg 消息
      * @return true请求成功
      */
-    public static boolean isSuccess(BasesActivity context, EventMsg eventMsg) {
+    public static boolean isSuccess(Context context, EventMsg eventMsg) {
         boolean result = true;
         if (eventMsg.getMessage() != null && !eventMsg.getMessage().equals(DataInterface.SUCCESS)) {
             ToastUtils.showLongToast(context, eventMsg.getMessage());
