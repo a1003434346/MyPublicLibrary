@@ -89,36 +89,39 @@ public class WindowUtils {
     /**
      * 给Title设置状态栏的高度为间距，以及是否把状态栏的颜色设置为Title的背景色
      *
-     * @param context   context
-     * @param titleView titleView
-     *                  调用示例
-     *                  WindowUtils.setStatusTitle(getContext(), bindId(R.id.ctl_title));
+     * @param context  context
+     * @param rootView 窗口的根布局
+     *                 Activity传入((ViewGroup)findViewById(android.R.id.content)).getChildAt(0)
+     *                 Fragment传入((ViewGroup)myView.findViewById(android.R.id.content)).getChildAt(0)
+     *                 调用示例
+     *                 WindowUtils.setStatusTitle(getContext(), bindId(R.id.ctl_title));
      */
-    public static void setStatusTitle(Context context, View titleView) {
+    public static void setStatusTitle(Context context, View rootView) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            View titleView = rootView.findViewById(R.id.ctl_title);
             if (titleView != null) {
                 int statusHeight = getStatusBarHeight(context);
                 ViewGroup.LayoutParams layoutParams = titleView.getLayoutParams();
-                //拿到根布局
-                ConstraintLayout layout = (ConstraintLayout) ((ViewGroup) titleView.getRootView().findViewById(android.R.id.content)).getChildAt(0);
-                //是否有添加状态栏View
-                View view = layout.findViewById(R.id.status_back);
-                if (view == null) {
-                    view = new View(context);
-                    //添加状态栏View
-                    ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, 0);
-                    params.topToTop = ConstraintSet.PARENT_ID;
-                    params.bottomToTop = titleView.getId();
-                    layout.addView(view, params);
-                }
                 //设置间距
                 setLayoutMargin(layoutParams, 0, statusHeight, 0, 0);
 //                if (isSetStatusColor) {
                 //设置状态栏的背景色
                 ColorDrawable colorDrawable = (ColorDrawable) titleView.getBackground();
                 if (colorDrawable != null) {
+                    //是否有添加状态栏View
+                    View statusView = rootView.findViewById(R.id.status_back);
+                    if (statusView == null) {
+                        statusView = new View(context);
+                        //添加状态栏View
+                        ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, 0);
+                        params.topToTop = ConstraintSet.PARENT_ID;
+                        params.bottomToTop = titleView.getId();
+                        if (rootView instanceof ConstraintLayout) {
+                            ((ConstraintLayout) rootView).addView(statusView, params);
+                        }
+                    }
                     //设置状态栏背景色为标题背景色
-                    view.setBackgroundColor(colorDrawable.getColor());
+                    statusView.setBackgroundColor(colorDrawable.getColor());
                     //设置状态栏背景色为标题背景色
 //                        ((Activity) context).getWindow().setStatusBarColor(colorDrawable.getColor());
                 }

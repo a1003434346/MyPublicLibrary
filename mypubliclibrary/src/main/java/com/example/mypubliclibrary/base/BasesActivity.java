@@ -15,6 +15,7 @@ import android.os.MessageQueue;
 import android.os.PersistableBundle;
 import android.provider.Settings;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -283,7 +284,7 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
     }
 
     private void setStatusTitle() {
-        WindowUtils.setStatusTitle(this, bindId(R.id.ctl_title));
+        WindowUtils.setStatusTitle(this, ((ViewGroup) findViewById(android.R.id.content)).getChildAt(0));
     }
 
 

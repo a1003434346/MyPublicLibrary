@@ -65,21 +65,21 @@ public abstract class BasesFragment<T> extends Fragment implements View.OnClickL
 
     //开启数据更新
     protected boolean DataUpdate;
-    //是否智能设置状态栏，默认为true
-    protected boolean isSetStatus;
-    //是否智能为状态栏设置背景色，默认为true
-    protected boolean isSetStatusColor;
+//    //是否智能设置状态栏，默认为true
+//    protected boolean isSetStatus;
+//    //是否智能为状态栏设置背景色，默认为true
+//    protected boolean isSetStatusColor;
 
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (myView == null) {
-            isSetStatus = true;
-            isSetStatusColor = true;
+//            isSetStatus = true;
+//            isSetStatusColor = true;
             myView = inflater.inflate(onRegistered(), container, false);
-            if (isSetStatus)
-                WindowUtils.setStatusTitle(getContext(), bindId(R.id.ctl_title));
+//            if (isSetStatus)
+            WindowUtils.setStatusTitle(getContext(), ((ViewGroup)myView.findViewById(android.R.id.content)).getChildAt(0));
             initView();
 //            mPresenter = ObjectUtil.getT(this.getClass());
 //            initData();
@@ -335,8 +335,8 @@ public abstract class BasesFragment<T> extends Fragment implements View.OnClickL
     }
 
     protected void onShowFragment() {
-        if (isSetStatus)
-            WindowUtils.setStatusTitle(getContext(), bindId(R.id.ctl_title));
+//        if (isSetStatus)
+//        WindowUtils.setStatusTitle(getContext(), bindId(R.id.ctl_title));
     }
 
 
