@@ -68,11 +68,14 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
     //初始化View
     protected abstract void initView();
 
-    //初始化事件
+    //初始化数据
     protected abstract void initData();
 
     //初始化事件
     protected abstract void initListener();
+
+    //访问接口以后设置数据
+    protected abstract void setData();
 
 
     //管理Fragment

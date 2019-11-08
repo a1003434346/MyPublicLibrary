@@ -87,6 +87,32 @@ public class ColorUtils {
     }
 
     /**
+     * 颜色加深算法
+     */
+    private int setColorBurn(int rgb, float val) {
+        int r = (rgb >> 16) & 0xff;
+        int g = (rgb >> 8) & 0xff;
+        int b = rgb & 0xff;
+        r = (int) Math.floor(r * (1f + val));
+        g = (int) Math.floor(g * (1f + val));
+        b = (int) Math.floor(b * (1f + val));
+        return Color.rgb(r, g, b);
+    }
+
+    /**
+     * 颜色浅化算法
+     */
+    private int setColorShallow(int rgb, float val) {
+        int r = (rgb >> 16) & 0xff;
+        int g = (rgb >> 8) & 0xff;
+        int b = rgb & 0xff;
+        r = (int) Math.floor(r * (1f - val));
+        g = (int) Math.floor(g * (1f - val));
+        b = (int) Math.floor(b * (1f - val));
+        return Color.rgb(r, g, b);
+    }
+
+    /**
      * 颜色过度
      *
      * @param from  开始颜色值

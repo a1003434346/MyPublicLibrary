@@ -37,6 +37,11 @@ public class ListUtils<T> {
         return tList;
     }
 
+    public void updateListData(List<T> oldData, List<T> newData) {
+        oldData.clear();
+        oldData.addAll(newData);
+    }
+
     /**
      * 深度拷贝List
      *
