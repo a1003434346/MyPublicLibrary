@@ -37,9 +37,15 @@ public class ListUtils<T> {
         return tList;
     }
 
-    public void updateListData(List<T> oldData, List<T> newData) {
-        oldData.clear();
-        oldData.addAll(newData);
+    /**
+     * 更新数据
+     *
+     * @param datas    数据源
+     * @param newDatas 新的数据
+     */
+    public static <T> void updateListData(List<T> datas, List<T> newDatas) {
+        datas.clear();
+        datas.addAll(newDatas);
     }
 
     /**
