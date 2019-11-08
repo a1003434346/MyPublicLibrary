@@ -121,7 +121,8 @@ public class WindowUtils {
                         }
                     }
                     int titleColor = colorDrawable.getColor();
-                    setStatusBarColor((Activity) context, ColorUtils.isLightColor(titleColor));
+                    if (titleColor != 0)
+                        setStatusBarColor((Activity) context, ColorUtils.isLightColor(titleColor));
                     //设置状态栏背景色为标题背景色
                     statusView.setBackgroundColor(titleColor);
                     //设置状态栏背景色为标题背景色
