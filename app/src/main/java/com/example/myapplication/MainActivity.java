@@ -50,6 +50,11 @@ public class MainActivity extends BasesActivity<TestPre> {
 
     }
 
+    @Override
+    protected void setData() {
+
+    }
+
     boolean test;
 
     @Override
