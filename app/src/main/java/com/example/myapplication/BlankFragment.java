@@ -49,9 +49,15 @@ public class BlankFragment extends BasesFragment<TestFragment> {
     }
 
     @Override
-    protected void initEvent() {
+    protected void initListener() {
 
     }
+
+    @Override
+    protected void setData() {
+
+    }
+
 
 
     @Override

@@ -55,7 +55,10 @@ public abstract class BasesFragment<T> extends Fragment implements View.OnClickL
     protected abstract void initData();
 
     //初始化事件
-    protected abstract void initEvent();
+    protected abstract void initListener();
+
+    //访问接口以后设置数据
+    protected abstract void setData();
 
 //    protected abstract void getBaseActivity();
 
@@ -90,7 +93,7 @@ public abstract class BasesFragment<T> extends Fragment implements View.OnClickL
                     //Ui线程空闲下来后去执行（所有生命周期执行完以后才会去执行）
                     mPresenter = ObjectUtil.getT(BasesFragment.this.getClass());
                     initData();
-                    initEvent();
+                    initListener();
                     return false;
                 }
             });
