@@ -51,6 +51,49 @@ public class NumberUtil {
     }
 
     /**
+     * 英文数字转换为中文数字
+     *
+     * @param num num
+     * @return 中文数字，比如1转换为一
+     */
+    public static String digitalToChinese(int num) {
+        String result = null;
+        switch (num) {
+            case 0:
+                result = "零";
+                break;
+            case 1:
+                result = "一";
+                break;
+            case 2:
+                result = "二";
+                break;
+            case 3:
+                result = "三";
+                break;
+            case 4:
+                result = "四";
+                break;
+            case 5:
+                result = "五";
+                break;
+            case 6:
+                result = "六";
+                break;
+            case 7:
+                result = "七";
+                break;
+            case 8:
+                result = "八";
+                break;
+            case 9:
+                result = "九";
+                break;
+        }
+        return result;
+    }
+
+    /**
      * 如果小数点后为零显示整数否则保留小数
      *
      * @param num num
