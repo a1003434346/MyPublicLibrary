@@ -89,7 +89,7 @@ public class ColorUtils {
     /**
      * 颜色加深算法
      */
-    private int setColorBurn(int rgb, float val) {
+    public static int setColorBurn(int rgb, float val) {
         int r = (rgb >> 16) & 0xff;
         int g = (rgb >> 8) & 0xff;
         int b = rgb & 0xff;
@@ -102,7 +102,7 @@ public class ColorUtils {
     /**
      * 颜色浅化算法
      */
-    private int setColorShallow(int rgb, float val) {
+    public static int setColorShallow(int rgb, float val) {
         int r = (rgb >> 16) & 0xff;
         int g = (rgb >> 8) & 0xff;
         int b = rgb & 0xff;
