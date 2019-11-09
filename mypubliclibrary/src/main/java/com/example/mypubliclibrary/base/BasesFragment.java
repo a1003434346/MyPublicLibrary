@@ -68,10 +68,12 @@ public abstract class BasesFragment<T> extends Fragment implements View.OnClickL
 
     //开启数据更新
     protected boolean DataUpdate;
-//    //是否智能设置状态栏，默认为true
+    //    //是否智能设置状态栏，默认为true
 //    protected boolean isSetStatus;
 //    //是否智能为状态栏设置背景色，默认为true
 //    protected boolean isSetStatusColor;
+    //当前Fragment是否在显示状态
+    protected boolean isShow;
 
 
     @Nullable
@@ -330,7 +332,7 @@ public abstract class BasesFragment<T> extends Fragment implements View.OnClickL
         } else {
             onShowFragment();
         }
-
+        isShow = !hidden;
     }
 
     protected void onHideFragment() {
