@@ -73,15 +73,14 @@ public abstract class BasesFragment<T> extends Fragment implements View.OnClickL
 //    //是否智能为状态栏设置背景色，默认为true
 //    protected boolean isSetStatusColor;
     //当前Fragment是否在显示状态
-    protected boolean isShow;
+    protected boolean mFragmentIsShow;
 
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (myView == null) {
-//            isSetStatus = true;
-//            isSetStatusColor = true;
+            mFragmentIsShow = true;
             myView = inflater.inflate(onRegistered(), container, false);
 //            if (isSetStatus)
             WindowUtils.setStatusTitle(getContext(), myView);
@@ -332,7 +331,7 @@ public abstract class BasesFragment<T> extends Fragment implements View.OnClickL
         } else {
             onShowFragment();
         }
-        isShow = !hidden;
+        mFragmentIsShow = !hidden;
     }
 
     protected void onHideFragment() {
