@@ -3,7 +3,7 @@
     <!--退出的退出动画-->
     <!--拉抽屉式动画-->
     <translate
-        android:duration="500"
+        android:duration="460"
         android:fromXDelta="0"
         android:interpolator="@android:anim/accelerate_decelerate_interpolator"
         android:toXDelta="100%p" />
