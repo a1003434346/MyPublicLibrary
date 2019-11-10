@@ -52,18 +52,6 @@ public class EventBusUtils {
     }
 
 
-    /**
-     * API请求错误信息是否为指定内容
-     *
-     * @param message  message
-     * @param eventMsg 消息
-     * @return true请求成功
-     */
-    public static boolean isMessage(String message, EventMsg eventMsg) {
-        return eventMsg.getMessage() != null && eventMsg.getMessage().equals(message);
-    }
-
-
     public static <T> void post(EventMsg<T> eventMsg) {
         EventBus.getDefault().post(eventMsg);
     }

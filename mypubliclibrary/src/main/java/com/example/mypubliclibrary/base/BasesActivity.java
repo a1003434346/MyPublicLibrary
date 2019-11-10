@@ -83,8 +83,10 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
 
     //mFragmentManager里面当前显示的Fragment
     private Fragment mCurrentShowFragment;
-//    //是否智能为状态栏设置背景色，默认为true
+    //    //是否智能为状态栏设置背景色，默认为true
 //    protected boolean isSetStatusColor;
+    //是否开启跳转动画，默认为开启
+    protected boolean mJumpAnim;
 
 
     public int getDP(int px) {
@@ -110,6 +112,7 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
      */
     public void jumpActivity(Class<?> aClass, int requestCode) {
         startActivityForResult(new Intent(this, aClass).addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT), requestCode);
+        if (mJumpAnim) overridePendingTransition(R.anim.tran_enter_go, R.anim.tran_exit_go);
     }
 
     /**
@@ -120,6 +123,7 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
      */
     public void jumpActivity(Class<?> aClass, boolean... noBack) {
         startActivity(new Intent(this, aClass).addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
+        if (mJumpAnim) overridePendingTransition(R.anim.tran_enter_go, R.anim.tran_exit_go);
         if (noBack.length > 0) {
             finish();
         }
@@ -134,6 +138,7 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
      */
     public void jumpActivity(Class<?> aClass, TreeMap<String, Object> paramMap) {
         startActivity(paramIntent(aClass, paramMap).addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
+        if (mJumpAnim) overridePendingTransition(R.anim.tran_enter_go, R.anim.tran_exit_go);
     }
 
 
@@ -150,6 +155,7 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
      */
     public void jumpActivity(Class<?> aClass, TreeMap<String, Object> paramMap, int requestCode) {
         startActivityForResult(paramIntent(aClass, paramMap).addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT), requestCode);
+        if (mJumpAnim) overridePendingTransition(R.anim.tran_enter_go, R.anim.tran_exit_go);
     }
 
     /**
@@ -160,7 +166,9 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
      */
     public void startActivity(Class<?> aClass, TreeMap<String, Object> paramMap) {
         startActivity(paramIntent(aClass, paramMap));
+        if (mJumpAnim) overridePendingTransition(R.anim.tran_enter_go, R.anim.tran_exit_go);
     }
+
 
     private Intent paramIntent(Class<?> aClass, TreeMap<String, Object> paramMap) {
         Intent intent = new Intent(this, aClass);
@@ -190,6 +198,12 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
     }
 
     @Override
+    public void finish() {
+        super.finish();
+        if (mJumpAnim) overridePendingTransition(R.anim.tran_enter_out, R.anim.tran_exit_out);
+    }
+
+    @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         //避免按Home键 会重新实例化入口类的activity
         if (!this.isTaskRoot()) {
@@ -203,7 +217,7 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
             }
         }
         super.onCreate(savedInstanceState);
-//        isSetStatusColor = true;
+        mJumpAnim = true;
         setStatusBar();
         setContentView(onRegistered());
         //设置状态栏的背景色为title的背景色,如果有title,给title增加状态栏间距
