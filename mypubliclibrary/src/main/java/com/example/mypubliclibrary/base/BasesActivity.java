@@ -124,6 +124,7 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
     public void jumpActivity(Class<?> aClass, boolean... noBack) {
         startActivity(new Intent(this, aClass).addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
         if (mJumpAnim) overridePendingTransition(R.anim.tran_enter_go, R.anim.tran_exit_go);
+//        if (mJumpAnim) overridePendingTransition(R.anim.tran_enter_out, R.anim.tran_exit_out);
         if (noBack.length > 0) {
             finish();
         }

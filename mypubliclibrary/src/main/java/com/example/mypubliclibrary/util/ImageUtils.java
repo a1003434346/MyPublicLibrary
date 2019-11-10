@@ -31,7 +31,7 @@ public class ImageUtils {
         RequestOptions coverRequestOptions = new RequestOptions()
                 .transforms(new CenterCrop(), roundedCorners)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)//磁盘缓存
-                .skipMemoryCache(false);//内存缓存
+                .skipMemoryCache(false);//跳过内存缓存
         //Glide 加载图片简单用法
         Glide.with(context).load(path)
                 .apply(coverRequestOptions).into(imageView);
