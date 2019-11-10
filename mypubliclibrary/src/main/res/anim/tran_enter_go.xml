@@ -3,7 +3,8 @@
 
     <!--进入的进入动画-->
     <translate
-        android:duration="500"
+        android:duration="460"
+        android:interpolator="@android:anim/accelerate_decelerate_interpolator"
         android:fromXDelta="100%p"
         android:toXDelta="0" />
 </set>

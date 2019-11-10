@@ -61,7 +61,8 @@ public class MainActivity extends BasesActivity<TestPre> {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_test:
-                jumpFragment(R.id.fl_test, new BlankFragment());
+//                jumpFragment(R.id.fl_test, new BlankFragment());
+                jumpActivity(Main2Activity.class);
 
 //                jumpActivity(Main2Activity.class);
 //                new BottomIosDialog(this) {
