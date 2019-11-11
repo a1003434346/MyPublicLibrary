@@ -40,12 +40,13 @@ public class ListUtils<T> {
     /**
      * 更新数据
      *
-     * @param datas    数据源
-     * @param newDatas 新的数据
+     * @param oldData    数据源
+     * @param newData 新的数据
      */
-    public static <T> void updateListData(List<T> datas, List<T> newDatas) {
-        datas.clear();
-        datas.addAll(newDatas);
+    public static <T> void updateListData(List<T> oldData, List<T> newData) {
+        oldData.clear();
+        if (newData != null)
+            oldData.addAll(newData);
     }
 
     /**

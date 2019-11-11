@@ -35,13 +35,12 @@ public class RecyclerViewUtils {
     /**
      * 更新数据
      *
-     * @param datas    数据源
-     * @param newDatas 新的数据
-     * @param adapter  adapter
+     * @param oldData 数据源
+     * @param newData 新的数据
+     * @param adapter adapter
      */
-    public static <T> void updateData(List<T> datas, List<T> newDatas, CommonAdapter adapter) {
-        datas.clear();
-        datas.addAll(newDatas);
+    public static <T> void updateData(List<T> oldData, List<T> newData, CommonAdapter adapter) {
+        ListUtils.updateListData(oldData, newData);
         adapter.notifyDataSetChanged();
     }
 
