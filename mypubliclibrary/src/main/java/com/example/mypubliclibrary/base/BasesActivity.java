@@ -224,27 +224,25 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
         //设置状态栏的背景色为title的背景色,如果有title,给title增加状态栏间距
         setStatusTitle();
         initView();
-        mFragmentManager = getSupportFragmentManager();
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
-        imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        mPresenter = ObjectUtil.getT(this.getClass());
-        initData();
-        initListener();
-//        Looper.myQueue().addIdleHandler(new MessageQueue.IdleHandler() {
-//            @Override
-//            public boolean queueIdle() {
-//                //Ui线程空闲下来后去执行（所有生命周期执行完以后才会去执行）
-//                mFragmentManager = getSupportFragmentManager();
-//                getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
-//                imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-//                mPresenter = ObjectUtil.getT(this.getClass());
-//                initData();
-//                initEvent();
-//                return false;
-//            }
-//        });
-
-
+//        mFragmentManager = getSupportFragmentManager();
+//        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+//        imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+//        mPresenter = ObjectUtil.getT(this.getClass());
+//        initData();
+//        initListener();
+        Looper.myQueue().addIdleHandler(new MessageQueue.IdleHandler() {
+            @Override
+            public boolean queueIdle() {
+                //Ui线程空闲下来后去执行（所有生命周期执行完以后才会去执行）
+                mFragmentManager = getSupportFragmentManager();
+                getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+                imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                mPresenter = ObjectUtil.getT(this.getClass());
+                initData();
+                initListener();
+                return false;
+            }
+        });
     }
 
     /**
