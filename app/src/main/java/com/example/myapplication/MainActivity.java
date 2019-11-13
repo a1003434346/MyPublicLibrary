@@ -37,7 +37,7 @@ public class MainActivity extends BasesActivity<TestPre> {
     protected void initView() {
         EventBusUtils.register(this);
         Log.i("testId", bindId(R.id.ctl_content).getId() + "");
-
+        SharedPreferencesUtils.getInstance().init(this);
     }
 
     @Override
@@ -63,8 +63,8 @@ public class MainActivity extends BasesActivity<TestPre> {
         switch (view.getId()) {
             case R.id.tv_test:
 //                jumpFragment(R.id.fl_test, new BlankFragment());
-                SharedPreferencesUtils.getInstance().init(this);
-                CodeUtils.getInstance().setOutTime(100).startTiming("", bindId(R.id.tv_test), "点击重发验证码");
+
+                CodeUtils.getInstance().startTiming("", bindId(R.id.tv_test), "点击重发验证码");
 //                jumpActivity(Main2Activity.class);
 
 //                jumpActivity(Main2Activity.class);
@@ -87,5 +87,11 @@ public class MainActivity extends BasesActivity<TestPre> {
     protected void onPause() {
         super.onPause();
         CodeUtils.getInstance().cancel();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        CodeUtils.getInstance().startTiming("", bindId(R.id.tv_test), "点击重发验证码");
     }
 }

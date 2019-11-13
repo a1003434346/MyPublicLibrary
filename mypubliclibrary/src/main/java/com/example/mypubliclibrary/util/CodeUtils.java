@@ -89,17 +89,13 @@ public class CodeUtils {
     private void timing(String number, TextView countdownView, String originalText) {
         this.code = number;
         if (isStart) mCountDownTimer.cancel();
-        mOutTime = mSendIntervalTime > 0 ? mOutTime - mSendIntervalTime : mOutTime;
+        final int[] outTime = {mSendIntervalTime > 0 ? mOutTime - mSendIntervalTime : mOutTime};
         //发送验证码
-        mCountDownTimer = new CountDownTimer(mOutTime * 1000, 1000) {
+        mCountDownTimer = new CountDownTimer(outTime[0] * 1000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
-//                if (mOutTime > 0) {
                 //当前任务每完成一次倒计时间隔回调
-                countdownView.setText(("重新发送(" + (--mOutTime) + "S)"));
-//                } else {
-//                    onFinish();
-//                }
+                countdownView.setText(("重新发送(" + (--outTime[0]) + "S)"));
             }
 
             @Override
