@@ -88,7 +88,7 @@ public class CodeUtils {
 
     private void timing(String number, TextView countdownView, String originalText) {
         this.code = number;
-        if (isStart) mCountDownTimer.cancel();
+        if (isStart && mCountDownTimer != null) mCountDownTimer.cancel();
         final int[] outTime = {mSendIntervalTime > 0 ? mOutTime - mSendIntervalTime : mOutTime};
         //发送验证码
         mCountDownTimer = new CountDownTimer(outTime[0] * 1000, 1000) {
