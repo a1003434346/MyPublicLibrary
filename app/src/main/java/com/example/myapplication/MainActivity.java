@@ -7,8 +7,10 @@ import android.widget.Button;
 
 import com.example.mypubliclibrary.base.BasesActivity;
 import com.example.mypubliclibrary.base.bean.EventMsg;
+import com.example.mypubliclibrary.util.CodeUtils;
 import com.example.mypubliclibrary.util.EventBusUtils;
 import com.example.mypubliclibrary.util.ListUtils;
+import com.example.mypubliclibrary.util.SharedPreferencesUtils;
 import com.example.mypubliclibrary.util.WindowUtils;
 import com.example.mypubliclibrary.widget.dialog.BottomIosDialog;
 
@@ -47,7 +49,6 @@ public class MainActivity extends BasesActivity<TestPre> {
     @Override
     protected void initListener() {
         bindClick(R.id.tv_test);
-
     }
 
     @Override
@@ -62,7 +63,9 @@ public class MainActivity extends BasesActivity<TestPre> {
         switch (view.getId()) {
             case R.id.tv_test:
 //                jumpFragment(R.id.fl_test, new BlankFragment());
-                jumpActivity(Main2Activity.class);
+                SharedPreferencesUtils.getInstance().init(this);
+                CodeUtils.getInstance().setOutTime(100).startTiming("", bindId(R.id.tv_test), "点击重发验证码");
+//                jumpActivity(Main2Activity.class);
 
 //                jumpActivity(Main2Activity.class);
 //                new BottomIosDialog(this) {
@@ -78,5 +81,11 @@ public class MainActivity extends BasesActivity<TestPre> {
 //                }.setBackgroundColor(Color.parseColor("#000000")).setLineColor(Color.parseColor("#565656")).setCancelShow(false).show();
                 break;
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        CodeUtils.getInstance().cancel();
     }
 }

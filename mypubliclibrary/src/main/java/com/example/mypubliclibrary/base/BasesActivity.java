@@ -32,6 +32,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.example.mypubliclibrary.R;
 import com.example.mypubliclibrary.base.bean.EventMsg;
 import com.example.mypubliclibrary.base.interfaces.CallPermission;
+import com.example.mypubliclibrary.util.ColorUtils;
 import com.example.mypubliclibrary.util.ObjectUtil;
 import com.example.mypubliclibrary.util.SelectorUtils;
 import com.example.mypubliclibrary.util.ToastUtils;
@@ -237,7 +238,7 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
                 mFragmentManager = getSupportFragmentManager();
                 getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
                 imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                mPresenter = ObjectUtil.getT(this.getClass());
+                mPresenter = ObjectUtil.getT(BasesActivity.this.getClass());
                 initData();
                 initListener();
                 return false;
@@ -252,8 +253,13 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
      * @param radius 圆角
      * @return StateListDrawable
      */
-    public StateListDrawable getBackRadius(int color, int radius) {
-        return SelectorUtils.newShapeSelector().setDefaultBgColor(color).setCornerRadius(new float[]{getDP(radius)}).create();
+    public StateListDrawable getBackRadius(int color, int radius, boolean... isPressed) {
+        SelectorUtils.ShapeSelector selector = SelectorUtils.newShapeSelector().setDefaultBgColor(color).setCornerRadius(new float[]{getDP(radius)});
+        if (isPressed.length > 0 && !isPressed[0]) {
+            return selector.create();
+        }
+        selector.setPressedBgColor(ColorUtils.getTranslucentColor(0.85f, color));
+        return selector.create();
     }
 
     /**
@@ -530,11 +536,11 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
         }
     }
 
-    public final <T extends View> T bindId(int viewId) {
+    public <T extends View> T bindId(int viewId) {
         return (T) findViewById(viewId);
     }
 
-    public final <T extends View> T bindId(View view, int viewId) {
+    public <T extends View> T bindId(View view, int viewId) {
         return view.findViewById(viewId);
     }
 
