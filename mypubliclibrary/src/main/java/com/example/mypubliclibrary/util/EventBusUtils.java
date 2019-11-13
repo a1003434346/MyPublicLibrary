@@ -52,7 +52,7 @@ public class EventBusUtils {
     }
 
 
-    public static <T> void post(EventMsg<T> eventMsg) {
+    public static void post(EventMsg eventMsg) {
         EventBus.getDefault().post(eventMsg);
     }
 
