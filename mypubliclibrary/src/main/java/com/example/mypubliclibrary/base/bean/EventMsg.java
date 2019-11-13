@@ -27,7 +27,7 @@ public class EventMsg<T, I> {
         return data;
     }
 
-    public EventMsg setData(T data) {
+    public EventMsg<T,I> setData(T data) {
         this.data = data;
         return this;
     }
@@ -36,7 +36,7 @@ public class EventMsg<T, I> {
         return type;
     }
 
-    public EventMsg setType(String type) {
+    public EventMsg<T,I> setType(String type) {
         this.type = type;
         return this;
     }
@@ -45,7 +45,7 @@ public class EventMsg<T, I> {
         return message;
     }
 
-    public EventMsg setMessage(String message) {
+    public EventMsg<T,I> setMessage(String message) {
         this.message = message;
         return this;
     }
