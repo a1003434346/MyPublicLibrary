@@ -356,7 +356,7 @@ public abstract class BasesFragment<T> extends Fragment implements View.OnClickL
         } else {
             onHideFragment();
         }
-        mFragmentIsShow = !hidden;
+        mFragmentIsShow = isVisibleToUser;
     }
 
     protected void onHideFragment() {
