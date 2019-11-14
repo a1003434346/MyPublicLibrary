@@ -10,10 +10,10 @@ import java.util.Map;
  */
 public class MapUtils<K, V> {
 
-    private Map<K, V> kvMap;
+    private Map<K, V> mKvMap;
 
-    public MapUtils() {
-        kvMap = new HashMap<>();
+    public MapUtils(Map<K, V>... kvMap) {
+        mKvMap = kvMap.length > 0 ? kvMap[0] : new HashMap<>();
     }
 
     /**
@@ -26,7 +26,7 @@ public class MapUtils<K, V> {
      */
     public MapUtils putValueNotNull(K k, V v) {
         if (v != null) {
-            kvMap.put(k, v);
+            mKvMap.put(k, v);
         }
         return this;
     }
@@ -40,11 +40,11 @@ public class MapUtils<K, V> {
      * @return kvMap
      */
     public MapUtils putValue(K k, V v) {
-        kvMap.put(k, v);
+        mKvMap.put(k, v);
         return this;
     }
 
     public Map<K, V> create() {
-        return kvMap;
+        return mKvMap;
     }
 }

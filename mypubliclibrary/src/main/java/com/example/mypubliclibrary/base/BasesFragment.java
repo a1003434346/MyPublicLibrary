@@ -9,6 +9,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Looper;
 import android.os.MessageQueue;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -326,6 +327,11 @@ public abstract class BasesFragment<T> extends Fragment implements View.OnClickL
     }
 
 
+    /**
+     * 跟ViewPage有关的Fragment，不会调用这个方法，其它情况下会调用
+     *
+     * @param hidden
+     */
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
@@ -333,6 +339,22 @@ public abstract class BasesFragment<T> extends Fragment implements View.OnClickL
             onHideFragment();
         } else {
             onShowFragment();
+        }
+        mFragmentIsShow = !hidden;
+    }
+
+    /**
+     * 跟ViewPage有关的Fragment会调用，其它情况下不会调用
+     *
+     * @param isVisibleToUser 是否显示
+     */
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser) {
+            onShowFragment();
+        } else {
+            onHideFragment();
         }
         mFragmentIsShow = !hidden;
     }

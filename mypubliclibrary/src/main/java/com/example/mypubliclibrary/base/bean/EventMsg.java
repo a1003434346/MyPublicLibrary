@@ -6,14 +6,14 @@ package com.example.mypubliclibrary.base.bean;
  * Created By LiQiang on 2019/7/10.
  */
 public class EventMsg<T, I> {
-    //事件类型,用于细分事件类型
-    private String type;
+    //发起人是谁
+    private String mInitiator;
     //传递消息,成功对应CannotLittle里的常量,失败返回错误信息
-    private String message;
+    private String mMessage;
     //当前请求的Request，对应请求数据接口的枚举类型（可选）
     private I mRequest;
 
-    private T data;
+    private T mData;
 
     public I getRequest() {
         return mRequest;
@@ -24,29 +24,29 @@ public class EventMsg<T, I> {
     }
 
     public T getData() {
-        return data;
+        return mData;
     }
 
-    public EventMsg<T,I> setData(T data) {
-        this.data = data;
+    public EventMsg<T, I> setData(T data) {
+        this.mData = data;
         return this;
     }
 
-    public String getType() {
-        return type;
+    public String getInitiator() {
+        return mInitiator;
     }
 
-    public EventMsg<T,I> setType(String type) {
-        this.type = type;
+    public EventMsg<T, I> setInitiator(String initiator) {
+        this.mInitiator = initiator;
         return this;
     }
 
     public String getMessage() {
-        return message;
+        return mMessage;
     }
 
-    public EventMsg<T,I> setMessage(String message) {
-        this.message = message;
+    public EventMsg<T, I> setMessage(String message) {
+        this.mMessage = message;
         return this;
     }
 }
