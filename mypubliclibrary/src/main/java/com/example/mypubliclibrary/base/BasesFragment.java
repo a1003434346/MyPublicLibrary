@@ -74,6 +74,8 @@ public abstract class BasesFragment<T> extends Fragment implements View.OnClickL
 //    protected boolean isSetStatusColor;
     //当前Fragment是否在显示状态
     protected boolean mFragmentIsShow;
+    //Ui是否加载完成
+    protected boolean mUiLoadDone;
 
 
     @Nullable
@@ -91,6 +93,7 @@ public abstract class BasesFragment<T> extends Fragment implements View.OnClickL
             Looper.myQueue().addIdleHandler(new MessageQueue.IdleHandler() {
                 @Override
                 public boolean queueIdle() {
+                    mUiLoadDone = true;
                     //Ui线程空闲下来后去执行（所有生命周期执行完以后才会去执行）
                     mPresenter = ObjectUtil.getT(BasesFragment.this.getClass());
                     initData();

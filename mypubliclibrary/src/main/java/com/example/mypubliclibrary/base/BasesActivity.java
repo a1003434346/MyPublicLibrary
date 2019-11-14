@@ -78,6 +78,8 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
     //访问接口以后设置数据
     protected abstract void setData();
 
+    //Ui是否加载完成
+    protected boolean mUiLoadDone;
 
     //管理Fragment
     private FragmentManager mFragmentManager;
@@ -99,6 +101,47 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
         return getResources().getColor(color);
     }
 
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        //避免按Home键 会重新实例化入口类的activity
+        if (!this.isTaskRoot()) {
+            Intent intent = getIntent();
+            if (intent != null) {
+                String action = intent.getAction();
+                if (intent.hasCategory(Intent.CATEGORY_LAUNCHER) && Intent.ACTION_MAIN.equals(action)) {
+                    finish();
+                    return;
+                }
+            }
+        }
+        super.onCreate(savedInstanceState);
+        mJumpAnim = true;
+        setStatusBar();
+        setContentView(onRegistered());
+        //设置状态栏的背景色为title的背景色,如果有title,给title增加状态栏间距
+        setStatusTitle();
+        initView();
+//        mFragmentManager = getSupportFragmentManager();
+//        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+//        imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+//        mPresenter = ObjectUtil.getT(this.getClass());
+//        initData();
+//        initListener();
+        Looper.myQueue().addIdleHandler(new MessageQueue.IdleHandler() {
+            @Override
+            public boolean queueIdle() {
+                mUiLoadDone = true;
+                //Ui线程空闲下来后去执行（所有生命周期执行完以后才会去执行）
+                mFragmentManager = getSupportFragmentManager();
+                getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+                imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                mPresenter = ObjectUtil.getT(BasesActivity.this.getClass());
+                initData();
+                initListener();
+                return false;
+            }
+        });
+    }
 
     /**
      * 跳转到Activity
@@ -205,46 +248,6 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
         if (mJumpAnim) overridePendingTransition(R.anim.tran_enter_out, R.anim.tran_exit_out);
     }
 
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        //避免按Home键 会重新实例化入口类的activity
-        if (!this.isTaskRoot()) {
-            Intent intent = getIntent();
-            if (intent != null) {
-                String action = intent.getAction();
-                if (intent.hasCategory(Intent.CATEGORY_LAUNCHER) && Intent.ACTION_MAIN.equals(action)) {
-                    finish();
-                    return;
-                }
-            }
-        }
-        super.onCreate(savedInstanceState);
-        mJumpAnim = true;
-        setStatusBar();
-        setContentView(onRegistered());
-        //设置状态栏的背景色为title的背景色,如果有title,给title增加状态栏间距
-        setStatusTitle();
-        initView();
-//        mFragmentManager = getSupportFragmentManager();
-//        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
-//        imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-//        mPresenter = ObjectUtil.getT(this.getClass());
-//        initData();
-//        initListener();
-        Looper.myQueue().addIdleHandler(new MessageQueue.IdleHandler() {
-            @Override
-            public boolean queueIdle() {
-                //Ui线程空闲下来后去执行（所有生命周期执行完以后才会去执行）
-                mFragmentManager = getSupportFragmentManager();
-                getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
-                imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                mPresenter = ObjectUtil.getT(BasesActivity.this.getClass());
-                initData();
-                initListener();
-                return false;
-            }
-        });
-    }
 
     /**
      * 设置背景色和圆角
