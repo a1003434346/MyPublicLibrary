@@ -87,6 +87,9 @@ public abstract class BasesFragment<T> extends Fragment implements View.OnClickL
     //Ui是否加载完成
     protected boolean mUiLoadDone;
 
+    public BasesFragment() {
+        mFragmentIsShow = true;
+    }
 
     @Nullable
     @Override
@@ -145,12 +148,6 @@ public abstract class BasesFragment<T> extends Fragment implements View.OnClickL
 //        setStatusBar();
 
         super.onStart();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        mFragmentIsShow = true;
     }
 
     public String getTextValue(int textId) {
