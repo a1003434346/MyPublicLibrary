@@ -121,6 +121,7 @@ public class WindowUtils {
                         }
                     }
                     int titleColor = colorDrawable.getColor();
+                    //改变状态栏电量时间颜色
                     setStatusBarColor((Activity) context, titleColor != 0 && ColorUtils.isLightColor(titleColor));
                     //设置状态栏背景色为标题背景色
                     statusView.setBackgroundColor(titleColor);

@@ -364,7 +364,8 @@ public abstract class BasesFragment<T> extends Fragment implements View.OnClickL
     }
 
     protected void onShowFragment() {
-        WindowUtils.setStatusTitle(getContext(), myView);
+        if (myView != null)
+            WindowUtils.setStatusTitle(getContext(), myView);
 //        if (isSetStatus)
 //        WindowUtils.setStatusTitle(getContext(), bindId(R.id.ctl_title));
     }
