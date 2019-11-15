@@ -73,15 +73,19 @@ public abstract class BasesFragment<T> extends Fragment implements View.OnClickL
 //    protected boolean isSetStatus;
 //    //是否智能为状态栏设置背景色，默认为true
 //    protected boolean isSetStatusColor;
-    //当前Fragment是否在显示状态
+    /**
+     * 当前Fragment是否在显示状态
+     * 非ViewPage状态下：
+     * 如果有多个Fragment，这个属性会在构造函数里都初始化为true,但是只有当前显示的页面会走onCreateView方法（所以虽然所有都为true,但是只有一个页面会显示UI）
+     * 如果切换页面，当前页面的mFragmentIsShow会自动设置为false
+     * VIewPage状态下：
+     * 如果有多个Fragment，这个属性会在构造函数里都初始化为true，之后会依次调用setUserVisibleHint函数（调用的次数跟懒加载的设置有关
+     * 顺序为：如果懒加载是1，那么默认先走第一个回调为false(第一个页面),第二个回调为false(懒加载的页面),第三个回调为true(第一个页面)），
+     * 简单点讲就是把当前显示页面设置为true，其它未显示的设置为false
+     */
     protected boolean mFragmentIsShow;
     //Ui是否加载完成
     protected boolean mUiLoadDone;
-
-    public BasesFragment() {
-        //初始化一些默认属性
-        mFragmentIsShow = true;
-    }
 
 
     @Nullable
@@ -103,6 +107,7 @@ public abstract class BasesFragment<T> extends Fragment implements View.OnClickL
                     mPresenter = ObjectUtil.getT(BasesFragment.this.getClass());
                     initData();
                     initListener();
+                    if (mFragmentIsShow) onShowFragment();
                     return false;
                 }
             });
@@ -142,6 +147,11 @@ public abstract class BasesFragment<T> extends Fragment implements View.OnClickL
         super.onStart();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        mFragmentIsShow = true;
+    }
 
     public String getTextValue(int textId) {
         return ((TextView) bindId(textId)).getText().toString();
@@ -339,12 +349,12 @@ public abstract class BasesFragment<T> extends Fragment implements View.OnClickL
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
+        mFragmentIsShow = !hidden;
         if (hidden) {
             onHideFragment();
         } else {
             onShowFragment();
         }
-        mFragmentIsShow = !hidden;
     }
 
     /**
@@ -355,19 +365,27 @@ public abstract class BasesFragment<T> extends Fragment implements View.OnClickL
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser) {
-            onShowFragment();
-        } else {
-            onHideFragment();
-        }
+        if (mUiLoadDone)
+            if (isVisibleToUser) {
+                //当前页面要成为显示状态
+                onShowFragment();
+            } else if (mFragmentIsShow) {
+                //当前页面要成为隐藏状态，但必须是由显示状态转换为隐藏状态（本身就是隐藏的不会调用onHideFragment回调）
+                mFragmentIsShow = isVisibleToUser;
+                onHideFragment();
+            }
         mFragmentIsShow = isVisibleToUser;
     }
 
     protected void onHideFragment() {
-
+        Log.i("BasesFragment", "执行了onHideFragment");
     }
 
+    /**
+     *
+     */
     protected void onShowFragment() {
+        Log.i("BasesFragment", "执行了onHideFragment");
         if (myView != null)
             WindowUtils.setStatusTitle(getContext(), myView);
 //        if (isSetStatus)
