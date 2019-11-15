@@ -78,12 +78,16 @@ public abstract class BasesFragment<T> extends Fragment implements View.OnClickL
     //Ui是否加载完成
     protected boolean mUiLoadDone;
 
+    public BasesFragment() {
+        //初始化一些默认属性
+        mFragmentIsShow = true;
+    }
+
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (myView == null) {
-            mFragmentIsShow = true;
             myView = inflater.inflate(onRegistered(), container, false);
 //            if (isSetStatus)
             WindowUtils.setStatusTitle(getContext(), myView);

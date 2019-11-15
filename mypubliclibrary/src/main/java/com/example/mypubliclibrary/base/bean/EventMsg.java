@@ -22,7 +22,7 @@ public class EventMsg<T, I> {
     }
 
     public String getType() {
-        return mType;
+        return mType == null ? "" : mType;
     }
 
     public EventMsg setType(String mType) {
@@ -44,7 +44,7 @@ public class EventMsg<T, I> {
     }
 
     public String getInitiator() {
-        return mInitiator;
+        return mInitiator == null ? "" : mInitiator;
     }
 
     public EventMsg<T, I> setInitiator(String initiator) {
@@ -53,7 +53,7 @@ public class EventMsg<T, I> {
     }
 
     public String getMessage() {
-        return mMessage;
+        return mMessage == null ? "" : mMessage;
     }
 
     public EventMsg<T, I> setMessage(String message) {
