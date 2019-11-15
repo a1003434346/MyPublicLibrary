@@ -382,7 +382,7 @@ public abstract class BasesFragment<T> extends Fragment implements View.OnClickL
      *
      */
     protected void onShowFragment() {
-        Log.i("BasesFragment", "执行了onShowFragment");
+        Log.i("BasesFragment", "执行了onShowFragment:" + this.getClass().getSimpleName());
         if (myView != null)
             WindowUtils.setStatusTitle(getContext(), myView);
 //        if (isSetStatus)
