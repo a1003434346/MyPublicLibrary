@@ -25,8 +25,9 @@ public class EventMsg<T, I> {
         return mType;
     }
 
-    public void setType(String mType) {
+    public EventMsg setType(String mType) {
         this.mType = mType;
+        return this;
     }
 
     public void setRequest(I mRequest) {
