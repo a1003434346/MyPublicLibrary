@@ -375,7 +375,7 @@ public abstract class BasesFragment<T> extends Fragment implements View.OnClickL
     }
 
     protected void onHideFragment() {
-        Log.i("BasesFragment", "执行了onHideFragment");
+        Log.i("BasesFragment", "执行了onHideFragment" + this.getClass().getSimpleName());
     }
 
     /**
