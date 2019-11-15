@@ -374,12 +374,59 @@ public abstract class BasesFragment<T> extends Fragment implements View.OnClickL
         mFragmentIsShow = isVisibleToUser;
     }
 
+    /**
+     * 单Fragment状态下：
+     * 1.初始化状态下：
+     * 初始化Fragment会走onShowFragment回调（onShowFragment会在UI处理完毕后紧挨着initListener回调后面执行）
+     * 切换Fragment当前Fragment会先回调onHideFragment函数，新Fragment会按装状态1走
+     * 2.缓存状态下：
+     * 初始化完毕的Fragment跳转到缓存Fragment，当前Fragment会执行onHideFragment函数，新缓存Fragment会执行onShowFragment函数
+     * <p>
+     * 单ViewPage状态下：
+     * 1.初始化状态下：
+     * 初始化Fragment会走onShowFragment回调（只有当前显示的页面会回调onShowFragment，懒加载等未显示的不会调用onShowFragment回调，也
+     * 不会调用onHideFragment回调）（onShowFragment会在UI处理完毕后紧挨着initListener回调后面执行）
+     * 2.缓存状态下：
+     * 初始化完毕的Fragment跳转到缓存Fragment，当前Fragment会执行onHideFragment函数，新缓存Fragment会执行onShowFragment函数，懒加载
+     * 之类的本身就是隐藏状态不会调用onHideFragment回调
+     * <p>
+     * Fragment嵌套ViewPage状态下:
+     * 1.初始化状态下：
+     * 初始化Fragment会走onShowFragment回调,ViewPage里面显示的Page会回调onShowFragment，ViewPage切换跟单ViewPage回调状态是一样的
+     * 外层Fragment切换跟单Fragment回调状态是一样的
+     * 2.缓存状态下：
+     * 当ViewPage的对应页面已经是缓存状态下，从其它Fragment切换到有ViewPage的Fragment，只会执行单Fragment状态，ViewPage里面本身就是
+     * 显示状态的，所以不会调用onShowFragment或者onHideFragment，只有单独对Fragment里面的Page页面做切换时，才会进入单ViewPage状态，
+     * 不对ViewPage做切换，只操作外层的Fragment切换，不会触发ViewPage的onShowFragment或者onHideFragment
+     */
     protected void onHideFragment() {
-        Log.i("BasesFragment", "执行了onHideFragment" + this.getClass().getSimpleName());
+        Log.i("BasesFragment", "执行了onHideFragment:" + this.getClass().getSimpleName());
     }
 
     /**
-     *
+     * 单Fragment状态下：
+     * 1.初始化状态下：
+     * 初始化Fragment会走onShowFragment回调（onShowFragment会在UI处理完毕后紧挨着initListener回调后面执行）
+     * 切换Fragment当前Fragment会先回调onHideFragment函数，新Fragment会按装状态1走
+     * 2.缓存状态下：
+     * 初始化完毕的Fragment跳转到缓存Fragment，当前Fragment会执行onHideFragment函数，新缓存Fragment会执行onShowFragment函数
+     * <p>
+     * 单ViewPage状态下：
+     * 1.初始化状态下：
+     * 初始化Fragment会走onShowFragment回调（只有当前显示的页面会回调onShowFragment，懒加载等未显示的不会调用onShowFragment回调，也
+     * 不会调用onHideFragment回调）（onShowFragment会在UI处理完毕后紧挨着initListener回调后面执行）
+     * 2.缓存状态下：
+     * 初始化完毕的Fragment跳转到缓存Fragment，当前Fragment会执行onHideFragment函数，新缓存Fragment会执行onShowFragment函数，懒加载
+     * 之类的本身就是隐藏状态不会调用onHideFragment回调
+     * <p>
+     * Fragment嵌套ViewPage状态下:
+     * 1.初始化状态下：
+     * 初始化Fragment会走onShowFragment回调,ViewPage里面显示的Page会回调onShowFragment，ViewPage切换跟单ViewPage回调状态是一样的
+     * 外层Fragment切换跟单Fragment回调状态是一样的
+     * 2.缓存状态下：
+     * 当ViewPage的对应页面已经是缓存状态下，从其它Fragment切换到有ViewPage的Fragment，只会执行单Fragment状态，ViewPage里面本身就是
+     * 显示状态的，所以不会调用onShowFragment或者onHideFragment，只有单独对Fragment里面的Page页面做切换时，才会进入单ViewPage状态，
+     * 不对ViewPage做切换，只操作外层的Fragment切换，不会触发ViewPage的onShowFragment或者onHideFragment
      */
     protected void onShowFragment() {
         Log.i("BasesFragment", "执行了onShowFragment:" + this.getClass().getSimpleName());
