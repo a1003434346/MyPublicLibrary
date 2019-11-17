@@ -29,15 +29,16 @@ public abstract class BasesAdapter<T> extends CommonAdapter<T> implements Adapte
         public T data;
     }
 
-    public void setOnClickListener(int viewId, T t, AdapterOnClick adapterOnClick) {
+    public void setOnClickListener(View view, T t, AdapterOnClick adapterOnClick) {
         ClickBean clickBean = new ClickBean();
-        View view = mActivity.bindId(itemView, viewId);
         clickBean.data = t;
         clickBean.view = view;
         view.setOnClickListener(this);
         mAdapterOnClicks.add(adapterOnClick);
         clickBeans.add(clickBean);
     }
+
+
 
     @Override
     public void onClick(View v) {
