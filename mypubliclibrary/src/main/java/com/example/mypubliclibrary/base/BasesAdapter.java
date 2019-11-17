@@ -17,43 +17,23 @@ import java.util.List;
  */
 public abstract class BasesAdapter<T> extends CommonAdapter<T> implements AdapterOnClick<T>, View.OnClickListener {
     protected BasesActivity mActivity;
+    private AdapterOnClick mAdapterOnClicks;
 
-    private List<AdapterOnClick> mAdapterOnClicks;
 
-    private List<ClickBean> clickBeans;
-
-    private View itemView;
-
-    private class ClickBean {
-        public View view;
-        public T data;
-    }
-
-    public void setOnClickListener(View view, T t, AdapterOnClick adapterOnClick) {
-        ClickBean clickBean = new ClickBean();
-        clickBean.data = t;
-        clickBean.view = view;
+    public void setOnClickListener(View view, int position) {
+        view.setTag(position);
         view.setOnClickListener(this);
-        mAdapterOnClicks.add(adapterOnClick);
-        clickBeans.add(clickBean);
     }
-
 
 
     @Override
     public void onClick(View v) {
-        for (int i = 0; i < clickBeans.size(); i++) {
-            if (v.getId() == clickBeans.get(i).view.getId()) {
-                mAdapterOnClicks.get(i).onClick(v, clickBeans.get(i).data);
-            }
-        }
+        mAdapterOnClicks.onClick(v, mDatas.get((Integer) v.getTag()));
     }
 
     public BasesAdapter(Context context, int layoutId, List<T> datas) {
         super(context, layoutId, datas);
-        itemView = LayoutInflater.from(context).inflate(layoutId, null);
         mActivity = (BasesActivity) context;
-        mAdapterOnClicks = new ArrayList<>();
-        clickBeans = new ArrayList<>();
+        mAdapterOnClicks = this;
     }
 }
