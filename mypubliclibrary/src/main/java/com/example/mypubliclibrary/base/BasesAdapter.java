@@ -7,6 +7,7 @@ import android.view.View;
 import com.example.mypubliclibrary.base.interfaces.AdapterOnClick;
 import com.zhy.adapter.recyclerview.CommonAdapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -28,7 +29,7 @@ public abstract class BasesAdapter<T> extends CommonAdapter<T> implements Adapte
         public T data;
     }
 
-    public void setOnClickListener(int viewId, AdapterOnClick adapterOnClick, T t) {
+    public void setOnClickListener(int viewId, T t, AdapterOnClick adapterOnClick) {
         ClickBean clickBean = new ClickBean();
         View view = mActivity.bindId(itemView, viewId);
         clickBean.data = t;
@@ -51,5 +52,7 @@ public abstract class BasesAdapter<T> extends CommonAdapter<T> implements Adapte
         super(context, layoutId, datas);
         itemView = LayoutInflater.from(context).inflate(layoutId, null);
         mActivity = (BasesActivity) context;
+        mAdapterOnClicks = new ArrayList<>();
+        clickBeans = new ArrayList<>();
     }
 }
