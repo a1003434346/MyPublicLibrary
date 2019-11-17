@@ -5,6 +5,7 @@ import android.content.Context;
 import com.example.mypubliclibrary.base.BasesActivity;
 import com.example.mypubliclibrary.base.bean.EventMsg;
 import com.example.mypubliclibrary.util.constant.DataInterface;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 
 import org.greenrobot.eventbus.EventBus;
@@ -42,11 +43,15 @@ public class EventBusUtils {
      * @param eventMsg 消息
      * @return true请求成功
      */
-    public static boolean isSuccess(Context context, EventMsg eventMsg) {
+    public static boolean isSuccess(Context context, EventMsg eventMsg, SmartRefreshLayout... srlRefreshHead) {
         boolean result = true;
         if (eventMsg.getMessage() != null && !eventMsg.getMessage().equals(DataInterface.SUCCESS)) {
             ToastUtils.showLongToast(context, eventMsg.getMessage());
             result = false;
+            if (srlRefreshHead.length > 0) {
+                srlRefreshHead[0].finishRefresh(false);
+                srlRefreshHead[0].finishLoadMore(false);
+            }
         }
         return result;
     }
