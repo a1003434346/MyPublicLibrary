@@ -28,14 +28,6 @@ public abstract class SelectView<T> implements OnSelectChangedListener, OnSelect
     private View mPopView;
 
     private PopupWindow mPopWindow;
-    //上下间距
-    private int mPadding = 10;
-    //文本颜色
-    private int mTextColor;
-    //请选择颜色
-    private int mTitleColor;
-    //完成原色
-    private int mDoneColor;
 
 
     //滚动栏1选择的内容
@@ -114,34 +106,26 @@ public abstract class SelectView<T> implements OnSelectChangedListener, OnSelect
         mWlvSelectOne.addChangingListener(this);
         mDataListOne = getDataListOne();
         mContentAdapterOne = new WheelContentAdapter<T>(mContext, mDataListOne);
-        setAttribute(mContentAdapterOne);
-        mContentAdapterOne.setPadding(mPadding);
         mSelectValueOne = mDataListOne.get(0);
         mSelectIndexOne = 0;
         mWlvSelectOne.setViewAdapter(mContentAdapterOne);
         setAdapterOneCentre();
     }
 
-    private void setAttribute(WheelContentAdapter adapter) {
-        if (mDefaultLayoutId != 0)
-            adapter.setItemResource(mDefaultLayoutId);
-        if (mTextColor != 0)
-            adapter.setTextColor(mTextColor);
-        if (mTitleColor != 0)
-            mTvTitle.setTextColor(mTitleColor);
-        if (mDoneColor != 0)
-            mTvConfirm.setTextColor(mDoneColor);
-
-    }
 
     /**
      * 设置上下的间距
      *
-     * @param number 间距
+     * @param padding 间距
      * @return SelectView
      */
-    public SelectView setPadding(int number) {
-        mPadding = number;
+    public SelectView setPadding(int padding) {
+        if (mContentAdapterOne != null)
+            mContentAdapterOne.setPadding(padding);
+        if (mContentAdapterTwo != null)
+            mContentAdapterTwo.setPadding(padding);
+        if (mContentAdapterThree != null)
+            mContentAdapterThree.setPadding(padding);
         return this;
     }
 
@@ -152,7 +136,12 @@ public abstract class SelectView<T> implements OnSelectChangedListener, OnSelect
      * @return SelectView
      */
     public SelectView setTextColor(int color) {
-        mTextColor = color;
+        if (mContentAdapterOne != null)
+            mContentAdapterOne.setTextColor(color);
+        if (mContentAdapterTwo != null)
+            mContentAdapterTwo.setTextColor(color);
+        if (mContentAdapterThree != null)
+            mContentAdapterThree.setTextColor(color);
         return this;
     }
 
@@ -163,18 +152,18 @@ public abstract class SelectView<T> implements OnSelectChangedListener, OnSelect
      * @return SelectView
      */
     public SelectView setTitleColor(int color) {
-        mTitleColor = color;
+        mTvTitle.setTextColor(color);
         return this;
     }
 
     /**
-     * 设置文本颜色
+     * 设置完成颜色
      *
      * @param color 颜色
      * @return SelectView
      */
     public SelectView setDoneColor(int color) {
-        mDoneColor = color;
+        mTvConfirm.setTextColor(color);
         return this;
     }
 
