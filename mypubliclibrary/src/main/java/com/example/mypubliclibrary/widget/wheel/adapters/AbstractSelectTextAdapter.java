@@ -48,7 +48,7 @@ public abstract class AbstractSelectTextAdapter extends AbstractSelectAdapter {
     
     private int textSize = DEFAULT_TEXT_SIZE;
     
-    private int padding = 5;
+    private int padding = 10;
     
     // Current context
     protected Context context;

@@ -67,5 +67,7 @@ dependencies {
     implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-andx-16'
     //header工具类
     implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.0-andx-16'
+    //图片选择器
+    implementation 'com.zhihu.android:matisse:0.5.2'
 
 }

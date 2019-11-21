@@ -3,6 +3,7 @@ package com.example.mypubliclibrary.base;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
@@ -18,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -33,12 +35,23 @@ import com.example.mypubliclibrary.R;
 import com.example.mypubliclibrary.base.bean.EventMsg;
 import com.example.mypubliclibrary.base.interfaces.CallPermission;
 import com.example.mypubliclibrary.util.ColorUtils;
+import com.example.mypubliclibrary.util.EventBusUtils;
+import com.example.mypubliclibrary.util.ListUtils;
 import com.example.mypubliclibrary.util.ObjectUtil;
 import com.example.mypubliclibrary.util.SelectorUtils;
 import com.example.mypubliclibrary.util.ToastUtils;
 import com.example.mypubliclibrary.util.WindowUtils;
+import com.example.mypubliclibrary.util.constant.DataInterface;
+import com.example.mypubliclibrary.widget.dialog.BottomIosDialog;
 import com.example.mypubliclibrary.widget.dialog.InputDialog;
 import com.example.mypubliclibrary.widget.dialog.WarningDialog;
+import com.example.mypubliclibrary.widget.photo.GifSizeFilter;
+import com.example.mypubliclibrary.widget.photo.MyGlideEngine;
+import com.zhihu.matisse.Matisse;
+import com.zhihu.matisse.MimeType;
+import com.zhihu.matisse.filter.Filter;
+import com.zhihu.matisse.internal.entity.CaptureStrategy;
+import com.zhihu.matisse.internal.utils.MediaStoreCompat;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -91,6 +104,8 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
     //是否开启跳转动画，默认为开启
     protected boolean mJumpAnim;
 
+    //拍照
+    private MediaStoreCompat mMediaStoreCompat;
 
     public int getDP(int px) {
         return WindowUtils.dip2px(this, px);
@@ -142,6 +157,86 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
             }
         });
     }
+
+    /**
+     * 拍照
+     */
+    public void pictures() {
+        if (mMediaStoreCompat == null) mMediaStoreCompat = new MediaStoreCompat(this);
+        mMediaStoreCompat.setCaptureStrategy(new CaptureStrategy(true,
+                getPackageName() + ".fileprovider", "pictures"));
+        mMediaStoreCompat.dispatchCaptureIntent(this, 199);
+    }
+
+    /**
+     * 选择照片
+     */
+    public void selectPhoto(int maxSelect) {
+        Matisse.from(this)
+                //设置可选择类型
+                .choose(MimeType.ofImage(), false)
+                //序列化显示
+                .countable(true)
+                .captureStrategy(
+                        new CaptureStrategy(true, getPackageName() + ".fileprovider", "test"))
+                //可选择最大数量
+                .maxSelectable(maxSelect)
+                //设置最小宽高，和最大尺寸
+                .addFilter(new GifSizeFilter(0, 0, 15 * Filter.K * Filter.K))
+                //限制方向
+                .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
+                //非原图的压缩规模
+                .thumbnailScale(0.85f)
+                //设置图片引擎
+                .imageEngine(new MyGlideEngine())
+                //单击是否隐藏选项
+                .autoHideToolbarOnSingleTap(true)
+                //设置返回码
+                .forResult(199);
+    }
+
+    /**
+     * 获取拍照，选择照片的窗口
+     *
+     * @param maxSelect 最大选择几张
+     *                  选择完成以后在EventBus的事件里接收，pictures为拍照，Data值为String（图片Path）
+     *                  selectPhoto为选择相册，Data值为List<String>（图片Path）
+     */
+    public void getPhotoView(int maxSelect) {
+        new BottomIosDialog(this) {
+            @Override
+            protected List<String> getItems() {
+                return new ListUtils<String>().add("从手机相册选择", "拍照");
+            }
+
+            @Override
+            protected void itemClicks(Button button, int position) {
+                switch (position) {
+                    case 0:
+                        selectPhoto(maxSelect);
+                        break;
+                    case 1:
+                        pictures();
+                        break;
+                }
+            }
+        }.show();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 199 && resultCode == -1) {
+            if (data == null) {
+                //拍照的
+                EventBusUtils.post(new EventMsg().setType("pictures").setData(mMediaStoreCompat.getCurrentPhotoPath()).setMessage(DataInterface.SUCCESS));
+            } else {
+                //选择相册的
+                EventBusUtils.post(new EventMsg().setType("selectPhoto").setData(Matisse.obtainPathResult(data)).setMessage(DataInterface.SUCCESS));
+            }
+        }
+    }
+
 
     /**
      * 跳转到Activity
@@ -246,6 +341,18 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
     public void finish() {
         super.finish();
         if (mJumpAnim) overridePendingTransition(R.anim.tran_enter_out, R.anim.tran_exit_out);
+    }
+
+    /**
+     * 请求权限
+     *
+     * @param params 权限列表
+     */
+    public void requestPermission(String... params) {
+        //判断权限
+        if (!isPermission(params)) {//请求权限
+            requestPermission(1, params);
+        }
     }
 
 

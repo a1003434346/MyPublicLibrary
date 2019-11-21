@@ -112,7 +112,7 @@ public abstract class SelectView<T> implements OnSelectChangedListener, OnSelect
 
     private void initAdapterOne() {
         mWlvSelectOne.addChangingListener(this);
-        mDataListOne = getmDataListOne();
+        mDataListOne = getDataListOne();
         mContentAdapterOne = new WheelContentAdapter<T>(mContext, mDataListOne);
         setAttribute(mContentAdapterOne);
         mContentAdapterOne.setPadding(mPadding);
@@ -467,7 +467,7 @@ public abstract class SelectView<T> implements OnSelectChangedListener, OnSelect
     }
 
 
-    protected abstract List<T> getmDataListOne();
+    protected abstract List<T> getDataListOne();
 
     protected abstract void selectAchieve();
 }
