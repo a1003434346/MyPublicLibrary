@@ -24,99 +24,173 @@ import java.util.List;
  */
 public abstract class SelectView<T> implements OnSelectChangedListener, OnSelectData<T> {
 
+    //AbstractSelectTextAdapter可以设置元素属性
+    private View mPopView;
 
+    private PopupWindow mPopWindow;
+    //上下间距
+    private int mPadding = 10;
+    //文本颜色
+    private int mTextColor;
+    //请选择颜色
+    private int mTitleColor;
+    //完成原色
+    private int mDoneColor;
 
-    private View popView;
-
-    private PopupWindow popWindow;
 
     //滚动栏1选择的内容
-    protected T selectValueOne;
+    protected T mSelectValueOne;
 
     //滚动栏2选择的内容
-    protected T selectValueTwo;
+    protected T mSelectValueTwo;
 
     //滚动栏3选择的内容
-    protected T selectValueThree;
+    protected T mSelectValueThree;
 
-    private TextView tvConfirm;
+    private TextView mTvConfirm;
 
-    private TextView tvTitle;
+    private TextView mTvTitle;
 
-    protected int selectIndexOne;
+    protected int mSelectIndexOne;
 
-    protected int selectIndexTwo;
+    protected int mSelectIndexTwo;
 
-    protected int selectIndexThree;
+    protected int mSelectIndexThree;
 
     //滚动栏1的View
-    protected SelectWheelView wlvSelectOne;
+    protected SelectWheelView mWlvSelectOne;
 
     //滚动栏2的View
-    protected SelectWheelView wlvSelectTwo;
+    protected SelectWheelView mWlvSelectTwo;
 
     //滚动栏3的View
-    protected SelectWheelView wlvSelectThree;
+    protected SelectWheelView mWlvSelectThree;
 
     //滚动栏1的Adapter
-    private WheelContentAdapter contentAdapterOne;
+    private WheelContentAdapter mContentAdapterOne;
 
     //滚动栏2的Adapter
-    private WheelContentAdapter contentAdapterTwo;
+    private WheelContentAdapter mContentAdapterTwo;
 
     //滚动栏3的Adapter
-    private WheelContentAdapter contentAdapterThree;
+    private WheelContentAdapter mContentAdapterThree;
 
-    private int defaultLayoutId;
+    //默认布局
+    private int mDefaultLayoutId;
 
-    private Context context;
+    private Context mContext;
     //滚动栏1的数据
-    private List<T> dataListOne;
+    private List<T> mDataListOne;
 
     /**
      * 滚动栏2的数据
      */
-    protected List<T> dataListTwo;
+    protected List<T> mDataListTwo;
 
     /**
      * 滚动栏3的数据
      */
-    protected List<T> dataListThree;
+    protected List<T> mDataListThree;
 
 
-    protected SelectView(final Context context) {
-        this.context = context;
+    protected SelectView(final Context mContext) {
+        this.mContext = mContext;
         initView();
     }
 
+    /**
+     * 设置自定义布局
+     *
+     * @param layoutId
+     * @return
+     */
     public SelectView setItemResource(int layoutId) {
-        this.defaultLayoutId = layoutId;
+        this.mDefaultLayoutId = layoutId;
         return this;
     }
 
 
     private void initAdapterOne() {
-        wlvSelectOne.addChangingListener(this);
-        dataListOne = getDataListOne();
-        contentAdapterOne = new WheelContentAdapter<T>(context, dataListOne);
-        selectValueOne = dataListOne.get(0);
-        selectIndexOne = 0;
-        wlvSelectOne.setViewAdapter(contentAdapterOne);
+        mWlvSelectOne.addChangingListener(this);
+        mDataListOne = getmDataListOne();
+        mContentAdapterOne = new WheelContentAdapter<T>(mContext, mDataListOne);
+        setAttribute(mContentAdapterOne);
+        mContentAdapterOne.setPadding(mPadding);
+        mSelectValueOne = mDataListOne.get(0);
+        mSelectIndexOne = 0;
+        mWlvSelectOne.setViewAdapter(mContentAdapterOne);
         setAdapterOneCentre();
     }
+
+    private void setAttribute(WheelContentAdapter adapter) {
+        if (mDefaultLayoutId != 0)
+            adapter.setItemResource(mDefaultLayoutId);
+        if (mTextColor != 0)
+            adapter.setTextColor(mTextColor);
+        if (mTitleColor != 0)
+            mTvTitle.setTextColor(mTitleColor);
+        if (mDoneColor != 0)
+            mTvConfirm.setTextColor(mDoneColor);
+
+    }
+
+    /**
+     * 设置上下的间距
+     *
+     * @param number 间距
+     * @return SelectView
+     */
+    public SelectView setPadding(int number) {
+        mPadding = number;
+        return this;
+    }
+
+    /**
+     * 设置文本颜色
+     *
+     * @param color 颜色
+     * @return SelectView
+     */
+    public SelectView setTextColor(int color) {
+        mTextColor = color;
+        return this;
+    }
+
+    /**
+     * 设置请选择颜色
+     *
+     * @param color 颜色
+     * @return SelectView
+     */
+    public SelectView setTitleColor(int color) {
+        mTitleColor = color;
+        return this;
+    }
+
+    /**
+     * 设置文本颜色
+     *
+     * @param color 颜色
+     * @return SelectView
+     */
+    public SelectView setDoneColor(int color) {
+        mDoneColor = color;
+        return this;
+    }
+
 //    //滚动栏2的事件监听
 //    private OnSelectChangedListener onSelectChangeTwoListener;
 
     //初始化滚动栏2
     private void initAdapterTwo() {
-        contentAdapterTwo = new WheelContentAdapter<T>(context, dataListTwo);
-        selectValueTwo = dataListTwo.get(0);
-        selectIndexTwo = 0;
-        wlvSelectTwo.setViewAdapter(contentAdapterTwo);
-        wlvSelectTwo.setVisibility(View.VISIBLE);
-        wlvSelectTwo.addChangingListener(this);
+        mContentAdapterTwo = new WheelContentAdapter<T>(mContext, mDataListTwo);
+        mSelectValueTwo = mDataListTwo.get(0);
+        mSelectIndexTwo = 0;
+        mWlvSelectTwo.setViewAdapter(mContentAdapterTwo);
+        mWlvSelectTwo.setVisibility(View.VISIBLE);
+        mWlvSelectTwo.addChangingListener(this);
         setAdapterTwoCentre();
-        if ((dataListThree = getDataListThree()) != null && dataListThree.size() > 0 && wlvSelectThree.getChangListenersLength() == 0) {
+        if ((mDataListThree = getDataListThree()) != null && mDataListThree.size() > 0 && mWlvSelectThree.getChangListenersLength() == 0) {
             initAdapterThree();
         }
     }
@@ -133,12 +207,12 @@ public abstract class SelectView<T> implements OnSelectChangedListener, OnSelect
 
     //初始化滚动栏3
     private void initAdapterThree() {
-        contentAdapterThree = new WheelContentAdapter<T>(context, dataListThree);
-        selectValueThree = dataListThree.get(0);
-        selectIndexThree = 0;
-        wlvSelectThree.setViewAdapter(contentAdapterThree);
-        wlvSelectThree.setVisibility(View.VISIBLE);
-        wlvSelectThree.addChangingListener(this);
+        mContentAdapterThree = new WheelContentAdapter<T>(mContext, mDataListThree);
+        mSelectValueThree = mDataListThree.get(0);
+        mSelectIndexThree = 0;
+        mWlvSelectThree.setViewAdapter(mContentAdapterThree);
+        mWlvSelectThree.setVisibility(View.VISIBLE);
+        mWlvSelectThree.addChangingListener(this);
         setAdapterThreeCentre();
     }
 
@@ -147,11 +221,11 @@ public abstract class SelectView<T> implements OnSelectChangedListener, OnSelect
      */
     private void setAdapterTwoCentre() {
         //如果是循环显示，并且总数大于4，就居中
-        int countTwo = dataListTwo.size();
-        if (wlvSelectTwo.isCyclic && countTwo >= 4) {
+        int countTwo = mDataListTwo.size();
+        if (mWlvSelectTwo.isCyclic && countTwo >= 4) {
             setCurrentItemTwo(countTwo / 2);
         } else {
-            wlvSelectTwo.setCurrentItem(0, false);
+            mWlvSelectTwo.setCurrentItem(0, false);
         }
     }
 
@@ -160,11 +234,11 @@ public abstract class SelectView<T> implements OnSelectChangedListener, OnSelect
      */
     private void setAdapterThreeCentre() {
         //如果是循环显示，并且总数大于4，就居中
-        int countTwo = dataListThree.size();
-        if (wlvSelectThree.isCyclic && countTwo >= 4) {
+        int countTwo = mDataListThree.size();
+        if (mWlvSelectThree.isCyclic && countTwo >= 4) {
             setCurrentItemThree(countTwo / 2);
         } else {
-            wlvSelectThree.setCurrentItem(0, false);
+            mWlvSelectThree.setCurrentItem(0, false);
         }
     }
 
@@ -173,59 +247,60 @@ public abstract class SelectView<T> implements OnSelectChangedListener, OnSelect
      */
     private void setAdapterOneCentre() {
         //如果是循环显示，并且总数大于4，就居中
-        int countOne = dataListOne.size();
-        if (wlvSelectOne.isCyclic() && countOne >= 4) {
+        int countOne = mDataListOne.size();
+        if (mWlvSelectOne.isCyclic() && countOne >= 4) {
             setCurrentItemOne(countOne / 2);
         } else {
-            wlvSelectOne.setCurrentItem(0, false);
+            mWlvSelectOne.setCurrentItem(0, false);
         }
     }
 
     protected void updateAdapterTwo() {
-        if (contentAdapterTwo == null && wlvSelectTwo.getChangListenersLength() == 0) {
+        if (mContentAdapterTwo == null && mWlvSelectTwo.getChangListenersLength() == 0) {
             initAdapterTwo();
         } else {
-            if (wlvSelectTwo.getVisibility() == View.GONE) wlvSelectTwo.setVisibility(View.VISIBLE);
-            contentAdapterTwo = new WheelContentAdapter<T>(context, dataListTwo);
-            wlvSelectTwo.setViewAdapter(contentAdapterTwo);
-            selectIndexTwo = 0;
-            selectValueTwo = dataListTwo.get(selectIndexTwo);
+            if (mWlvSelectTwo.getVisibility() == View.GONE)
+                mWlvSelectTwo.setVisibility(View.VISIBLE);
+            mContentAdapterTwo = new WheelContentAdapter<T>(mContext, mDataListTwo);
+            mWlvSelectTwo.setViewAdapter(mContentAdapterTwo);
+            mSelectIndexTwo = 0;
+            mSelectValueTwo = mDataListTwo.get(mSelectIndexTwo);
             setAdapterTwoCentre();
         }
     }
 
     protected void updateAdapterThree() {
-        if (contentAdapterThree == null && wlvSelectThree.getChangListenersLength() == 0) {
+        if (mContentAdapterThree == null && mWlvSelectThree.getChangListenersLength() == 0) {
             initAdapterThree();
         } else {
-            if (wlvSelectThree.getVisibility() == View.GONE)
-                wlvSelectThree.setVisibility(View.VISIBLE);
-            contentAdapterThree = new WheelContentAdapter<T>(context, dataListThree);
-            wlvSelectThree.setViewAdapter(contentAdapterThree);
-            selectValueThree = dataListThree.get(0);
-            selectIndexThree = 0;
+            if (mWlvSelectThree.getVisibility() == View.GONE)
+                mWlvSelectThree.setVisibility(View.VISIBLE);
+            mContentAdapterThree = new WheelContentAdapter<T>(mContext, mDataListThree);
+            mWlvSelectThree.setViewAdapter(mContentAdapterThree);
+            mSelectValueThree = mDataListThree.get(0);
+            mSelectIndexThree = 0;
             setAdapterThreeCentre();
         }
     }
 
     private void initView() {
-        if (popView == null) {
-            popView = LayoutInflater.from(context).inflate(R.layout.dialog_wheel_select, null);
-            popWindow = WindowUtils.getPopupWindow(context, popView, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-            wlvSelectOne = popView.findViewById(R.id.wlv_select_one);
-            wlvSelectTwo = popView.findViewById(R.id.wlv_select_two);
-            wlvSelectThree = popView.findViewById(R.id.wlv_select_three);
-            tvConfirm = popView.findViewById(R.id.tv_confirm);
-            tvTitle = popView.findViewById(R.id.tv_title);
+        if (mPopView == null) {
+            mPopView = LayoutInflater.from(mContext).inflate(R.layout.dialog_wheel_select, null);
+            mPopWindow = WindowUtils.getPopupWindow(mContext, mPopView, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            mWlvSelectOne = mPopView.findViewById(R.id.wlv_select_one);
+            mWlvSelectTwo = mPopView.findViewById(R.id.wlv_select_two);
+            mWlvSelectThree = mPopView.findViewById(R.id.wlv_select_three);
+            mTvConfirm = mPopView.findViewById(R.id.tv_confirm);
+            mTvTitle = mPopView.findViewById(R.id.tv_title);
             initAdapterOne();
-            if ((dataListTwo = getDataListTwo()) != null && dataListTwo.size() > 0 && wlvSelectTwo.getChangListenersLength() == 0) {
+            if ((mDataListTwo = getDataListTwo()) != null && mDataListTwo.size() > 0 && mWlvSelectTwo.getChangListenersLength() == 0) {
                 initAdapterTwo();
             }
-            popView.findViewById(R.id.tv_confirm).setOnClickListener(new View.OnClickListener() {
+            mPopView.findViewById(R.id.tv_confirm).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     selectAchieve();
-                    popWindow.dismiss();
+                    mPopWindow.dismiss();
                 }
             });
         }
@@ -234,37 +309,37 @@ public abstract class SelectView<T> implements OnSelectChangedListener, OnSelect
 
     public SelectView setConfirm(String confirm) {
         if (!confirm.trim().isEmpty()) {
-            tvConfirm.setText(confirm);
+            mTvConfirm.setText(confirm);
         }
         return this;
     }
 
     public SelectView setTitle(String title) {
         if (!title.trim().isEmpty()) {
-            tvTitle.setText(title);
+            mTvTitle.setText(title);
         }
         return this;
     }
 
     public SelectView show() {
-        WindowUtils.setBackgroundAlpha(context, 0.5f);
-        popWindow.showAtLocation(popView, Gravity.BOTTOM, 0, 0);
+        WindowUtils.setBackgroundAlpha(mContext, 0.5f);
+        mPopWindow.showAtLocation(mPopView, Gravity.BOTTOM, 0, 0);
         return this;
     }
 
 
     @Override
     public void onChanged(SelectWheelView selectView, int lastIndex, int selectIndex) {
-        if (selectView == wlvSelectOne) {
-            this.selectIndexOne = selectIndex;
-//            selectValueOne = contentAdapterOne.getItemText(selectIndex).toString();
-            selectValueOne = dataListOne.get(selectIndex);
-        } else if (selectView == wlvSelectTwo) {
-            selectIndexTwo = selectIndex;
-            selectValueTwo = dataListTwo.get(selectIndex);
-        } else if (selectView == wlvSelectThree) {
-            selectIndexThree = selectIndex;
-            selectValueThree = dataListThree.get(selectIndex);
+        if (selectView == mWlvSelectOne) {
+            this.mSelectIndexOne = selectIndex;
+//            mSelectValueOne = mContentAdapterOne.getItemText(selectIndex).toString();
+            mSelectValueOne = mDataListOne.get(selectIndex);
+        } else if (selectView == mWlvSelectTwo) {
+            mSelectIndexTwo = selectIndex;
+            mSelectValueTwo = mDataListTwo.get(selectIndex);
+        } else if (selectView == mWlvSelectThree) {
+            mSelectIndexThree = selectIndex;
+            mSelectValueThree = mDataListThree.get(selectIndex);
         }
     }
 
@@ -277,18 +352,18 @@ public abstract class SelectView<T> implements OnSelectChangedListener, OnSelect
      */
     public SelectView setCyclic(int... cyclic) {
         if (cyclic.length == 0) {
-            if (wlvSelectOne != null) wlvSelectOne.setCyclic(false);
-            if (wlvSelectTwo != null) wlvSelectTwo.setCyclic(false);
-            if (wlvSelectThree != null) wlvSelectThree.setCyclic(false);
+            if (mWlvSelectOne != null) mWlvSelectOne.setCyclic(false);
+            if (mWlvSelectTwo != null) mWlvSelectTwo.setCyclic(false);
+            if (mWlvSelectThree != null) mWlvSelectThree.setCyclic(false);
             return this;
         }
         for (int data : cyclic) {
-            if (data == SelectViewConfig.CYCLIC_ONE && wlvSelectOne != null)
-                wlvSelectOne.setCyclic(true);
-            if (data == SelectViewConfig.CYCLIC_TWO && wlvSelectTwo != null)
-                wlvSelectTwo.setCyclic(true);
-            if (data == SelectViewConfig.CYCLIC_THREE && wlvSelectThree != null)
-                wlvSelectThree.setCyclic(true);
+            if (data == SelectViewConfig.CYCLIC_ONE && mWlvSelectOne != null)
+                mWlvSelectOne.setCyclic(true);
+            if (data == SelectViewConfig.CYCLIC_TWO && mWlvSelectTwo != null)
+                mWlvSelectTwo.setCyclic(true);
+            if (data == SelectViewConfig.CYCLIC_THREE && mWlvSelectThree != null)
+                mWlvSelectThree.setCyclic(true);
         }
         return this;
     }
@@ -302,18 +377,18 @@ public abstract class SelectView<T> implements OnSelectChangedListener, OnSelect
      */
     public SelectView setLongData(int... longData) {
         if (longData.length == 0) {
-            if (wlvSelectOne != null) wlvSelectOne.setLongData();
-            if (wlvSelectTwo != null) wlvSelectTwo.setLongData();
-            if (wlvSelectTwo != null) wlvSelectThree.setLongData();
+            if (mWlvSelectOne != null) mWlvSelectOne.setLongData();
+            if (mWlvSelectTwo != null) mWlvSelectTwo.setLongData();
+            if (mWlvSelectTwo != null) mWlvSelectThree.setLongData();
             return this;
         }
         for (int data : longData) {
-            if (data == SelectViewConfig.LONG_DATA_ONE && wlvSelectOne != null)
-                wlvSelectOne.setLongData();
-            if (data == SelectViewConfig.LONG_DATA_TWO && wlvSelectTwo != null)
-                wlvSelectTwo.setLongData();
-            if (data == SelectViewConfig.LONG_DATA_THREE && wlvSelectThree != null)
-                wlvSelectThree.setLongData();
+            if (data == SelectViewConfig.LONG_DATA_ONE && mWlvSelectOne != null)
+                mWlvSelectOne.setLongData();
+            if (data == SelectViewConfig.LONG_DATA_TWO && mWlvSelectTwo != null)
+                mWlvSelectTwo.setLongData();
+            if (data == SelectViewConfig.LONG_DATA_THREE && mWlvSelectThree != null)
+                mWlvSelectThree.setLongData();
         }
         return this;
     }
@@ -322,8 +397,8 @@ public abstract class SelectView<T> implements OnSelectChangedListener, OnSelect
      * 设置滚动栏1当前项。当索引出错时什么也不做。
      */
     public SelectView setCurrentItemOne(int index) {
-        wlvSelectOne.setCurrentItem(index, false);
-        selectIndexOne = index;
+        mWlvSelectOne.setCurrentItem(index, false);
+        mSelectIndexOne = index;
         return this;
     }
 
@@ -331,9 +406,9 @@ public abstract class SelectView<T> implements OnSelectChangedListener, OnSelect
      * 设置滚动栏2当前项。当索引出错时什么也不做。
      */
     public SelectView setCurrentItemTwo(int index) {
-        wlvSelectTwo.setCurrentItem(index, false);
-        selectIndexTwo = index;
-        selectValueTwo = dataListTwo.get(index);
+        mWlvSelectTwo.setCurrentItem(index, false);
+        mSelectIndexTwo = index;
+        mSelectValueTwo = mDataListTwo.get(index);
         return this;
     }
 
@@ -341,9 +416,9 @@ public abstract class SelectView<T> implements OnSelectChangedListener, OnSelect
      * 设置滚动栏3当前项。当索引出错时什么也不做。
      */
     public SelectView setCurrentItemThree(int index) {
-        wlvSelectThree.setCurrentItem(index, false);
-        selectIndexThree = index;
-        selectValueThree = dataListThree.get(index);
+        mWlvSelectThree.setCurrentItem(index, false);
+        mSelectIndexThree = index;
+        mSelectValueThree = mDataListThree.get(index);
         return this;
     }
 
@@ -352,10 +427,10 @@ public abstract class SelectView<T> implements OnSelectChangedListener, OnSelect
      * 根据值设置滚动栏1当前项。不存在时什么也不做。
      */
     public SelectView setCurrentItemOne(T selectValue) {
-        List<T> list = dataListOne;
+        List<T> list = mDataListOne;
         for (int i = 0; i < list.size(); i++) {
             if (list.get(i).toString().equals(selectValue.toString())) {
-                wlvSelectOne.setCurrentItem(i, false);
+                mWlvSelectOne.setCurrentItem(i, false);
                 break;
             }
         }
@@ -367,10 +442,10 @@ public abstract class SelectView<T> implements OnSelectChangedListener, OnSelect
      * 根据值设置滚动栏2当前项。不存在时什么也不做。
      */
     public SelectView setCurrentItemTwo(T selectValue) {
-        List<T> list = dataListTwo;
+        List<T> list = mDataListTwo;
         for (int i = 0; i < list.size(); i++) {
             if (list.get(i).toString().equals(selectValue.toString())) {
-                wlvSelectTwo.setCurrentItem(i, false);
+                mWlvSelectTwo.setCurrentItem(i, false);
                 break;
             }
         }
@@ -381,10 +456,10 @@ public abstract class SelectView<T> implements OnSelectChangedListener, OnSelect
      * 根据值设置滚动栏3当前项。不存在时什么也不做。
      */
     public SelectView setCurrentItemThree(T selectValue) {
-        List<T> list = dataListThree;
+        List<T> list = mDataListThree;
         for (int i = 0; i < list.size(); i++) {
             if (list.get(i).toString().equals(selectValue.toString())) {
-                wlvSelectThree.setCurrentItem(i, false);
+                mWlvSelectThree.setCurrentItem(i, false);
                 break;
             }
         }
@@ -392,7 +467,7 @@ public abstract class SelectView<T> implements OnSelectChangedListener, OnSelect
     }
 
 
-    protected abstract List<T> getDataListOne();
+    protected abstract List<T> getmDataListOne();
 
     protected abstract void selectAchieve();
 }

@@ -252,8 +252,9 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
     /**
      * 设置背景色和圆角
      *
-     * @param color  背景色
-     * @param radius 圆角
+     * @param color     背景色
+     * @param radius    圆角
+     * @param isPressed 是否增加按下特效，默认为true,为true以后必须注册点击事件才会生效，否则不会有按下效果
      * @return StateListDrawable
      */
     public StateListDrawable getBackRadius(int color, int radius, boolean... isPressed) {
