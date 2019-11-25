@@ -4,5 +4,5 @@ import android.view.View;
 
 public interface AdapterOnClick<T> {
 
-    void onClick(View v, T t);
+    void onClick(View v, T t, int position);
 }

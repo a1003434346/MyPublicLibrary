@@ -18,7 +18,6 @@ import java.util.List;
 public abstract class BasesAdapter<T> extends CommonAdapter<T> implements AdapterOnClick<T>, View.OnClickListener {
     protected BasesActivity mActivity;
     private AdapterOnClick<T> mAdapterOnClicks;
-    protected int mOnClickPosition;
 
 
     public void setOnClickListener(View view, int position) {
@@ -29,8 +28,8 @@ public abstract class BasesAdapter<T> extends CommonAdapter<T> implements Adapte
 
     @Override
     public void onClick(View v) {
-        mOnClickPosition = (int) v.getTag();
-        mAdapterOnClicks.onClick(v, mDatas.get(mOnClickPosition));
+        int position = (int) v.getTag();
+        mAdapterOnClicks.onClick(v, mDatas.get(position), position);
     }
 
     public BasesAdapter(Context context, int layoutId, List<T> datas) {

@@ -13,7 +13,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Looper;
 import android.os.MessageQueue;
-import android.os.PersistableBundle;
 import android.provider.Settings;
 import android.view.View;
 import android.view.ViewGroup;
@@ -189,6 +188,8 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
                 .thumbnailScale(0.85f)
                 //设置图片引擎
                 .imageEngine(new MyGlideEngine())
+                //显示指定媒体类型
+                .showSingleMediaType(true)
                 //单击是否隐藏选项
                 .autoHideToolbarOnSingleTap(true)
                 //设置返回码
@@ -248,6 +249,10 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
      *                    //必须在finish()前调用,否则resultCode会默认成为0
      *                    setResult(10,getIntent());
      *                    finish();
+     *                    接收对象：
+     *                    被传递如果是实体类必须需实现 implements Serializable
+     *                    接收方示例：
+     *                    certificates = (List<File>) data.getExtras().getSerializable("certificates");
      */
     public void jumpActivity(Class<?> aClass, int requestCode) {
         startActivityForResult(new Intent(this, aClass).addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT), requestCode);
@@ -292,6 +297,10 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
      *                    //必须在finish()前调用,否则resultCode会默认成为0
      *                    setResult(10,getIntent());
      *                    finish();
+     *                    接收对象：
+     *                    被传递如果是实体类必须需实现 implements Serializable
+     *                    接收方示例：
+     *                    certificates = (List<File>) data.getExtras().getSerializable("certificates");
      */
     public void jumpActivity(Class<?> aClass, TreeMap<String, Object> paramMap, int requestCode) {
         startActivityForResult(paramIntent(aClass, paramMap).addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT), requestCode);
