@@ -333,6 +333,15 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
             if (value instanceof Integer) {
                 intent.putExtra(key, (Integer) paramMap.get(key));
             }
+            if (value instanceof Long) {
+                intent.putExtra(key, (Long) paramMap.get(key));
+            }
+            if (value instanceof Double) {
+                intent.putExtra(key, (Double) paramMap.get(key));
+            }
+            if (value instanceof Float) {
+                intent.putExtra(key, (Float) paramMap.get(key));
+            }
             if (value instanceof Bundle) {
                 intent.putExtras((Bundle) value);
             }
