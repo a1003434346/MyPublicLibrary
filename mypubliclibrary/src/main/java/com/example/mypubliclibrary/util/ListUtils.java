@@ -40,7 +40,7 @@ public class ListUtils<T> {
     /**
      * 更新数据
      *
-     * @param oldData    数据源
+     * @param oldData 数据源
      * @param newData 新的数据
      */
     public static <T> void updateListData(List<T> oldData, List<T> newData) {
@@ -74,5 +74,35 @@ public class ListUtils<T> {
         }
         return null;
 
+    }
+
+    /**
+     * 格式化List数据
+     *
+     * @param data       数据源
+     * @param lineNumber 一行显示几个
+     * @param <T>        t
+     * @return List<T>
+     * 示例 mRechargeList.addAll(formatting(beans, 3));
+     */
+    public static <T> List<T> formatting(List data, int lineNumber) {
+        List<List<T>> result = new ArrayList<>();
+        List temporary = new ArrayList();
+        temporary.addAll(data);
+        List value;
+        while (temporary.size() >= lineNumber) {
+            value = new ArrayList();
+            for (int index = 0; index < lineNumber; index++) {
+                value.add(temporary.get(0));
+                temporary.remove(0);
+            }
+            result.add(value);
+        }
+        value = new ArrayList();
+        for (int i = 0; i < temporary.size(); i++) {
+            value.add(temporary.get(i));
+        }
+        result.add(value);
+        return (List<T>) result;
     }
 }
