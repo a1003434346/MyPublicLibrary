@@ -167,6 +167,10 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
         mMediaStoreCompat.dispatchCaptureIntent(this, 199);
     }
 
+    public void setJumpAnim(boolean isAnim) {
+        mJumpAnim = isAnim;
+    }
+
     /**
      * 选择照片
      */

@@ -101,10 +101,10 @@ public class ImageUtils {
         boolean isCheck;
         if (ImageUtils.isEqualsDrawable(activity, viewId, checkDrawable)) {
             ImageUtils.setImageDrawable(activity, viewId, notCheckDrawable);
-            isCheck = false;
+            isCheck = true;
         } else {
             ImageUtils.setImageDrawable(activity, viewId, checkDrawable);
-            isCheck = true;
+            isCheck = false;
         }
         return isCheck;
     }
