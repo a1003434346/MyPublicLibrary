@@ -86,12 +86,27 @@ public class ImageUtils {
         return ((ImageView) activity.bindId(imageViewId)).getDrawable().getConstantState().equals(activity.getResources().getDrawable(drawableId).getConstantState());
     }
 
-    public static void setCheckImage(BasesActivity activity, int viewId, int checkDrawable, int notCheckDrawable) {
+    /**
+     * 设置选中和未选中的图片
+     *
+     * @param activity         activity
+     * @param viewId           viewId
+     * @param checkDrawable    选中的图片
+     * @param notCheckDrawable 未选中的图片
+     *                         请求示例：
+     *                         ImageUtils.setCheckImage(this, R.id.iv_drag_play, R.drawable.drag_play, R.drawable.drag_pause);
+     */
+    public static boolean setCheckImage(BasesActivity activity, int viewId, int checkDrawable, int notCheckDrawable) {
+        //是否选中
+        boolean isCheck;
         if (ImageUtils.isEqualsDrawable(activity, viewId, checkDrawable)) {
             ImageUtils.setImageDrawable(activity, viewId, notCheckDrawable);
+            isCheck = false;
         } else {
             ImageUtils.setImageDrawable(activity, viewId, checkDrawable);
+            isCheck = true;
         }
+        return isCheck;
     }
 
 }

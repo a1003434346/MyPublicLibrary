@@ -1,5 +1,8 @@
 package com.example.mypubliclibrary.util;
 
+import androidx.annotation.NonNull;
+
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -12,6 +15,8 @@ import java.util.Locale;
  * Created By LiQiang on 2019/7/18.
  */
 public class DateUtils {
+    private static final ThreadLocal<SimpleDateFormat> SDF_THREAD_LOCAL = new ThreadLocal<>();
+
     /**
      * 获取当前日期
      *
@@ -174,6 +179,46 @@ public class DateUtils {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Date());
         return calendar.getTimeInMillis();
+    }
+
+    /**
+     * 将时间戳转为时间字符串
+     *
+     * @param millis 时间戳
+     * @return 字符串
+     */
+    public static String millis2String(final long millis) {
+        return millis2String(millis, getDefaultFormat());
+    }
+
+    /**
+     * 将时间戳转为时间字符串
+     *
+     * @param millis  时间戳
+     * @param pattern 格式化类型
+     * @return 字符串
+     */
+    public static String millis2String(long millis, @NonNull final String pattern) {
+        return millis2String(millis, getDateFormat(pattern));
+    }
+
+    public static String millis2String(final long millis, @NonNull final DateFormat format) {
+        return format.format(new Date(millis));
+    }
+
+    private static SimpleDateFormat getDefaultFormat() {
+        return getDateFormat("yyyy-MM-dd HH:mm:ss");
+    }
+
+    private static SimpleDateFormat getDateFormat(String pattern) {
+        SimpleDateFormat simpleDateFormat = SDF_THREAD_LOCAL.get();
+        if (simpleDateFormat == null) {
+            simpleDateFormat = new SimpleDateFormat(pattern, Locale.getDefault());
+            SDF_THREAD_LOCAL.set(simpleDateFormat);
+        } else {
+            simpleDateFormat.applyPattern(pattern);
+        }
+        return simpleDateFormat;
     }
 
 }
