@@ -1,6 +1,8 @@
 package com.example.mypubliclibrary.util;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.os.AsyncTask;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -9,6 +11,7 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.Target;
 import com.example.mypubliclibrary.base.BasesActivity;
 
 /**
@@ -17,6 +20,11 @@ import com.example.mypubliclibrary.base.BasesActivity;
  * Created By LiQiang on 2019/7/16.
  */
 public class ImageUtils {
+
+    public interface UrlToBitmap {
+        void onSuccess(Bitmap bitmap);
+    }
+
 
     /**
      * 设置图片为圆角
@@ -108,6 +116,71 @@ public class ImageUtils {
             isCheck = true;
         }
         return isCheck;
+    }
+
+    /**
+     * 将网络图片转换为Bitmap
+     *
+     * @param imgUrl      图片Url
+     * @param context     context
+     * @param width       返回图片的宽度
+     * @param height      返回图片的高度 T
+     * @param urlToBitmap
+     */
+    private void urlToBitmap(final String imgUrl, final Context context, int width, int height, UrlToBitmap urlToBitmap) {
+
+        new AsyncTask<Void, Void, Bitmap>() {
+            @Override
+            protected Bitmap doInBackground(Void... params) {
+                Bitmap bitmap = null;
+                try {
+                    bitmap = Glide.with(context)
+                            .asBitmap()
+                            .load(imgUrl)
+                            //360*480,原始大小设置为Target.SIZE_ORIGINAL
+                            .submit(width, height).get();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return bitmap;
+            }
+
+            @Override
+            protected void onPostExecute(Bitmap bitmap) {
+                urlToBitmap.onSuccess(bitmap);
+            }
+        }.execute();
+    }
+
+    /**
+     * 将网络图片转换为Bitmap
+     *
+     * @param imgUrl      图片Url
+     * @param context     context
+     * @param urlToBitmap
+     */
+    private void urlToBitmap(final String imgUrl, final Context context, UrlToBitmap urlToBitmap) {
+        new AsyncTask<Void, Void, Bitmap>() {
+            @Override
+            protected Bitmap doInBackground(Void... params) {
+                Bitmap bitmap = null;
+                try {
+                    bitmap = Glide.with(context)
+                            .asBitmap()
+                            .load(imgUrl)
+                            //360*480,原始大小设置为Target.SIZE_ORIGINAL
+                            .submit(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL).get();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return bitmap;
+            }
+
+            @Override
+            protected void onPostExecute(Bitmap bitmap) {
+                urlToBitmap.onSuccess(bitmap);
+            }
+        }.execute();
     }
 
 }

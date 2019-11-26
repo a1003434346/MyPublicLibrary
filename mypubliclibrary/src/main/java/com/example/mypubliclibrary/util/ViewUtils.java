@@ -154,4 +154,14 @@ public class ViewUtils {
             view.setBackground(drawable);
         }
     }
+
+    /**
+     * 返回简短ViewId，用来区分返回Code唯一码
+     *
+     * @param id R.id.tv_add_teacher_info
+     * @return viewId
+     */
+    public static int getViewIdCode(int id) {
+        return Integer.parseInt((id + "").substring(6));
+    }
 }
