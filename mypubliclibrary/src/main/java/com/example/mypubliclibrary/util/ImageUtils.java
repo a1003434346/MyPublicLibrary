@@ -95,16 +95,17 @@ public class ImageUtils {
      * @param notCheckDrawable 未选中的图片
      *                         请求示例：
      *                         ImageUtils.setCheckImage(this, R.id.iv_drag_play, R.drawable.drag_play, R.drawable.drag_pause);
+     * @return 当前选择后是否为选中状态
      */
     public static boolean setCheckImage(BasesActivity activity, int viewId, int checkDrawable, int notCheckDrawable) {
         //是否选中
         boolean isCheck;
         if (ImageUtils.isEqualsDrawable(activity, viewId, checkDrawable)) {
             ImageUtils.setImageDrawable(activity, viewId, notCheckDrawable);
-            isCheck = true;
+            isCheck = false;
         } else {
             ImageUtils.setImageDrawable(activity, viewId, checkDrawable);
-            isCheck = false;
+            isCheck = true;
         }
         return isCheck;
     }
