@@ -127,7 +127,7 @@ public class ImageUtils {
      * @param height      返回图片的高度 T
      * @param urlToBitmap
      */
-    public void urlToBitmap(final String imgUrl, final Context context, int width, int height, UrlToBitmap urlToBitmap) {
+    public static void urlToBitmap(final String imgUrl, final Context context, int width, int height, UrlToBitmap urlToBitmap) {
 
         new AsyncTask<Void, Void, Bitmap>() {
             @Override
@@ -159,7 +159,7 @@ public class ImageUtils {
      * @param context     context
      * @param urlToBitmap
      */
-    public void urlToBitmap(final String imgUrl, final Context context, UrlToBitmap urlToBitmap) {
+    public static void urlToBitmap(final String imgUrl, final Context context, UrlToBitmap urlToBitmap) {
         new AsyncTask<Void, Void, Bitmap>() {
             @Override
             protected Bitmap doInBackground(Void... params) {
