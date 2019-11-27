@@ -439,9 +439,9 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
     @Override
     public void onContentChanged() {
         super.onContentChanged();
-        ImageView imageView = (ImageView) findViewById(R.id.iv_back);
-        if (imageView != null)
-            imageView.setOnClickListener(new View.OnClickListener() {
+        View view = bindId(R.id.iv_back);
+        if (view != null)
+            view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     finish();
