@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.StateListDrawable;
@@ -414,6 +416,15 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
 
     public void setBackground(View view, Drawable backGround) {
         view.setBackground(backGround);
+    }
+
+    public void setBackground(int viewId, Bitmap bitmap) {
+
+        bindId(viewId).setBackground(new BitmapDrawable(getResources(), bitmap));
+    }
+
+    public void setBackground(View view, Bitmap bitmap) {
+        view.setBackground(new BitmapDrawable(getResources(), bitmap));
     }
 
     //设置沉浸式状态栏，并把状态栏颜色改为透明色
