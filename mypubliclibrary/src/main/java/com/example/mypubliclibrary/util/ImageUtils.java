@@ -3,6 +3,7 @@ package com.example.mypubliclibrary.util;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -81,38 +82,39 @@ public class ImageUtils {
     /**
      * 设置Image的Drawable
      *
-     * @param viewId viewId
-     * @param resId  resId
+     * @param imageView imageView
+     * @param resId     resId
      */
-    public static void setImageDrawable(BasesActivity activity, int viewId, int resId) {
-        ((ImageView) activity.bindId(viewId)).setImageResource(resId);
+    public static void setImageDrawable(BasesActivity activity, ImageView imageView, int resId) {
+        imageView.setImageResource(resId);
     }
 
 
     //判断图片是否使用某一个图片
-    public static boolean isEqualsDrawable(BasesActivity activity, int imageViewId, int drawableId) {
-        return ((ImageView) activity.bindId(imageViewId)).getDrawable().getConstantState().equals(activity.getResources().getDrawable(drawableId).getConstantState());
+    public static boolean isEqualsDrawable(BasesActivity activity, ImageView imageView, int drawableId) {
+        return imageView.getDrawable().getConstantState().equals(activity.getResources().getDrawable(drawableId).getConstantState());
     }
 
     /**
      * 设置选中和未选中的图片
      *
      * @param activity         activity
-     * @param viewId           viewId
+     * @param view             view
      * @param checkDrawable    选中的图片
      * @param notCheckDrawable 未选中的图片
      *                         请求示例：
      *                         ImageUtils.setCheckImage(this, R.id.iv_drag_play, R.drawable.drag_play, R.drawable.drag_pause);
      * @return 当前选择后是否为选中状态
      */
-    public static boolean setCheckImage(BasesActivity activity, int viewId, int checkDrawable, int notCheckDrawable) {
+    public static boolean setCheckImage(BasesActivity activity, View view, int checkDrawable, int notCheckDrawable) {
         //是否选中
         boolean isCheck;
-        if (ImageUtils.isEqualsDrawable(activity, viewId, checkDrawable)) {
-            ImageUtils.setImageDrawable(activity, viewId, notCheckDrawable);
+        ImageView imageView = (ImageView) view;
+        if (ImageUtils.isEqualsDrawable(activity, imageView, checkDrawable)) {
+            ImageUtils.setImageDrawable(activity, imageView, notCheckDrawable);
             isCheck = false;
         } else {
-            ImageUtils.setImageDrawable(activity, viewId, checkDrawable);
+            ImageUtils.setImageDrawable(activity, imageView, checkDrawable);
             isCheck = true;
         }
         return isCheck;
