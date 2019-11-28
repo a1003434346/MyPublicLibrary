@@ -42,6 +42,9 @@ public abstract class BottomIosDialog implements View.OnClickListener {
     //上边线的颜色
     private int lineColor;
 
+    //上边线的高度
+    private int mLineHeight;
+
 
     //点击窗口外部是否可以关闭
     private boolean cancel;
@@ -155,6 +158,11 @@ public abstract class BottomIosDialog implements View.OnClickListener {
     }
 
 
+    public BottomIosDialog setLineHeight(int height) {
+        mLineHeight = height;
+        return this;
+    }
+
     /**
      * 添加view
      *
@@ -181,7 +189,7 @@ public abstract class BottomIosDialog implements View.OnClickListener {
         }
         lastButtonView = button;
         if (isAddLine) {
-            ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, getDP(1));
+            ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, mLineHeight == 0 ? 4 : mLineHeight);
             //添加上边线
             TextView lineView = new TextView(context);
             lineView.setBackgroundColor(lineColor == 0 ? Color.parseColor("#f5f5f5") : lineColor);
@@ -200,9 +208,19 @@ public abstract class BottomIosDialog implements View.OnClickListener {
         return context.getResources().getColor(color);
     }
 
-    public BottomIosDialog show() {
+    /**
+     * 显示窗口
+     *
+     * @param shadow 窗口区域外是否显示阴影，默认为显示
+     * @return BottomIosDialog
+     */
+    public BottomIosDialog show(boolean... shadow) {
         initData();
-        WindowUtils.setBackgroundAlpha(context, 0.5f);
+        if (shadow.length == 0) {
+            WindowUtils.setBackgroundAlpha(context, 0.5f);
+        } else if (shadow[0]) {
+            WindowUtils.setBackgroundAlpha(context, 0.5f);
+        }
         popWindow.showAtLocation(popView, Gravity.BOTTOM, 0, 0);
         return this;
     }

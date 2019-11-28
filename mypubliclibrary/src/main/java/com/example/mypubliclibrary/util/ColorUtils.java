@@ -73,11 +73,11 @@ public class ColorUtils {
     /**
      * 给当前颜色值设置透明度
      *
-     * @param percent 透明值
+     * @param percent 透明值 值越小，透明度越高
      * @param rgb     rgb
      * @return
      */
-    public static  int getTranslucentColor(float percent, int rgb) {
+    public static int getTranslucentColor(float percent, int rgb) {
         int blue = Color.blue(rgb);
         int green = Color.green(rgb);
         int red = Color.red(rgb);
