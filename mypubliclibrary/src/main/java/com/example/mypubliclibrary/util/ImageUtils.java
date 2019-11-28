@@ -6,6 +6,8 @@ import android.os.AsyncTask;
 import android.view.View;
 import android.widget.ImageView;
 
+import androidx.palette.graphics.Palette;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
@@ -24,6 +26,10 @@ public class ImageUtils {
 
     public interface UrlToBitmap {
         void onSuccess(Bitmap bitmap);
+    }
+
+    public interface ImageColor {
+        void onSuccess(int color);
     }
 
 
@@ -118,6 +124,24 @@ public class ImageUtils {
             isCheck = true;
         }
         return isCheck;
+    }
+
+    /**
+     * 获取图片里面比较活跃的颜色
+     *
+     * @param bitmap bitmap
+     */
+    public static void getImageColor(Bitmap bitmap, ImageColor imageColor) {
+        Palette.Builder builder = Palette.from(bitmap);
+        //异步任务
+        builder.generate(new Palette.PaletteAsyncListener() {
+            @Override
+            public void onGenerated(Palette palette) {
+                //获取主颜色
+                imageColor.onSuccess(ColorUtils.setColorBurn(palette.getDominantSwatch().getRgb(), 1.0f));
+            }
+        });
+
     }
 
     /**
