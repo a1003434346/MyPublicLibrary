@@ -233,7 +233,7 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 199 && resultCode == -1) {
+        if (requestCode == 199 && resultCode == RESULT_OK) {
             if (data == null) {
                 //拍照的
                 EventBusUtils.post(new EventMsg().setType("pictures").setData(mMediaStoreCompat.getCurrentPhotoPath()).setMessage(DataInterface.SUCCESS));
@@ -284,6 +284,8 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
      * 跳转到Activity 带参数跳转,Bundle传值时给TreeMap的value里new BundleUtils().put("recruit", recruitBean),如果是list数据,需要强制转换为
      * new BundleUtils().put("recruit", (Serializable)list);
      * 取值时User user = (User) getIntent().getExtras().getSerializable(key);
+     * bitmap图片 需要先转换成byte,设置值时:treeMap.put("courseImage", ImageUtils.bitmap2Bytes(detailsActivity.mCourseImage, Bitmap.CompressFormat.JPEG));
+     * 取值时getIntent().getByteArrayExtra("courseImage");
      *
      * @param aClass Activity的Class
      */
@@ -307,6 +309,8 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
      *                    被传递如果是实体类必须需实现 implements Serializable
      *                    接收方示例：
      *                    certificates = (List<File>) data.getExtras().getSerializable("certificates");
+     *                    bitmap图片 需要先转换成byte,设置值时:treeMap.put("courseImage", ImageUtils.bitmap2Bytes(detailsActivity.mCourseImage, Bitmap.CompressFormat.JPEG));
+     *                    取值时getIntent().getByteArrayExtra("courseImage");
      */
     public void jumpActivity(Class<?> aClass, TreeMap<String, Object> paramMap, int requestCode) {
         startActivityForResult(paramIntent(aClass, paramMap).addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT), requestCode);
@@ -315,6 +319,8 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
 
     /**
      * 不带启动模式的跳转Activity
+     * bitmap图片 需要先转换成byte,设置值时:treeMap.put("courseImage", ImageUtils.bitmap2Bytes(detailsActivity.mCourseImage, Bitmap.CompressFormat.JPEG));
+     * 取值时getIntent().getByteArrayExtra("courseImage");
      *
      * @param aClass
      * @param paramMap
@@ -344,6 +350,10 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
             if (value instanceof Float) {
                 intent.putExtra(key, (Float) paramMap.get(key));
             }
+            if (value instanceof byte[]) {
+                intent.putExtra(key, (byte[]) paramMap.get(key));
+            }
+
             if (value instanceof Bundle) {
                 intent.putExtras((Bundle) value);
             }
