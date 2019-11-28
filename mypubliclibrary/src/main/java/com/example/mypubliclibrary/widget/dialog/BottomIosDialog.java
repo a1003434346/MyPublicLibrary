@@ -44,7 +44,8 @@ public abstract class BottomIosDialog implements View.OnClickListener {
 
     //上边线的高度
     private int mLineHeight;
-
+    //选项按下的背景颜色
+    private int mParseColor;
 
     //点击窗口外部是否可以关闭
     private boolean cancel;
@@ -133,10 +134,22 @@ public abstract class BottomIosDialog implements View.OnClickListener {
         return this;
     }
 
+
+    /**
+     * 设置按下的颜色
+     *
+     * @param color color
+     * @return BottomIosDialog
+     */
+    public BottomIosDialog setParseColor(int color) {
+        mParseColor = color;
+        return this;
+    }
+
     private void addViews() {
         SelectorUtils.ShapeSelector shapeSelector = SelectorUtils.newShapeSelector()
                 .setDefaultStrokeColor(Color.parseColor("#FFFFFF"))
-                .setPressedBgColor(Color.parseColor("#f5f5f5"));
+                .setPressedBgColor(mParseColor == 0 ? Color.parseColor("#f5f5f5") : mParseColor);
         for (int i = 0; i < items.size(); i++) {
             if (i == 0) {
                 //添加第一个View
@@ -189,7 +202,7 @@ public abstract class BottomIosDialog implements View.OnClickListener {
         }
         lastButtonView = button;
         if (isAddLine) {
-            ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, mLineHeight == 0 ? 4 : mLineHeight);
+            ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, mLineHeight == 0 ? 2 : mLineHeight);
             //添加上边线
             TextView lineView = new TextView(context);
             lineView.setBackgroundColor(lineColor == 0 ? Color.parseColor("#f5f5f5") : lineColor);
