@@ -175,6 +175,8 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
 
     /**
      * 选择照片
+     * 观察者Type为pictures  Data返回的是一个String
+     * 观察者Type为selectPhoto  Data返回的是一个List<String>
      */
     public void selectPhoto(int maxSelect) {
         Matisse.from(this)
@@ -680,6 +682,16 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
     protected void bindClick(List<Integer> integers) {
         for (int viewId : integers) {
             bindClick(viewId);
+        }
+    }
+
+    public void bindClick(View view) {
+        view.setOnClickListener(this);
+    }
+
+    protected void bindClickViews(List<View> views) {
+        for (View view : views) {
+            bindClick(view);
         }
     }
 

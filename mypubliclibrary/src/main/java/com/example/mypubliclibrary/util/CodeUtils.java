@@ -15,8 +15,8 @@ public class CodeUtils {
      * 验证成功以后，得调用isStart=false还原
      * CodeUtils.getInstance().isStart=false;
      */
-    //是否已经进入倒计时
-    private boolean isStart;
+    //是否在发送中
+    private boolean isSendInge;
     //验证码
     public String code;
     //超时的时间,不设置默认为60秒
@@ -40,55 +40,63 @@ public class CodeUtils {
         return codeUtils;
     }
 
-    public boolean getIsStart() {
+    /**
+     * 是否在发送中
+     *
+     * @return true/false
+     */
+    public boolean getIsSendIng() {
         long codeSendTime = Long.parseLong(SharedPreferencesUtils.getInstance().getParam("CodeSendTime", Long.parseLong("0")).toString());
         if (codeSendTime == 0) {
-            initStart();
+            initSend();
         } else {
             mSendIntervalTime = DateUtils.getIntervalSeconds(System.currentTimeMillis(), codeSendTime);
             if (mSendIntervalTime < mOutTime) {
-                isStart = true;
+                isSendInge = true;
             } else {
-                initStart();
+                initSend();
             }
         }
-        return isStart;
+        return isSendInge;
     }
 
-    private void initStart() {
+    /**
+     * 初始化发送
+     */
+    private void initSend() {
         SharedPreferencesUtils.getInstance().setParam("CodeSendTime", System.currentTimeMillis());
-        isStart = false;
+        isSendInge = false;
         mSendIntervalTime = 0;
     }
 
 
     /**
-     * 开始计时验证码倒计时
+     * 读取倒计时
      *
      * @param number        验证码
      * @param countdownView 设置显示倒计时的控件
      * @param originalText  设置倒计时结束后还原的文字
-     * @return 是否发送成功
-     * 调用前记得在Application里初始化SharedPreferencesUtils.getInstance().init(this);
-     * Ui不可见时记得调用CodeUtils.getInstance().cancel(); 否则会造成内存泄露
-     * 采用本地时间进行计算的，下次开始会自动拾取区间进行倒计时
+     *                      调用前记得在Application里初始化SharedPreferencesUtils.getInstance().init(this);
+     *                      Ui销毁时记得调用CodeUtils.getInstance().cancel(); 否则会造成内存泄露
+     *                      采用本地时间进行计算的，下次开始会自动拾取区间进行倒计时
      */
-    public boolean startTiming(String number, TextView countdownView, String originalText) {
-        boolean result = !getIsStart();
+    public void readCountdown(String number, TextView countdownView, String originalText) {
+//        boolean result = !getIsSendIng();
         timing(number, countdownView, originalText);
-        return result;
+//        return result;
     }
 
     //当前倒计时类
     private CountDownTimer mCountDownTimer;
 
     public void cancel() {
-        mCountDownTimer.cancel();
+        if (mCountDownTimer != null)
+            mCountDownTimer.cancel();
     }
 
     private void timing(String number, TextView countdownView, String originalText) {
         this.code = number;
-        if (isStart && mCountDownTimer != null) mCountDownTimer.cancel();
+        if (isSendInge && mCountDownTimer != null) mCountDownTimer.cancel();
         final int[] outTime = {mSendIntervalTime > 0 ? mOutTime - mSendIntervalTime : mOutTime};
         //发送验证码
         mCountDownTimer = new CountDownTimer(outTime[0] * 1000, 1000) {
