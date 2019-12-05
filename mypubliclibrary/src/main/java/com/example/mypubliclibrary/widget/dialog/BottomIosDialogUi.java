@@ -2,7 +2,6 @@ package com.example.mypubliclibrary.widget.dialog;
 
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.StateListDrawable;
 import android.view.Gravity;
@@ -13,20 +12,13 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mypubliclibrary.R;
 import com.example.mypubliclibrary.util.SelectorUtils;
 import com.example.mypubliclibrary.util.ShapeUtils;
 import com.example.mypubliclibrary.util.WindowUtils;
-import com.lxj.xpopup.XPopup;
-import com.lxj.xpopup.core.BottomPopupView;
-import com.lxj.xpopup.interfaces.SimpleCallback;
-import com.lxj.xpopup.util.XPopupUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -34,14 +26,14 @@ import java.util.List;
  * describe: 仿IOS底部弹框
  * Created By LiQiang on 2019/7/29.
  */
-public abstract class BottomIosDialog extends BottomPopupView implements View.OnClickListener {
+public abstract class BottomIosDialogUi implements View.OnClickListener {
 //    final Context context;
 
 
-//    private View popView;
+    private View popView;
 
-    //    protected PopupWindow popWindow;
-    private XPopup.Builder mPopUp;
+    protected PopupWindow popWindow;
+
     private Context context;
     //文本的颜色
     private int itemColor;
@@ -55,7 +47,7 @@ public abstract class BottomIosDialog extends BottomPopupView implements View.On
     //选项按下的背景颜色
     private int mParseColor;
 
-    //点击窗口外部是否可以关闭,默认为true
+    //点击窗口外部是否可以关闭
     private boolean cancel;
 
     private List<String> items;
@@ -69,22 +61,19 @@ public abstract class BottomIosDialog extends BottomPopupView implements View.On
 //    }
 
 
-    public BottomIosDialog setItemColor(int color) {
+    public BottomIosDialogUi setItemColor(int color) {
         itemColor = color;
         return this;
     }
 
-    public BottomIosDialog setCancel(boolean cancel) {
+    public BottomIosDialogUi setCancel(boolean cancel) {
         this.cancel = cancel;
         return this;
     }
 
-    public BottomIosDialog(Context context) {
-        super(context);
+    public BottomIosDialogUi(Context context) {
         this.context = context;
-        cancel = true;
-        mPopUp = new XPopup.Builder(getContext()).enableDrag(true);
-
+        initView();
     }
 
     /**
@@ -93,32 +82,9 @@ public abstract class BottomIosDialog extends BottomPopupView implements View.On
      * @param color 上边线的颜色
      * @return BottomIosDialog
      */
-    public BottomIosDialog setLineColor(int color) {
+    public BottomIosDialogUi setLineColor(int color) {
         lineColor = color;
         return this;
-    }
-
-    @Override
-    protected int getImplLayoutId() {
-        return R.layout.dialog_bottom_ios;
-    }
-
-    @Override
-    protected void onCreate() {
-        initView();
-        initData();
-    }
-
-    //完全可见执行
-    @Override
-    protected void onShow() {
-
-    }
-
-    //完全消失执行
-    @Override
-    protected void onDismiss() {
-
     }
 
     /**
@@ -127,42 +93,42 @@ public abstract class BottomIosDialog extends BottomPopupView implements View.On
      * @param color 背景颜色
      * @return BottomIosDialog
      */
-    public BottomIosDialog setItemBackgroundColor(int color) {
-        findViewById(R.id.ctl_cancel).setBackground(ShapeUtils.getRadiusRectangle(0, 0, getDP(12), color));
-        findViewById(R.id.ctl_content).setBackground(ShapeUtils.getRadiusRectangle(0, 0, getDP(12), color));
+    public BottomIosDialogUi setBackgroundColor(int color) {
+        popView.findViewById(R.id.ctl_cancel).setBackground(ShapeUtils.getRadiusRectangle(0, 0, getDP(12), color));
+        popView.findViewById(R.id.ctl_content).setBackground(ShapeUtils.getRadiusRectangle(0, 0, getDP(12), color));
         return this;
     }
 
 
     private void initView() {
-//        if (popView == null) {
-        //默认文本颜色
-        itemColor = Color.parseColor("#52CAC1");
-        items = getItems();
-//        popView = LayoutInflater.from(context).inflate(R.layout.dialog_bottom_ios, null);
-        ctlContent = findViewById(R.id.ctl_content);
-        cancelView = findViewById(R.id.tv_cancel);
-        findViewById(R.id.ctl_cancel).setBackground(ShapeUtils.getRadiusRectangle(0, 0, getDP(12), getColor(R.color.colorWhite)));
-        findViewById(R.id.ctl_content).setBackground(ShapeUtils.getRadiusRectangle(0, 0, getDP(12), getColor(R.color.colorWhite)));
-//        findViewById(R.id.ctl_dialog).setOnClickListener(view -> {
-//            if (cancel) dismiss();
-//        });
-        findViewById(R.id.tv_cancel).setOnClickListener(view -> dismiss());
-//        popWindow = WindowUtils.getPopupWindow(context, popView, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
-//        }
+        if (popView == null) {
+            //默认文本颜色
+            itemColor = Color.parseColor("#52CAC1");
+            items = getItems();
+            popView = LayoutInflater.from(context).inflate(R.layout.dialog_bottom_ios, null);
+            ctlContent = popView.findViewById(R.id.ctl_content);
+            cancelView = popView.findViewById(R.id.tv_cancel);
+            popView.findViewById(R.id.ctl_cancel).setBackground(ShapeUtils.getRadiusRectangle(0, 0, getDP(12), getColor(R.color.colorWhite)));
+            popView.findViewById(R.id.ctl_content).setBackground(ShapeUtils.getRadiusRectangle(0, 0, getDP(12), getColor(R.color.colorWhite)));
+            popView.findViewById(R.id.ctl_dialog).setOnClickListener(view -> {
+                if (cancel) popWindow.dismiss();
+            });
+            popView.findViewById(R.id.tv_cancel).setOnClickListener(view -> popWindow.dismiss());
+            popWindow = WindowUtils.getPopupWindow(context, popView, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+        }
     }
 
     private void initData() {
         addViews();
         //设置popupWindow的显示和隐藏动画
-//        setAnimationStyle(R.style.BottomIosDialogAnimation);
+        popWindow.setAnimationStyle(R.style.BottomIosDialogAnimation);
     }
 
     /**
      * 设置取消按钮是否显示
      */
-    public BottomIosDialog setCancelShow(boolean show) {
-        findViewById(R.id.ctl_cancel).setVisibility(show ? View.VISIBLE : View.GONE);
+    public BottomIosDialogUi setCancelShow(boolean show) {
+        popView.findViewById(R.id.ctl_cancel).setVisibility(show ? View.VISIBLE : View.GONE);
         if (!show)
             setCancel(true);
         return this;
@@ -175,7 +141,7 @@ public abstract class BottomIosDialog extends BottomPopupView implements View.On
      * @param color color
      * @return BottomIosDialog
      */
-    public BottomIosDialog setParseColor(int color) {
+    public BottomIosDialogUi setParseColor(int color) {
         mParseColor = color;
         return this;
     }
@@ -184,7 +150,6 @@ public abstract class BottomIosDialog extends BottomPopupView implements View.On
         SelectorUtils.ShapeSelector shapeSelector = SelectorUtils.newShapeSelector()
                 .setDefaultStrokeColor(Color.parseColor("#FFFFFF"))
                 .setPressedBgColor(mParseColor == 0 ? Color.parseColor("#f5f5f5") : mParseColor);
-        cancelView.setBackground(shapeSelector.setCornerRadius(new float[]{getDP(12), getDP(12), getDP(12), getDP(12), getDP(12), getDP(12), getDP(12), getDP(12)}).create());
         for (int i = 0; i < items.size(); i++) {
             if (i == 0) {
                 //添加第一个View
@@ -197,17 +162,16 @@ public abstract class BottomIosDialog extends BottomPopupView implements View.On
                 addView(false, shapeSelector.setCornerRadius(new float[]{0, 0, 0, 0, 0, 0, 0, 0}).create(), true, items.get(i), i);
             }
         }
-
     }
 
     @Override
     public void onClick(View view) {
         itemClicks((Button) view, (Integer) view.getTag());
-        dismiss();
+        popWindow.dismiss();
     }
 
 
-    public BottomIosDialog setLineHeight(int height) {
+    public BottomIosDialogUi setLineHeight(int height) {
         mLineHeight = height;
         return this;
     }
@@ -263,14 +227,16 @@ public abstract class BottomIosDialog extends BottomPopupView implements View.On
      * @param shadow 窗口区域外是否显示阴影，默认为显示
      * @return BottomIosDialog
      */
-    public BottomIosDialog show(boolean... shadow) {
-        mPopUp.hasShadowBg(shadow.length == 0 || shadow[0])
-                .dismissOnTouchOutside(cancel)
-                .asCustom(this)
-                .showWindow();
+    public BottomIosDialogUi show(boolean... shadow) {
+        initData();
+        if (shadow.length == 0) {
+            WindowUtils.setBackgroundAlpha(context, 0.5f);
+        } else if (shadow[0]) {
+            WindowUtils.setBackgroundAlpha(context, 0.5f);
+        }
+        popWindow.showAtLocation(popView, Gravity.BOTTOM, 0, 0);
         return this;
     }
-
 
     protected abstract List<String> getItems();
 

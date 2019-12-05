@@ -73,4 +73,10 @@ dependencies {
     //noinspection GradleCompatible
     implementation 'com.android.support:palette-v7:28.0.0'
 
+    //自己维护的一个弹窗框架
+    implementation 'com.github.leeyushi:XPopup:1.0.2'
+    //noinspection GradleCompatible
+    implementation 'com.android.support:design:28.0.0'
+
+
 }

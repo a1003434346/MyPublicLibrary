@@ -63,8 +63,8 @@ public class MainActivity extends BasesActivity<TestPre> {
         switch (view.getId()) {
             case R.id.tv_test:
 //                jumpFragment(R.id.fl_test, new BlankFragment());
-
-                CodeUtils.getInstance().startTiming("", bindId(R.id.tv_test), "点击重发验证码");
+                getPhotoView(3);
+//                CodeUtils.getInstance().startTiming("", bindId(R.id.tv_test), "点击重发验证码");
 //                jumpActivity(Main2Activity.class);
 
 //                jumpActivity(Main2Activity.class);

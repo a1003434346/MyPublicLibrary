@@ -45,7 +45,7 @@ public class WebViewActivity extends BasesActivity {
         } else {
             setTextValue(R.id.tv_title, title);
         }
-        ctlWeb = (ConstraintLayout) findViewById(R.id.ctl_web);
+        ctlWeb = (ConstraintLayout) bindId(R.id.ctl_web);
         AgentWeb agentWeb = AgentWeb.with(this)
                 .setAgentWebParent(ctlWeb, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT))
                 .useDefaultIndicator()

@@ -44,6 +44,7 @@ import com.example.mypubliclibrary.util.ToastUtils;
 import com.example.mypubliclibrary.util.WindowUtils;
 import com.example.mypubliclibrary.util.constant.DataInterface;
 import com.example.mypubliclibrary.widget.dialog.BottomIosDialog;
+import com.example.mypubliclibrary.widget.dialog.BottomIosDialogUi;
 import com.example.mypubliclibrary.widget.dialog.InputDialog;
 import com.example.mypubliclibrary.widget.dialog.WarningDialog;
 import com.example.mypubliclibrary.widget.photo.GifSizeFilter;
@@ -227,7 +228,7 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
                         break;
                 }
             }
-        }.show();
+        }.setCancel(false).show();
     }
 
     @Override
