@@ -125,7 +125,8 @@ public class ListUtils<T> {
     public static <T> void listToLength(List<T> tList, int length) {
         List<T> result = new ArrayList<>();
         for (int i = 0; i < length; i++) {
-            result.add(tList.get(i));
+            if (i < tList.size())
+                result.add(tList.get(i));
         }
         tList.clear();
         tList.addAll(result);
