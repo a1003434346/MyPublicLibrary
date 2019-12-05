@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 /**
  * function:
@@ -104,5 +105,29 @@ public class ListUtils<T> {
         }
         result.add(value);
         return (List<T>) result;
+    }
+
+    public static void listMapToStringList(List<Map<String, Object>> maps, String label, List<String> strings) {
+        strings.clear();
+        for (Map<String, Object> map : maps) {
+            String value = map.get(label).toString();
+            if (!value.isEmpty())
+                strings.add(value);
+        }
+    }
+
+    /**
+     * 把List变为指定长度
+     *
+     * @param tList  tList
+     * @param length length
+     */
+    public static <T> void listToLength(List<T> tList, int length) {
+        List<T> result = new ArrayList<>();
+        for (int i = 0; i < length; i++) {
+            result.add(tList.get(i));
+        }
+        tList.clear();
+        tList.addAll(result);
     }
 }
