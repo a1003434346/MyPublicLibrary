@@ -291,8 +291,8 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
      *
      * @param aClass Activity的Class
      */
-    public void jumpActivity(Class<?> aClass, TreeMap<String, Object> paramMap, boolean... isReuse) {
-        startActivity(paramIntent(aClass, paramMap).addFlags(isReuse.length == 0 || isReuse[0] ? Intent.FLAG_ACTIVITY_REORDER_TO_FRONT : Intent.FLAG_ACTIVITY_NEW_TASK));
+    public void jumpActivity(Class<?> aClass, TreeMap<String, Object> paramMap, int... flags) {
+        startActivity(paramIntent(aClass, paramMap).addFlags(flags.length == 0 ? Intent.FLAG_ACTIVITY_REORDER_TO_FRONT : flags[0]));
         if (mJumpAnim) overridePendingTransition(R.anim.tran_enter_go, R.anim.tran_exit_go);
     }
 
