@@ -262,8 +262,8 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
      *                    接收方示例：
      *                    certificates = (List<File>) data.getExtras().getSerializable("certificates");
      */
-    public void jumpActivity(Class<?> aClass, int requestCode) {
-        startActivityForResult(new Intent(this, aClass).addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT), requestCode);
+    public void jumpActivity(Class<?> aClass, int requestCode, boolean... isReuse) {
+        startActivityForResult(new Intent(this, aClass).addFlags(isReuse.length == 0 || isReuse[0] ? Intent.FLAG_ACTIVITY_REORDER_TO_FRONT : Intent.FLAG_ACTIVITY_NEW_TASK), requestCode);
         if (mJumpAnim) overridePendingTransition(R.anim.tran_enter_go, R.anim.tran_exit_go);
     }
 
@@ -291,8 +291,8 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
      *
      * @param aClass Activity的Class
      */
-    public void jumpActivity(Class<?> aClass, TreeMap<String, Object> paramMap) {
-        startActivity(paramIntent(aClass, paramMap).addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
+    public void jumpActivity(Class<?> aClass, TreeMap<String, Object> paramMap, boolean... isReuse) {
+        startActivity(paramIntent(aClass, paramMap).addFlags(isReuse.length == 0 || isReuse[0] ? Intent.FLAG_ACTIVITY_REORDER_TO_FRONT : Intent.FLAG_ACTIVITY_NEW_TASK));
         if (mJumpAnim) overridePendingTransition(R.anim.tran_enter_go, R.anim.tran_exit_go);
     }
 
