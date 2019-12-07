@@ -263,8 +263,8 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
      *                    接收方示例：
      *                    certificates = (List<File>) data.getExtras().getSerializable("certificates");
      */
-    public void jumpActivity(Class<?> aClass, int requestCode, boolean... isReuse) {
-        startActivityForResult(new Intent(this, aClass).addFlags(isReuse.length == 0 || isReuse[0] ? Intent.FLAG_ACTIVITY_REORDER_TO_FRONT : Intent.FLAG_ACTIVITY_NEW_TASK), requestCode);
+    public void jumpActivity(Class<?> aClass, int requestCode, int... flags) {
+        startActivityForResult(new Intent(this, aClass).addFlags(flags.length == 0 ? Intent.FLAG_ACTIVITY_REORDER_TO_FRONT : flags[0]), requestCode);
         if (mJumpAnim) overridePendingTransition(R.anim.tran_enter_go, R.anim.tran_exit_go);
     }
 
@@ -272,15 +272,14 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
      * 跳转到Activity
      *
      * @param aClass Activity的Class
-     * @param noBack 是否不可以返回,默认false
      */
-    public void jumpActivity(Class<?> aClass, boolean... noBack) {
-        startActivity(new Intent(this, aClass).addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
+    public void jumpActivity(Class<?> aClass, int... flags) {
+        startActivity(new Intent(this, aClass).addFlags(flags.length == 0 ? Intent.FLAG_ACTIVITY_REORDER_TO_FRONT : flags[0]));
         if (mJumpAnim) overridePendingTransition(R.anim.tran_enter_go, R.anim.tran_exit_go);
 //        if (mJumpAnim) overridePendingTransition(R.anim.tran_enter_out, R.anim.tran_exit_out);
-        if (noBack.length > 0) {
-            finish();
-        }
+//        if (noBack.length > 0) {
+//            finish();
+//        }
     }
 
     /**
@@ -315,8 +314,8 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
      *                    bitmap图片 需要先转换成byte,设置值时:treeMap.put("courseImage", ImageUtils.bitmap2Bytes(detailsActivity.mCourseImage, Bitmap.CompressFormat.JPEG));
      *                    取值时getIntent().getByteArrayExtra("courseImage");
      */
-    public void jumpActivity(Class<?> aClass, TreeMap<String, Object> paramMap, int requestCode) {
-        startActivityForResult(paramIntent(aClass, paramMap).addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT), requestCode);
+    public void jumpActivity(Class<?> aClass, TreeMap<String, Object> paramMap, int requestCode, int... flags) {
+        startActivityForResult(paramIntent(aClass, paramMap).addFlags(flags.length == 0 ? Intent.FLAG_ACTIVITY_REORDER_TO_FRONT : flags[0]), requestCode);
         if (mJumpAnim) overridePendingTransition(R.anim.tran_enter_go, R.anim.tran_exit_go);
     }
 
