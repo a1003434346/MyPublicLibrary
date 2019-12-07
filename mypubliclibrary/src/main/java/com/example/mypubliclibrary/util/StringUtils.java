@@ -60,6 +60,10 @@ public class StringUtils {
         }
     }
 
+    public String getIndexString(String value, int start, int length) {
+        return value.substring(start, start + length);
+    }
+
 
     /**
      * 字符串去除指定内容

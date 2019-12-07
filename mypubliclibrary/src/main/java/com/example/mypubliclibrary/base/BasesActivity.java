@@ -176,6 +176,8 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
 
     /**
      * 选择照片
+     * 观察者Type为pictures  Data返回的是一个String
+     * 观察者Type为selectPhoto  Data返回的是一个List<String>
      */
     public void selectPhoto(int maxSelect) {
         Matisse.from(this)
@@ -261,8 +263,8 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
      *                    接收方示例：
      *                    certificates = (List<File>) data.getExtras().getSerializable("certificates");
      */
-    public void jumpActivity(Class<?> aClass, int requestCode) {
-        startActivityForResult(new Intent(this, aClass).addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT), requestCode);
+    public void jumpActivity(Class<?> aClass, int requestCode, boolean... isReuse) {
+        startActivityForResult(new Intent(this, aClass).addFlags(isReuse.length == 0 || isReuse[0] ? Intent.FLAG_ACTIVITY_REORDER_TO_FRONT : Intent.FLAG_ACTIVITY_NEW_TASK), requestCode);
         if (mJumpAnim) overridePendingTransition(R.anim.tran_enter_go, R.anim.tran_exit_go);
     }
 
@@ -290,8 +292,8 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
      *
      * @param aClass Activity的Class
      */
-    public void jumpActivity(Class<?> aClass, TreeMap<String, Object> paramMap) {
-        startActivity(paramIntent(aClass, paramMap).addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
+    public void jumpActivity(Class<?> aClass, TreeMap<String, Object> paramMap, int... flags) {
+        startActivity(paramIntent(aClass, paramMap).addFlags(flags.length == 0 ? Intent.FLAG_ACTIVITY_REORDER_TO_FRONT : flags[0]));
         if (mJumpAnim) overridePendingTransition(R.anim.tran_enter_go, R.anim.tran_exit_go);
     }
 
@@ -681,6 +683,16 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
     protected void bindClick(List<Integer> integers) {
         for (int viewId : integers) {
             bindClick(viewId);
+        }
+    }
+
+    public void bindClick(View view) {
+        view.setOnClickListener(this);
+    }
+
+    protected void bindClickViews(List<View> views) {
+        for (View view : views) {
+            bindClick(view);
         }
     }
 

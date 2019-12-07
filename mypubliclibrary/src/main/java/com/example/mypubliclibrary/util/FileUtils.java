@@ -28,4 +28,8 @@ public class FileUtils {
 //        MultipartBody.Part part = MultipartBody.Part.createFormData("file", file.getName(), requestBody);
         return builder.build().parts();
     }
+
+    public static File getPathToFile(String path) {
+        return new File(path);
+    }
 }
