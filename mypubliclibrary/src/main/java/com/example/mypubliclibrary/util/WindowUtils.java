@@ -11,6 +11,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.os.PowerManager;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
@@ -321,6 +322,16 @@ public class WindowUtils {
                 getTime.getTime(DateUtils.timeFormatString(i), DateUtils.timeFormatString(i1));
             }
         }, 12, 0, true);
+    }
+
+    /**
+     * 屏幕是否是亮的
+     *
+     * @param activity activity
+     * @return true为亮，（onStart里判断即为解锁），false为暗（onStop里判断即为锁屏）
+     */
+    public static boolean isWindowLight(BasesActivity activity) {
+        return ((PowerManager) activity.getSystemService(Context.POWER_SERVICE)).isScreenOn();
     }
 
 //    /**

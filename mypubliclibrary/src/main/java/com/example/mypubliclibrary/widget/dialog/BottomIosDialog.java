@@ -4,6 +4,7 @@ package com.example.mypubliclibrary.widget.dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -21,6 +22,7 @@ import com.example.mypubliclibrary.R;
 import com.example.mypubliclibrary.util.SelectorUtils;
 import com.example.mypubliclibrary.util.ShapeUtils;
 import com.example.mypubliclibrary.util.WindowUtils;
+import com.example.mypubliclibrary.widget.bean.BottomIosDialogInfo;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BottomPopupView;
 import com.lxj.xpopup.interfaces.SimpleCallback;
@@ -107,6 +109,9 @@ public abstract class BottomIosDialog extends BottomPopupView implements View.On
     protected void onCreate() {
         initView();
         initData();
+        findViewById(R.id.ctl_cancel).setBackground(mDialogAttributes.itemBackground);
+        findViewById(R.id.ctl_content).setBackground(mDialogAttributes.itemBackground);
+
     }
 
     //完全可见执行
@@ -121,6 +126,32 @@ public abstract class BottomIosDialog extends BottomPopupView implements View.On
 
     }
 
+    private BottomIosDialogInfo mDialogAttributes;
+
+    public static class BuildAttributes {
+        private BottomIosDialogInfo iosDialogInfo = new BottomIosDialogInfo();
+        private Context context;
+
+        public BuildAttributes(Context context) {
+            this.context = context;
+        }
+
+        public BuildAttributes itemBackground(int color) {
+            iosDialogInfo.itemBackground = ShapeUtils.getRadiusRectangle(0, 0, WindowUtils.dip2px(context, 12), color);
+            return this;
+        }
+
+        public BuildAttributes itemColor(int color) {
+            iosDialogInfo.itemColor = color;
+            return this;
+        }
+
+        public void asBind(BottomIosDialog bottomIosDialog) {
+            bottomIosDialog.mDialogAttributes = this.iosDialogInfo;
+        }
+    }
+
+
     /**
      * 设置选项的背景颜色，不设置默认为白色
      *
@@ -128,8 +159,9 @@ public abstract class BottomIosDialog extends BottomPopupView implements View.On
      * @return BottomIosDialog
      */
     public BottomIosDialog setItemBackgroundColor(int color) {
-        findViewById(R.id.ctl_cancel).setBackground(ShapeUtils.getRadiusRectangle(0, 0, getDP(12), color));
-        findViewById(R.id.ctl_content).setBackground(ShapeUtils.getRadiusRectangle(0, 0, getDP(12), color));
+//        findViewById(R.id.ctl_cancel).setBackground(ShapeUtils.getRadiusRectangle(0, 0, getDP(12), color));
+//        findViewById(R.id.ctl_content).setBackground(ShapeUtils.getRadiusRectangle(0, 0, getDP(12), color));
+
         return this;
     }
 

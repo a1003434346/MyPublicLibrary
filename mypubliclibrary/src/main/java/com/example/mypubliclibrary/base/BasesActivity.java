@@ -15,6 +15,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Looper;
 import android.os.MessageQueue;
+import android.os.PowerManager;
 import android.provider.Settings;
 import android.view.View;
 import android.view.ViewGroup;
@@ -108,6 +109,8 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
 
     //拍照
     private MediaStoreCompat mMediaStoreCompat;
+    //当前页面的简单名称
+    public String mSimpleName;
 
     public int getDP(int px) {
         return WindowUtils.dip2px(this, px);
@@ -148,6 +151,7 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
             @Override
             public boolean queueIdle() {
                 mUiLoadDone = true;
+                mSimpleName = BasesActivity.this.getClass().getSimpleName();
                 //Ui线程空闲下来后去执行（所有生命周期执行完以后才会去执行）
                 mFragmentManager = getSupportFragmentManager();
                 getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
@@ -173,6 +177,7 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
     public void setJumpAnim(boolean isAnim) {
         mJumpAnim = isAnim;
     }
+
 
     /**
      * 选择照片
@@ -213,7 +218,7 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
      *                  selectPhoto为选择相册，Data值为List<String>（图片Path）
      */
     public void getPhotoView(int maxSelect) {
-        new BottomIosDialog(this) {
+        new BottomIosDialog.BuildAttributes(this).itemBackground( getResourcesColor(R.color.colorGreen)).asBind( new BottomIosDialog(this) {
             @Override
             protected List<String> getItems() {
                 return new ListUtils<String>().add("从手机相册选择", "拍照");
@@ -230,7 +235,7 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
                         break;
                 }
             }
-        }.setCancel(false).show();
+        }.setCancel(false).show());
     }
 
     @Override
