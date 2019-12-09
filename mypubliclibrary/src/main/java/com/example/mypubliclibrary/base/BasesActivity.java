@@ -249,6 +249,52 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
 
 
     /**
+     * 带参数跳转到Activity，回退返回结果，自定义flags,0为默认FLAG_ACTIVITY_REORDER_TO_FRONT
+     *
+     * @param aClass      Activity的Class
+     * @param requestCode 回调onActivityResult里的requestCode参数
+     *                    传值：
+     *                    getIntent().putExtra("useraddress",userAddressBeanList.get(position));
+     *                    //必须在finish()前调用,否则resultCode会默认成为0
+     *                    setResult(10,getIntent());
+     *                    finish();
+     */
+    public void jumpActivity(Class<?> aClass, TreeMap<String, Object> paramMap, int requestCode, int flags) {
+        startActivityForResult(paramIntent(aClass, paramMap).addFlags(flags == 0 ? Intent.FLAG_ACTIVITY_REORDER_TO_FRONT : flags), requestCode);
+        if (mJumpAnim) overridePendingTransition(R.anim.tran_enter_go, R.anim.tran_exit_go);
+    }
+
+
+    /**
+     * 带参数Activity
+     *
+     * @param aClass   Activity的Class
+     * @param paramMap TreeMap
+     * @param code     code
+     * @param isFlags  true为flags,false为requestCode
+     */
+    public void jumpActivity(Class<?> aClass, TreeMap<String, Object> paramMap, int code, boolean isFlags) {
+        if (isFlags) {
+            startActivity(paramIntent(aClass, paramMap).addFlags(code == 0 ? Intent.FLAG_ACTIVITY_REORDER_TO_FRONT : code));
+        } else {
+            startActivityForResult(paramIntent(aClass, paramMap).addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT), code);
+        }
+        if (mJumpAnim) overridePendingTransition(R.anim.tran_enter_go, R.anim.tran_exit_go);
+    }
+
+
+    /**
+     * 带参数跳转Activity
+     *
+     * @param aClass
+     * @param paramMap
+     */
+    public void startActivity(Class<?> aClass, TreeMap<String, Object> paramMap) {
+        startActivity(paramIntent(aClass, paramMap).addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
+        if (mJumpAnim) overridePendingTransition(R.anim.tran_enter_go, R.anim.tran_exit_go);
+    }
+
+    /**
      * 跳转到Activity
      *
      * @param aClass      Activity的Class
@@ -258,23 +304,26 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
      *                    //必须在finish()前调用,否则resultCode会默认成为0
      *                    setResult(10,getIntent());
      *                    finish();
-     *                    接收对象：
-     *                    被传递如果是实体类必须需实现 implements Serializable
-     *                    接收方示例：
-     *                    certificates = (List<File>) data.getExtras().getSerializable("certificates");
      */
-    public void jumpActivity(Class<?> aClass, int requestCode, int... flags) {
-        startActivityForResult(new Intent(this, aClass).addFlags(flags.length == 0 ? Intent.FLAG_ACTIVITY_REORDER_TO_FRONT : flags[0]), requestCode);
+    public void jumpActivity(Class<?> aClass, int requestCode, int flags) {
+        startActivityForResult(new Intent(this, aClass).addFlags(flags == 0 ? Intent.FLAG_ACTIVITY_REORDER_TO_FRONT : flags), requestCode);
         if (mJumpAnim) overridePendingTransition(R.anim.tran_enter_go, R.anim.tran_exit_go);
     }
+
 
     /**
      * 跳转到Activity
      *
-     * @param aClass Activity的Class
+     * @param aClass  Activity的Class
+     * @param code    code
+     * @param isFlags true为flags,false为requestCode
      */
-    public void jumpActivity(Class<?> aClass, int... flags) {
-        startActivity(new Intent(this, aClass).addFlags(flags.length == 0 ? Intent.FLAG_ACTIVITY_REORDER_TO_FRONT : flags[0]));
+    public void jumpActivity(Class<?> aClass, int code, boolean isFlags) {
+        if (isFlags) {
+            startActivity(new Intent(this, aClass).addFlags(code == 0 ? Intent.FLAG_ACTIVITY_REORDER_TO_FRONT : code));
+        } else {
+            startActivityForResult(new Intent(this, aClass).addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT), code);
+        }
         if (mJumpAnim) overridePendingTransition(R.anim.tran_enter_go, R.anim.tran_exit_go);
 //        if (mJumpAnim) overridePendingTransition(R.anim.tran_enter_out, R.anim.tran_exit_out);
 //        if (noBack.length > 0) {
@@ -283,56 +332,40 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
     }
 
     /**
-     * 跳转到Activity 带参数跳转,Bundle传值时给TreeMap的value里new BundleUtils().put("recruit", recruitBean),如果是list数据,需要强制转换为
-     * new BundleUtils().put("recruit", (Serializable)list);
-     * 取值时User user = (User) getIntent().getExtras().getSerializable(key);
-     * bitmap图片 需要先转换成byte,设置值时:treeMap.put("courseImage", ImageUtils.bitmap2Bytes(detailsActivity.mCourseImage, Bitmap.CompressFormat.JPEG));
-     * 取值时getIntent().getByteArrayExtra("courseImage");
+     * 跳转到Activity
      *
      * @param aClass Activity的Class
      */
-    public void jumpActivity(Class<?> aClass, TreeMap<String, Object> paramMap, int... flags) {
-        startActivity(paramIntent(aClass, paramMap).addFlags(flags.length == 0 ? Intent.FLAG_ACTIVITY_REORDER_TO_FRONT : flags[0]));
-        if (mJumpAnim) overridePendingTransition(R.anim.tran_enter_go, R.anim.tran_exit_go);
-    }
-
-
-    /**
-     * 带参数跳转到Activity，回退返回结果
-     *
-     * @param aClass      Activity的Class
-     * @param requestCode 回调onActivityResult里的requestCode参数
-     *                    传值：
-     *                    getIntent().putExtra("useraddress",userAddressBeanList.get(position));
-     *                    //必须在finish()前调用,否则resultCode会默认成为0
-     *                    setResult(10,getIntent());
-     *                    finish();
-     *                    接收对象：
-     *                    被传递如果是实体类必须需实现 implements Serializable
-     *                    接收方示例：
-     *                    certificates = (List<File>) data.getExtras().getSerializable("certificates");
-     *                    bitmap图片 需要先转换成byte,设置值时:treeMap.put("courseImage", ImageUtils.bitmap2Bytes(detailsActivity.mCourseImage, Bitmap.CompressFormat.JPEG));
-     *                    取值时getIntent().getByteArrayExtra("courseImage");
-     */
-    public void jumpActivity(Class<?> aClass, TreeMap<String, Object> paramMap, int requestCode, int... flags) {
-        startActivityForResult(paramIntent(aClass, paramMap).addFlags(flags.length == 0 ? Intent.FLAG_ACTIVITY_REORDER_TO_FRONT : flags[0]), requestCode);
+    public void jumpActivity(Class<?> aClass) {
+        startActivity(new Intent(this, aClass).addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
         if (mJumpAnim) overridePendingTransition(R.anim.tran_enter_go, R.anim.tran_exit_go);
     }
 
     /**
-     * 不带启动模式的跳转Activity
-     * bitmap图片 需要先转换成byte,设置值时:treeMap.put("courseImage", ImageUtils.bitmap2Bytes(detailsActivity.mCourseImage, Bitmap.CompressFormat.JPEG));
-     * 取值时getIntent().getByteArrayExtra("courseImage");
-     *
-     * @param aClass
-     * @param paramMap
+     * @param aClass   要跳转到的Activity类
+     * @param paramMap 带参数跳转到Activity类
+     *                 传递基本数据类型：
+     *                 TreeMap<String, Object> treeMap = new TreeMap<String, Object>();
+     *                 treeMap.put("money", mPersonalCenterBean.getNow_money());
+     *                 mActivity.jumpActivity(MyWalletActivity.class, treeMap);
+     *                 接收值：
+     *                 String money=getIntent().getStringExtra("money");
+     *                 <p>
+     *                 传递引用对象类型：
+     *                 被传递对象类需要实现implements Serializable
+     *                 TreeMap<String, Object> treeMap = new TreeMap<>();
+     *                 treeMap.put("mVideoBean", new BundleUtils().put("mVideoBean", (Serializable) videoBeans));
+     *                 treeMap.put("mPlayIndex", index);
+     *                 activity.jumpActivity(VideoPlayActivity.class, treeMap);
+     *                 接收值：
+     *                 mVideoBean = (List<VideoBean>) getIntent().getExtras().getSerializable("mVideoBean");
+     *                 <p>
+     *                 传递bitmap类型:
+     *                 treeMap.put("courseImage", ImageUtils.bitmap2Bytes(detailsActivity.mCourseImage, Bitmap.CompressFormat.JPEG));
+     *                 接收值：
+     *                 Bitmap bitmap=getIntent().getByteArrayExtra("courseImage");
+     * @return
      */
-    public void startActivity(Class<?> aClass, TreeMap<String, Object> paramMap) {
-        startActivity(paramIntent(aClass, paramMap));
-        if (mJumpAnim) overridePendingTransition(R.anim.tran_enter_go, R.anim.tran_exit_go);
-    }
-
-
     private Intent paramIntent(Class<?> aClass, TreeMap<String, Object> paramMap) {
         Intent intent = new Intent(this, aClass);
         for (String key : paramMap.keySet()) {
