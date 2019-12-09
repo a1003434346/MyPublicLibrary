@@ -92,6 +92,6 @@ public class MainActivity extends BasesActivity<TestPre> {
     @Override
     protected void onResume() {
         super.onResume();
-        CodeUtils.getInstance().startTiming("", bindId(R.id.tv_test), "点击重发验证码");
+        CodeUtils.getInstance().readCountdown("", bindId(R.id.tv_test), "点击重发验证码");
     }
 }

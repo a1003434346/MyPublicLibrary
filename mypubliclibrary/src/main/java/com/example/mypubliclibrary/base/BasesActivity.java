@@ -282,14 +282,13 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
         if (mJumpAnim) overridePendingTransition(R.anim.tran_enter_go, R.anim.tran_exit_go);
     }
 
-
     /**
      * 带参数跳转Activity
      *
      * @param aClass
      * @param paramMap
      */
-    public void startActivity(Class<?> aClass, TreeMap<String, Object> paramMap) {
+    public void jumpActivity(Class<?> aClass, TreeMap<String, Object> paramMap) {
         startActivity(paramIntent(aClass, paramMap).addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
         if (mJumpAnim) overridePendingTransition(R.anim.tran_enter_go, R.anim.tran_exit_go);
     }
@@ -330,6 +329,7 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
 //            finish();
 //        }
     }
+
 
     /**
      * 跳转到Activity
