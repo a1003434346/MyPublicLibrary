@@ -58,6 +58,7 @@ public abstract class BottomIosDialog extends BottomPopupView implements View.On
         initData();
         findViewById(R.id.ctl_content).setBackground(mViewAttribute.itemBackground);
         findViewById(R.id.ctl_cancel).setBackground(mViewAttribute.itemBackground);
+        findViewById(R.id.ctl_cancel).setVisibility(mViewAttribute.isShowCancelButton ? View.VISIBLE : View.GONE);
     }
 
 
@@ -92,13 +93,13 @@ public abstract class BottomIosDialog extends BottomPopupView implements View.On
         addViews();
     }
 
-    /**
-     * 设置取消按钮是否显示
-     */
-    public BottomIosDialog setCancelShow(boolean show) {
-        findViewById(R.id.ctl_cancel).setVisibility(show ? View.VISIBLE : View.GONE);
-        return this;
-    }
+//    /**
+//     * 设置取消按钮是否显示
+//     */
+//    public BottomIosDialog setCancelShow(boolean show) {
+//        findViewById(R.id.ctl_cancel).setVisibility(show ? View.VISIBLE : View.GONE);
+//        return this;
+//    }
 
 
     private void addViews() {

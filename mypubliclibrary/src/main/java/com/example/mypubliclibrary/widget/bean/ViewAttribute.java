@@ -9,6 +9,8 @@ public abstract class ViewAttribute {
     public int lineHeight;
     public int itemParseColor;
     public boolean cancel;
+    //是否显示取消按钮
+    public boolean isShowCancelButton;
 
     public ViewAttribute() {
         initAttribute();

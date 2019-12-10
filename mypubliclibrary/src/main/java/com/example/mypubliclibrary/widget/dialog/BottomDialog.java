@@ -25,6 +25,7 @@ public class BottomDialog {
                 itemParseColor = Color.parseColor("#f5f5f5");
                 cancel = false;
                 itemBackground = ShapeUtils.getRadiusRectangle(0, 0, WindowUtils.dip2px(mContext, 12), mContext.getResources().getColor(R.color.colorWhite));
+                isShowCancelButton = true;
             }
         };
     }
@@ -92,6 +93,17 @@ public class BottomDialog {
      */
     public BottomDialog isCancel(boolean cancel) {
         viewAttribute.cancel = cancel;
+        return this;
+    }
+
+    /**
+     * 是否显示取消按钮，不设置默认为true
+     *
+     * @param isCancel true/false
+     * @return
+     */
+    public BottomDialog isShowCancelButton(boolean isCancel) {
+        viewAttribute.isShowCancelButton = isCancel;
         return this;
     }
 
