@@ -23,7 +23,7 @@ public class BottomDialog {
                 lineColor = Color.parseColor("#f5f5f5");
                 lineHeight = 2;
                 itemParseColor = Color.parseColor("#f5f5f5");
-                cancel = false;
+                cancel = true;
                 itemBackground = ShapeUtils.getRadiusRectangle(0, 0, WindowUtils.dip2px(mContext, 12), mContext.getResources().getColor(R.color.colorWhite));
                 isShowCancelButton = true;
             }

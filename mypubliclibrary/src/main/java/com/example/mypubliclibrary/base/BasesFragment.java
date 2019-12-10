@@ -466,6 +466,15 @@ public abstract class BasesFragment<T> extends Fragment implements View.OnClickL
     }
 
     /**
+     * 显示/隐藏view
+     *
+     * @param isShow true/false
+     */
+    public void setVisibility(int viewId, boolean isShow) {
+        bindId(viewId).setVisibility(isShow ? View.VISIBLE : View.GONE);
+    }
+
+    /**
      * 显示view
      *
      * @param viewId viewId

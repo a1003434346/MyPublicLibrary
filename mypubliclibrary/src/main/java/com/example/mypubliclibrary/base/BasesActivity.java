@@ -838,6 +838,14 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
     public void hideView(int viewId) {
         bindId(viewId).setVisibility(View.GONE);
     }
+    /**
+     * 显示/隐藏view
+     *
+     * @param isShow true/false
+     */
+    public void setVisibility(int viewId, boolean isShow) {
+        bindId(viewId).setVisibility(isShow ? View.VISIBLE : View.GONE);
+    }
 
     /**
      * 隐藏view
