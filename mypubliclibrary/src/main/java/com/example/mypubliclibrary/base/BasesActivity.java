@@ -44,6 +44,7 @@ import com.example.mypubliclibrary.util.SelectorUtils;
 import com.example.mypubliclibrary.util.ToastUtils;
 import com.example.mypubliclibrary.util.WindowUtils;
 import com.example.mypubliclibrary.util.constant.DataInterface;
+import com.example.mypubliclibrary.widget.dialog.BottomDialog;
 import com.example.mypubliclibrary.widget.dialog.BottomIosDialog;
 import com.example.mypubliclibrary.widget.dialog.BottomIosDialogUi;
 import com.example.mypubliclibrary.widget.dialog.InputDialog;
@@ -218,24 +219,25 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
      *                  selectPhoto为选择相册，Data值为List<String>（图片Path）
      */
     public void getPhotoView(int maxSelect) {
-        new BottomIosDialog.BuildAttributes(this).itemBackground( getResourcesColor(R.color.colorGreen)).asBind( new BottomIosDialog(this) {
-            @Override
-            protected List<String> getItems() {
-                return new ListUtils<String>().add("从手机相册选择", "拍照");
-            }
+        new BottomDialog(this)
+                .asBind(new BottomIosDialog(this) {
+                    @Override
+                    protected List<String> getItems() {
+                        return new ListUtils<String>().add("从手机相册选择", "拍照");
+                    }
 
-            @Override
-            protected void itemClicks(Button button, int position) {
-                switch (position) {
-                    case 0:
-                        selectPhoto(maxSelect);
-                        break;
-                    case 1:
-                        pictures();
-                        break;
-                }
-            }
-        }.setCancel(false).show());
+                    @Override
+                    protected void itemClicks(Button button, int position) {
+                        switch (position) {
+                            case 0:
+                                selectPhoto(maxSelect);
+                                break;
+                            case 1:
+                                pictures();
+                                break;
+                        }
+                    }
+                }).show();
     }
 
     @Override
