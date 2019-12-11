@@ -60,9 +60,6 @@ public abstract class BasesFragment<T> extends Fragment implements View.OnClickL
     //初始化事件
     protected abstract void initListener();
 
-    //访问接口以后设置数据
-    protected abstract void setData();
-
 //    protected abstract void getBaseActivity();
 
     protected View myView;
