@@ -7,10 +7,37 @@ import com.example.mypubliclibrary.widget.dialog.basic.SelectViewDialog;
 
 import java.util.List;
 
-public abstract class BuildSelectTextDialog<T> extends ViewAttribute {
+public abstract class BuildSelectTextAttribute<T> extends ViewAttribute {
     private Context mContext;
+    //滚动栏1选择的内容
+    public T mSelectValueOne;
 
-    protected BuildSelectTextDialog(Context context) {
+    //滚动栏2选择的内容
+    public T mSelectValueTwo;
+
+    //滚动栏3选择的内容
+    public T mSelectValueThree;
+
+    public int mSelectIndexOne;
+
+    public int mSelectIndexTwo;
+
+    public int mSelectIndexThree;
+
+    //滚动栏1的数据
+    public List<T> mDataListOne;
+
+    /**
+     * 滚动栏2的数据
+     */
+    public List<T> mDataListTwo;
+
+    /**
+     * 滚动栏3的数据
+     */
+    public List<T> mDataListThree;
+
+    protected BuildSelectTextAttribute(Context context) {
         mContext = context;
     }
 
@@ -42,8 +69,26 @@ public abstract class BuildSelectTextDialog<T> extends ViewAttribute {
 
     protected abstract void onSelectAchieve();
 
-    public SelectViewDialog create() {
+
+    public List<T> onDataListTwo() {
+        return null;
+    }
+
+    public List<T> onDataListThree() {
+        return null;
+    }
+
+    public SelectViewDialog createWindow() {
         return new SelectViewDialog<T>(mContext) {
+            @Override
+            public List<T> getDataListTwo() {
+                return onDataListTwo();
+            }
+
+            @Override
+            public List<T> getDataListThree() {
+                return onDataListThree();
+            }
 
             @Override
             protected List<T> getDataListOne() {

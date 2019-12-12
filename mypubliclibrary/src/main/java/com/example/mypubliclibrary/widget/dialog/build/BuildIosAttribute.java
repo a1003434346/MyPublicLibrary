@@ -9,7 +9,7 @@ import com.example.mypubliclibrary.widget.dialog.basic.BottomIosDialog;
 
 import java.util.List;
 
-public abstract class BuildIosDialog extends ViewAttribute {
+public abstract class BuildIosAttribute extends ViewAttribute {
     private Context mContext;
     private List<String> mItems;
 
@@ -26,7 +26,7 @@ public abstract class BuildIosDialog extends ViewAttribute {
         isWindowShadow = true;
     }
 
-    public BuildIosDialog(Context context) {
+    public BuildIosAttribute(Context context) {
         this.mContext = context;
     }
 
@@ -36,7 +36,7 @@ public abstract class BuildIosDialog extends ViewAttribute {
      * @param color 背景颜色
      * @return
      */
-    public BuildIosDialog itemBackgroundColor(int color) {
+    public BuildIosAttribute itemBackgroundColor(int color) {
         itemBackgroundColor = color;
         return this;
     }
@@ -47,7 +47,7 @@ public abstract class BuildIosDialog extends ViewAttribute {
      * @param strings 列表
      * @return
      */
-    public BuildIosDialog items(List<String> strings) {
+    public BuildIosAttribute items(List<String> strings) {
         mItems = strings;
         return this;
     }
@@ -58,7 +58,7 @@ public abstract class BuildIosDialog extends ViewAttribute {
      * @param color 文本颜色
      * @return
      */
-    public BuildIosDialog itemTextColor(int color) {
+    public BuildIosAttribute itemTextColor(int color) {
         itemTextColor = color;
         return this;
     }
@@ -69,7 +69,7 @@ public abstract class BuildIosDialog extends ViewAttribute {
      * @param color 分割线颜色
      * @return
      */
-    public BuildIosDialog lineColor(int color) {
+    public BuildIosAttribute lineColor(int color) {
         lineColor = color;
         return this;
     }
@@ -80,7 +80,7 @@ public abstract class BuildIosDialog extends ViewAttribute {
      * @param height 分割线高度
      * @return
      */
-    public BuildIosDialog lineHeight(int height) {
+    public BuildIosAttribute lineHeight(int height) {
         lineHeight = height;
         return this;
     }
@@ -91,7 +91,7 @@ public abstract class BuildIosDialog extends ViewAttribute {
      * @param color 按下的背景颜色
      * @return
      */
-    public BuildIosDialog itemParseColor(int color) {
+    public BuildIosAttribute itemParseColor(int color) {
         itemParseColor = color;
         return this;
     }
@@ -102,7 +102,7 @@ public abstract class BuildIosDialog extends ViewAttribute {
      * @param cancel true/false
      * @return
      */
-    public BuildIosDialog isCancel(boolean cancel) {
+    public BuildIosAttribute isCancel(boolean cancel) {
         this.isCancel = cancel;
         return this;
     }
@@ -113,7 +113,7 @@ public abstract class BuildIosDialog extends ViewAttribute {
      * @param isCancel true/false
      * @return
      */
-    public BuildIosDialog isShowCancelButton(boolean isCancel) {
+    public BuildIosAttribute isShowCancelButton(boolean isCancel) {
         isShowCancelButton = isCancel;
         return this;
     }
@@ -124,7 +124,7 @@ public abstract class BuildIosDialog extends ViewAttribute {
      * @param showLine true/false
      * @return
      */
-    public BuildIosDialog isShowLine(boolean showLine) {
+    public BuildIosAttribute isShowLine(boolean showLine) {
         isShowLine = showLine;
         return this;
     }
@@ -135,15 +135,16 @@ public abstract class BuildIosDialog extends ViewAttribute {
      * @param windowShadow true/false
      * @return
      */
-    public BuildIosDialog isWindowShadow(boolean windowShadow) {
+    public BuildIosAttribute isWindowShadow(boolean windowShadow) {
         isWindowShadow = windowShadow;
         return this;
     }
 
     protected abstract void itemClick(Button button, int position);
 
-    public BottomIosDialog create() {
+    public BottomIosDialog createWindow() {
         return new BottomIosDialog(mContext) {
+
             @Override
             protected List<String> getItems() {
                 return mItems;

@@ -44,7 +44,7 @@ import com.example.mypubliclibrary.util.WindowUtils;
 import com.example.mypubliclibrary.util.constant.DataInterface;
 import com.example.mypubliclibrary.widget.dialog.basic.InputDialog;
 import com.example.mypubliclibrary.widget.dialog.basic.WarningDialog;
-import com.example.mypubliclibrary.widget.dialog.build.BuildIosDialog;
+import com.example.mypubliclibrary.widget.dialog.build.BuildIosAttribute;
 import com.example.mypubliclibrary.widget.photo.GifSizeFilter;
 import com.example.mypubliclibrary.widget.photo.MyGlideEngine;
 import com.zhihu.matisse.Matisse;
@@ -212,7 +212,7 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
      *                  selectPhoto为选择相册，Data值为List<String>（图片Path）
      */
     public void getPhotoView(int maxSelect) {
-        new BuildIosDialog(this) {
+        new BuildIosAttribute(this) {
             @Override
             protected void itemClick(Button button, int position) {
                 switch (position) {
@@ -226,7 +226,7 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
             }
         }.items(new ListUtils<String>().add("从手机相册选择", "拍照"))
                 .isShowLine(false)
-                .create()
+                .createWindow()
                 .show();
     }
 
