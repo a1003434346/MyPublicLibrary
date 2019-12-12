@@ -43,7 +43,9 @@ import com.example.mypubliclibrary.util.ToastUtils;
 import com.example.mypubliclibrary.util.WindowUtils;
 import com.example.mypubliclibrary.util.constant.DataInterface;
 import com.example.mypubliclibrary.widget.dialog.basic.InputDialog;
+import com.example.mypubliclibrary.widget.dialog.basic.InputDialogTest;
 import com.example.mypubliclibrary.widget.dialog.basic.WarningDialog;
+import com.example.mypubliclibrary.widget.dialog.build.BuildInputAttribute;
 import com.example.mypubliclibrary.widget.dialog.build.BuildIosAttribute;
 import com.example.mypubliclibrary.widget.photo.GifSizeFilter;
 import com.example.mypubliclibrary.widget.photo.MyGlideEngine;
@@ -802,6 +804,23 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
      * @return InputDialog
      */
     public InputDialog getInputDialog(String textHint, final int viewId, boolean... connect) {
+//        TextView inputView = bindId(viewId);
+//        BuildInputAttribute inputAttribute = new BuildInputAttribute(this) {
+//            @Override
+//            protected void onSubmitValue(String value) {
+//                inputView.setText(value);
+//            }
+//        }.textHint(textHint);
+//        if (connect.length == 0) {
+//            //关联显示TextView,不显示提交按钮，并且键盘右下角显示为完成
+//            inputAttribute.connectTextView(inputView);
+//            inputAttribute.submitVisibility(false);
+//        } else {
+//            inputAttribute.submitText("提交");
+//        }
+//        inputAttribute.inputValue(inputView.getText().toString());
+//        return inputAttribute.createWindow();
+
         TextView inputView = bindId(viewId);
         InputDialog inputDialog = new InputDialog(this) {
             @Override

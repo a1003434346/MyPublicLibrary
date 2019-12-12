@@ -62,16 +62,7 @@ public abstract class InputDialog {
         if (popView == null) {
             popView = LayoutInflater.from(context).inflate(R.layout.dialog_comment_input, null);
             popWindow = WindowUtils.getPopupWindow(context, popView, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
-//            popWindow = new PopupWindow(popView, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
             popWindow.setAnimationStyle(R.style.popWindowAnimation);
-//            popWindow.setBackgroundDrawable(new ColorDrawable());
-//            popWindow.setTouchable(true);
-//            popWindow.setOutsideTouchable(false);
-//            popWindow.setFocusable(true);
-            //SOFT_INPUT_ADJUST_RESIZE防止被键盘挡住,SOFT_INPUT_STATE_ALWAYS_VISIBLE显示键盘
-//            popWindow.setInputMethodMode(PopupWindow.INPUT_METHOD_NEEDED);
-
-//            popWindow.setClippingEnabled(true);
             btSend = popView.findViewById(R.id.bt_send);
             etInputValue = popView.findViewById(R.id.et_input_value);
             popWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE | WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);

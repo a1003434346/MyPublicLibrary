@@ -29,23 +29,23 @@ public abstract class ViewAttribute {
     protected abstract void initAttribute();
 
 
-    public int itemBackgroundColor() {
+    public int getItemBackgroundColor() {
         return itemBackgroundColor;
     }
 
-    public int itemTextColor() {
+    public int getItemTextColor() {
         return itemTextColor;
     }
 
-    public int lineColor() {
+    public int getLineColor() {
         return lineColor;
     }
 
-    public int lineHeight() {
+    public int getLineHeight() {
         return lineHeight;
     }
 
-    public int itemParseColor() {
+    public int getItemParseColor() {
         return itemParseColor;
     }
 
