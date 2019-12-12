@@ -56,7 +56,9 @@ public class PreviewPhotoActivity extends BasesActivity {
     @Override
     protected void initData() {
         // 设置适配器,绑定每页要显示的内容
-        photos = (List<Object>) getIntent().getExtras().getSerializable("photos");
+        photos = new ArrayList<>();
+        photos.addAll((List<Object>) getIntent().getExtras().getSerializable("photos"));
+        photos.remove("upload");
         viewPageAdapter = new ViewPageAdapter(getSupportFragmentManager());
         photoPosition = getIntent().getIntExtra("photoPosition", 0);
         vpPreview.setAdapter(viewPageAdapter);
