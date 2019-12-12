@@ -104,7 +104,7 @@ public abstract class BottomIosDialog extends BottomPopupView implements View.On
 
     private void addViews() {
         SelectorUtils.ShapeSelector shapeSelector = SelectorUtils.newShapeSelector()
-                .setDefaultStrokeColor(Color.parseColor("#FFFFFF"))
+                .setDefaultBgColor(Color.parseColor("#FFFFFF"))
                 .setPressedBgColor(mViewAttribute.itemParseColor);
         cancelView.setBackground(shapeSelector.setCornerRadius(new float[]{getDP(12)}).create());
         for (int i = 0; i < items.size(); i++) {
