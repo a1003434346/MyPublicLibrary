@@ -770,6 +770,19 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
     }
 
     /**
+     * 获取TextColor
+     *
+     * @param viewId viewId
+     * @return color
+     */
+    public int getTextColor(int viewId) {
+        return ((TextView) bindId(viewId)).getCurrentTextColor();
+    }
+
+
+
+
+    /**
      * 给TextView设置Hide内容
      *
      * @param viewId viewId

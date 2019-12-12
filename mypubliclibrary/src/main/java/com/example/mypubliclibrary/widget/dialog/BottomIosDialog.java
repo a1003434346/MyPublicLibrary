@@ -56,9 +56,13 @@ public abstract class BottomIosDialog extends BottomPopupView implements View.On
 //        initAttribute();
         initView();
         initData();
-        findViewById(R.id.ctl_content).setBackground(mViewAttribute.itemBackground);
-        findViewById(R.id.ctl_cancel).setBackground(mViewAttribute.itemBackground);
+        findViewById(R.id.ctl_content).setBackground(getBackGround());
+        findViewById(R.id.ctl_cancel).setBackground(getBackGround());
         findViewById(R.id.ctl_cancel).setVisibility(mViewAttribute.isShowCancelButton ? View.VISIBLE : View.GONE);
+    }
+
+    private StateListDrawable getBackGround() {
+        return SelectorUtils.newShapeSelector().setDefaultBgColor(mViewAttribute.itemBackgroundColor).setCornerRadius(new float[]{WindowUtils.dip2px(mContext, 12)}).create();
     }
 
 
@@ -104,7 +108,7 @@ public abstract class BottomIosDialog extends BottomPopupView implements View.On
 
     private void addViews() {
         SelectorUtils.ShapeSelector shapeSelector = SelectorUtils.newShapeSelector()
-                .setDefaultBgColor(Color.parseColor("#FFFFFF"))
+                .setDefaultBgColor(mViewAttribute.itemBackgroundColor)
                 .setPressedBgColor(mViewAttribute.itemParseColor);
         cancelView.setBackground(shapeSelector.setCornerRadius(new float[]{getDP(12)}).create());
         for (int i = 0; i < items.size(); i++) {

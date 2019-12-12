@@ -4,7 +4,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.StateListDrawable;
 
 public abstract class ViewAttribute {
-    public StateListDrawable itemBackground;
+    public int itemBackgroundColor;
     public int itemTextColor;
     public int lineColor;
     public int lineHeight;

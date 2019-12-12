@@ -25,9 +25,7 @@ public class BottomDialog {
                 lineHeight = 2;
                 itemParseColor = Color.parseColor("#f5f5f5");
                 cancel = true;
-                itemBackground = SelectorUtils.newShapeSelector()
-                        .setDefaultBgColor(Color.parseColor("#FFFFFF")).setCornerRadius(new float[]{WindowUtils.dip2px(mContext,
-                                12)}).create();
+                itemBackgroundColor = Color.parseColor("#FFFFFF");
                 isShowCancelButton = true;
                 isShowLine = true;
             }
@@ -40,9 +38,8 @@ public class BottomDialog {
      * @param color 背景颜色
      * @return
      */
-    public BottomDialog itemBackground(int color) {
-        viewAttribute.itemBackground = SelectorUtils.newShapeSelector()
-                .setDefaultBgColor(color).setCornerRadius(new float[]{WindowUtils.dip2px(mContext, 12)}).create();
+    public BottomDialog itemBackgroundColor(int color) {
+        viewAttribute.itemBackgroundColor = color;
         return this;
     }
 
