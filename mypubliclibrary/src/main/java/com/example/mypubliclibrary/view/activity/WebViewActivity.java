@@ -60,11 +60,6 @@ public class WebViewActivity extends BasesActivity {
 
     }
 
-    @Override
-    protected void setData() {
-
-    }
-
 
     @Override
     public void onClick(View view) {

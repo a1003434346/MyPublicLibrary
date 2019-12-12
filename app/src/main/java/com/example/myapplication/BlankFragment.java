@@ -53,11 +53,6 @@ public class BlankFragment extends BasesFragment<TestFragment> {
 
     }
 
-    @Override
-    protected void setData() {
-
-    }
-
 
 
     @Override

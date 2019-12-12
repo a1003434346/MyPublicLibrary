@@ -2,4 +2,7 @@
     <string name="app_name">MyPublicLibrary</string>
     <string name="comments">评论</string>
     <string name="done">完成</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

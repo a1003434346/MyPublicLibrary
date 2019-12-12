@@ -25,9 +25,14 @@ import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
+import com.example.mypubliclibrary.R;
 import com.example.mypubliclibrary.base.BasesActivity;
+import com.example.mypubliclibrary.view.activity.PreviewPhotoActivity;
 
 import java.io.ByteArrayOutputStream;
+import java.io.Serializable;
+import java.util.List;
+import java.util.TreeMap;
 
 /**
  * function:
@@ -78,14 +83,30 @@ public class ImageUtils {
     }
 
     /**
+     * 预览照片
+     *
+     * @param objects Photos
+     */
+    public static void previewPhoto(Context context, List<Object> objects, int... index) {
+        BasesActivity activity = (BasesActivity) context;
+        TreeMap<String, Object> photos = new TreeMap<>();
+        if (index.length > 0)
+            photos.put("photoPosition", index[0]);
+        photos.put("photos", new BundleUtils().put("photos", (Serializable) objects));
+        //设置进出动画
+        activity.jumpActivity(PreviewPhotoActivity.class, photos);
+        activity.overridePendingTransition(R.anim.photo_enter_go, R.anim.photo_enter_out);
+    }
+
+
+    /**
      * 设置显示图片
      *
-     * @param context   context
      * @param imageView imageView
      * @param path      path
      */
-    public static void setImage(Context context, ImageView imageView, Object path) {
-        Glide.with(context).load(path)
+    public static void setImage(ImageView imageView, Object path) {
+        Glide.with(imageView).load(path)
                 .into(imageView);
     }
 
@@ -118,6 +139,7 @@ public class ImageUtils {
     public static Bitmap toRound(final Bitmap src) {
         return toRound(src, 0, 0, false);
     }
+
 
     /**
      * Return the round bitmap.
@@ -297,8 +319,8 @@ public class ImageUtils {
      *
      * @param imgUrl      图片Url
      * @param context     context
-     * @param width       返回图片的宽度
-     * @param height      返回图片的高度 T
+     * @param width       返回图片的宽度  原始大小设置为Target.SIZE_ORIGINAL
+     * @param height      返回图片的高度  原始大小设置为Target.SIZE_ORIGINAL
      * @param urlToBitmap
      */
     public static void urlToBitmap(final String imgUrl, final Context context, int width, int height, UrlToBitmap urlToBitmap) {

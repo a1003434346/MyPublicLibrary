@@ -35,11 +35,6 @@ public class Main2Activity extends BasesActivity {
         bindClick(R.id.tv_2);
     }
 
-    @Override
-    protected void setData() {
-
-    }
-
 
     @Override
     public void onClick(View v) {

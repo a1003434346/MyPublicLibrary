@@ -217,7 +217,6 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
      */
     public void getPhotoView(int maxSelect) {
         new BottomDialog(this)
-                .isShowCancelButton(false)
                 .asBind(new BottomIosDialog(this) {
                     @Override
                     protected List<String> getItems() {

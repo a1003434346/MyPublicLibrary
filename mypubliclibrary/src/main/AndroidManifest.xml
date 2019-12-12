@@ -3,7 +3,8 @@
     package="com.example.mypubliclibrary">
 
     <application>
-        <activity android:name=".view.activity.WebViewActivity"></activity>
+        <activity android:name=".view.activity.PreviewPhotoActivity"></activity>
+        <activity android:name=".view.activity.WebViewActivity" />
     </application>
 
 </manifest>
