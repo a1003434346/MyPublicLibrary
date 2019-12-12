@@ -1,9 +1,7 @@
-package com.example.mypubliclibrary.widget.dialog;
+package com.example.mypubliclibrary.widget.dialog.basic;
 
 
-import android.app.Application;
 import android.content.Context;
-import android.graphics.Color;
 import android.graphics.drawable.StateListDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +12,6 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.example.mypubliclibrary.R;
 import com.example.mypubliclibrary.util.SelectorUtils;
-import com.example.mypubliclibrary.util.ShapeUtils;
 import com.example.mypubliclibrary.util.WindowUtils;
 import com.example.mypubliclibrary.widget.bean.ViewAttribute;
 import com.lxj.xpopup.XPopup;
@@ -53,7 +50,6 @@ public abstract class BottomIosDialog extends BottomPopupView implements View.On
 
     @Override
     protected void onCreate() {
-//        initAttribute();
         initView();
         initData();
         findViewById(R.id.ctl_content).setBackground(getBackGround());
@@ -79,31 +75,24 @@ public abstract class BottomIosDialog extends BottomPopupView implements View.On
     }
 
 
-    public ViewAttribute mViewAttribute;
+    private ViewAttribute mViewAttribute;
 
-//    public static class BuildAttributes {
-//
-//    }
+
+    public BottomIosDialog setViewAttribute(ViewAttribute mViewAttribute) {
+        this.mViewAttribute = mViewAttribute;
+        return this;
+    }
 
     private void initView() {
         items = getItems();
         ctlContent = findViewById(R.id.ctl_content);
         cancelView = findViewById(R.id.tv_cancel);
-//        ctlContent.setBackground(mViewAttribute.itemBackground);
         findViewById(R.id.tv_cancel).setOnClickListener(view -> dismiss());
     }
 
     private void initData() {
         addViews();
     }
-
-//    /**
-//     * 设置取消按钮是否显示
-//     */
-//    public BottomIosDialog setCancelShow(boolean show) {
-//        findViewById(R.id.ctl_cancel).setVisibility(show ? View.VISIBLE : View.GONE);
-//        return this;
-//    }
 
 
     private void addViews() {
@@ -179,12 +168,11 @@ public abstract class BottomIosDialog extends BottomPopupView implements View.On
     /**
      * 显示窗口
      *
-     * @param shadow 窗口区域外是否显示阴影，默认为显示
      * @return BottomIosDialog
      */
-    public BottomIosDialog show(boolean... shadow) {
-        mPopUp.hasShadowBg(shadow.length == 0 || shadow[0])
-                .dismissOnTouchOutside(mViewAttribute.cancel)
+    public BottomIosDialog show() {
+        mPopUp.hasShadowBg(mViewAttribute.isWindowShadow)
+                .dismissOnTouchOutside(mViewAttribute.isCancel)
                 .asCustom(this)
                 .showWindow();
         return this;

@@ -15,7 +15,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Looper;
 import android.os.MessageQueue;
-import android.os.PowerManager;
 import android.provider.Settings;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +22,6 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -44,9 +42,8 @@ import com.example.mypubliclibrary.util.SelectorUtils;
 import com.example.mypubliclibrary.util.ToastUtils;
 import com.example.mypubliclibrary.util.WindowUtils;
 import com.example.mypubliclibrary.util.constant.DataInterface;
-import com.example.mypubliclibrary.widget.dialog.BottomDialog;
+import com.example.mypubliclibrary.widget.dialog.BuildIosDialog;
 import com.example.mypubliclibrary.widget.dialog.BottomIosDialog;
-import com.example.mypubliclibrary.widget.dialog.BottomIosDialogUi;
 import com.example.mypubliclibrary.widget.dialog.InputDialog;
 import com.example.mypubliclibrary.widget.dialog.WarningDialog;
 import com.example.mypubliclibrary.widget.photo.GifSizeFilter;
@@ -216,26 +213,22 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
      *                  selectPhoto为选择相册，Data值为List<String>（图片Path）
      */
     public void getPhotoView(int maxSelect) {
-        new BottomDialog(this)
+        new BuildIosDialog(this) {
+            @Override
+            protected void itemClick(Button button, int position) {
+                switch (position) {
+                    case 0:
+                        selectPhoto(maxSelect);
+                        break;
+                    case 1:
+                        pictures();
+                        break;
+                }
+            }
+        }.items(new ListUtils<String>().add("从手机相册选择", "拍照"))
                 .isShowLine(false)
-                .asBind(new BottomIosDialog(this) {
-                    @Override
-                    protected List<String> getItems() {
-                        return new ListUtils<String>().add("从手机相册选择", "拍照");
-                    }
-
-                    @Override
-                    protected void itemClicks(Button button, int position) {
-                        switch (position) {
-                            case 0:
-                                selectPhoto(maxSelect);
-                                break;
-                            case 1:
-                                pictures();
-                                break;
-                        }
-                    }
-                }).show();
+                .create()
+                .show();
     }
 
     @Override
@@ -778,8 +771,6 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
     public int getTextColor(int viewId) {
         return ((TextView) bindId(viewId)).getCurrentTextColor();
     }
-
-
 
 
     /**

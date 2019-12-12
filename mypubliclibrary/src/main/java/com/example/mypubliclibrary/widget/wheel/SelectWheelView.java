@@ -106,7 +106,7 @@ public class SelectWheelView extends View {
     /**
      * 滚轮是否循环滚动
      */
-    boolean isCyclic = false;
+  public   boolean isCyclic = false;
 
     // Items layout
     private LinearLayout itemsLayout;
@@ -171,7 +171,7 @@ public class SelectWheelView extends View {
         scroller = new SelectScroller(getContext(), scrollingListener);
     }
 
-    protected void setLongData() {
+    public void setLongData() {
         scroller.longData = true;
     }
 
@@ -331,7 +331,7 @@ public class SelectWheelView extends View {
         }
     }
 
-    protected int getChangListenersLength() {
+    public int getChangListenersLength() {
         return changingListeners.size();
     }
 

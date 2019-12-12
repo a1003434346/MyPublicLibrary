@@ -22,7 +22,7 @@ import java.util.List;
  * describe:
  * Created By LiQiang on 2019/7/30.
  */
-public abstract class SelectView<T> implements OnSelectChangedListener, OnSelectData<T> {
+public abstract class SelectViewUi<T> implements OnSelectChangedListener, OnSelectData<T> {
 
     //AbstractSelectTextAdapter可以设置元素属性
     private View mPopView;
@@ -85,7 +85,7 @@ public abstract class SelectView<T> implements OnSelectChangedListener, OnSelect
     protected List<T> mDataListThree;
 
 
-    protected SelectView(final Context mContext) {
+    protected SelectViewUi(final Context mContext) {
         this.mContext = mContext;
         initView();
     }
@@ -96,7 +96,7 @@ public abstract class SelectView<T> implements OnSelectChangedListener, OnSelect
      * @param layoutId
      * @return
      */
-    public SelectView setItemResource(int layoutId) {
+    public SelectViewUi setItemResource(int layoutId) {
         this.mDefaultLayoutId = layoutId;
         return this;
     }
@@ -119,7 +119,7 @@ public abstract class SelectView<T> implements OnSelectChangedListener, OnSelect
      * @param padding 间距
      * @return SelectView
      */
-    public SelectView setPadding(int padding) {
+    public SelectViewUi setPadding(int padding) {
         if (mContentAdapterOne != null)
             mContentAdapterOne.setPadding(padding);
         if (mContentAdapterTwo != null)
@@ -135,7 +135,7 @@ public abstract class SelectView<T> implements OnSelectChangedListener, OnSelect
      * @param color 颜色
      * @return SelectView
      */
-    public SelectView setTextColor(int color) {
+    public SelectViewUi setTextColor(int color) {
         if (mContentAdapterOne != null)
             mContentAdapterOne.setTextColor(color);
         if (mContentAdapterTwo != null)
@@ -151,7 +151,7 @@ public abstract class SelectView<T> implements OnSelectChangedListener, OnSelect
      * @param color 颜色
      * @return SelectView
      */
-    public SelectView setTitleColor(int color) {
+    public SelectViewUi setTitleColor(int color) {
         mTvTitle.setTextColor(color);
         return this;
     }
@@ -162,7 +162,7 @@ public abstract class SelectView<T> implements OnSelectChangedListener, OnSelect
      * @param color 颜色
      * @return SelectView
      */
-    public SelectView setDoneColor(int color) {
+    public SelectViewUi setDoneColor(int color) {
         mTvConfirm.setTextColor(color);
         return this;
     }
@@ -296,21 +296,21 @@ public abstract class SelectView<T> implements OnSelectChangedListener, OnSelect
     }
 
 
-    public SelectView setConfirm(String confirm) {
+    public SelectViewUi setConfirm(String confirm) {
         if (!confirm.trim().isEmpty()) {
             mTvConfirm.setText(confirm);
         }
         return this;
     }
 
-    public SelectView setTitle(String title) {
+    public SelectViewUi setTitle(String title) {
         if (!title.trim().isEmpty()) {
             mTvTitle.setText(title);
         }
         return this;
     }
 
-    public SelectView show() {
+    public SelectViewUi show() {
         WindowUtils.setBackgroundAlpha(mContext, 0.5f);
         mPopWindow.showAtLocation(mPopView, Gravity.BOTTOM, 0, 0);
         return this;
@@ -339,7 +339,7 @@ public abstract class SelectView<T> implements OnSelectChangedListener, OnSelect
      *               赋值枚举SelectViewConfig.CYCLIC_ONE
      * @return SelectView
      */
-    public SelectView setCyclic(int... cyclic) {
+    public SelectViewUi setCyclic(int... cyclic) {
         if (cyclic.length == 0) {
             if (mWlvSelectOne != null) mWlvSelectOne.setCyclic(false);
             if (mWlvSelectTwo != null) mWlvSelectTwo.setCyclic(false);
@@ -364,7 +364,7 @@ public abstract class SelectView<T> implements OnSelectChangedListener, OnSelect
      * @param longData 为空是设置所有,不为空设置指定滚动栏
      * @return SelectView
      */
-    public SelectView setLongData(int... longData) {
+    public SelectViewUi setLongData(int... longData) {
         if (longData.length == 0) {
             if (mWlvSelectOne != null) mWlvSelectOne.setLongData();
             if (mWlvSelectTwo != null) mWlvSelectTwo.setLongData();
@@ -385,7 +385,7 @@ public abstract class SelectView<T> implements OnSelectChangedListener, OnSelect
     /**
      * 设置滚动栏1当前项。当索引出错时什么也不做。
      */
-    public SelectView setCurrentItemOne(int index) {
+    public SelectViewUi setCurrentItemOne(int index) {
         mWlvSelectOne.setCurrentItem(index, false);
         mSelectIndexOne = index;
         return this;
@@ -394,7 +394,7 @@ public abstract class SelectView<T> implements OnSelectChangedListener, OnSelect
     /**
      * 设置滚动栏2当前项。当索引出错时什么也不做。
      */
-    public SelectView setCurrentItemTwo(int index) {
+    public SelectViewUi setCurrentItemTwo(int index) {
         mWlvSelectTwo.setCurrentItem(index, false);
         mSelectIndexTwo = index;
         mSelectValueTwo = mDataListTwo.get(index);
@@ -404,7 +404,7 @@ public abstract class SelectView<T> implements OnSelectChangedListener, OnSelect
     /**
      * 设置滚动栏3当前项。当索引出错时什么也不做。
      */
-    public SelectView setCurrentItemThree(int index) {
+    public SelectViewUi setCurrentItemThree(int index) {
         mWlvSelectThree.setCurrentItem(index, false);
         mSelectIndexThree = index;
         mSelectValueThree = mDataListThree.get(index);
@@ -415,7 +415,7 @@ public abstract class SelectView<T> implements OnSelectChangedListener, OnSelect
     /**
      * 根据值设置滚动栏1当前项。不存在时什么也不做。
      */
-    public SelectView setCurrentItemOne(T selectValue) {
+    public SelectViewUi setCurrentItemOne(T selectValue) {
         List<T> list = mDataListOne;
         for (int i = 0; i < list.size(); i++) {
             if (list.get(i).toString().equals(selectValue.toString())) {
@@ -430,7 +430,7 @@ public abstract class SelectView<T> implements OnSelectChangedListener, OnSelect
     /**
      * 根据值设置滚动栏2当前项。不存在时什么也不做。
      */
-    public SelectView setCurrentItemTwo(T selectValue) {
+    public SelectViewUi setCurrentItemTwo(T selectValue) {
         List<T> list = mDataListTwo;
         for (int i = 0; i < list.size(); i++) {
             if (list.get(i).toString().equals(selectValue.toString())) {
@@ -444,7 +444,7 @@ public abstract class SelectView<T> implements OnSelectChangedListener, OnSelect
     /**
      * 根据值设置滚动栏3当前项。不存在时什么也不做。
      */
-    public SelectView setCurrentItemThree(T selectValue) {
+    public SelectViewUi setCurrentItemThree(T selectValue) {
         List<T> list = mDataListThree;
         for (int i = 0; i < list.size(); i++) {
             if (list.get(i).toString().equals(selectValue.toString())) {

@@ -3,17 +3,23 @@ package com.example.mypubliclibrary.widget.bean;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.StateListDrawable;
 
+/**
+ * 视图属性
+ */
 public abstract class ViewAttribute {
     public int itemBackgroundColor;
     public int itemTextColor;
     public int lineColor;
     public int lineHeight;
     public int itemParseColor;
-    public boolean cancel;
+    //点击窗口区域外是否可以关闭窗口
+    public boolean isCancel;
     //是否显示取消按钮
     public boolean isShowCancelButton;
     //是否显示分割线
     public boolean isShowLine;
+    //窗口区域外是否显示阴影
+    public boolean isWindowShadow;
 
     public ViewAttribute() {
         initAttribute();

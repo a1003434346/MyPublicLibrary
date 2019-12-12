@@ -1,4 +1,4 @@
-package com.example.mypubliclibrary.widget.dialog;
+package com.example.mypubliclibrary.widget.dialog.basic;
 
 import android.content.Context;
 import android.view.Gravity;
