@@ -144,6 +144,56 @@ public abstract class BuildSelectTextAttribute<T> extends ViewAttribute {
     }
 
     /**
+     * 设置滚轮一当前选择的位置
+     *
+     * @param t t
+     * @return
+     */
+    public BuildSelectTextAttribute<T> setCurrentItemOne(T t) {
+        for (int i = 0; i < mListOne.size(); i++) {
+            if (mListOne.get(i).toString().equals(t.toString())) {
+                currentItemOne = i;
+                break;
+            }
+        }
+        return this;
+    }
+
+    /**
+     * 设置滚轮二当前选择的位置
+     *
+     * @param t t
+     * @return
+     */
+    public BuildSelectTextAttribute<T> setCurrentItemTwo(T t) {
+        for (int i = 0; i < mListTwo.size(); i++) {
+            if (mListTwo.get(i).toString().equals(t.toString())) {
+                currentItemTwo = i;
+                break;
+            }
+        }
+        return this;
+    }
+
+
+    /**
+     * 设置滚轮三当前选择的位置
+     *
+     * @param t t
+     * @return
+     */
+    public BuildSelectTextAttribute<T> setCurrentItemThree(T t) {
+        for (int i = 0; i < mListThree.size(); i++) {
+            if (mListThree.get(i).toString().equals(t.toString())) {
+                currentItemThree = i;
+                break;
+            }
+        }
+        return this;
+    }
+
+
+    /**
      * 设置滚轮二当前选择的位置
      *
      * @param index index
