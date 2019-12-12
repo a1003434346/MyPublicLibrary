@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 
 import com.example.mypubliclibrary.R;
+import com.example.mypubliclibrary.util.SelectorUtils;
 import com.example.mypubliclibrary.util.ShapeUtils;
 import com.example.mypubliclibrary.util.WindowUtils;
 import com.example.mypubliclibrary.widget.bean.ViewAttribute;
@@ -24,8 +25,11 @@ public class BottomDialog {
                 lineHeight = 2;
                 itemParseColor = Color.parseColor("#f5f5f5");
                 cancel = true;
-                itemBackground = ShapeUtils.getRadiusRectangle(0, 0, WindowUtils.dip2px(mContext, 12), mContext.getResources().getColor(R.color.colorWhite));
+                itemBackground = SelectorUtils.newShapeSelector()
+                        .setDefaultBgColor(Color.parseColor("#FFFFFF")).setCornerRadius(new float[]{WindowUtils.dip2px(mContext,
+                                12)}).create();
                 isShowCancelButton = true;
+                isShowLine = true;
             }
         };
     }
@@ -37,7 +41,8 @@ public class BottomDialog {
      * @return
      */
     public BottomDialog itemBackground(int color) {
-        viewAttribute.itemBackground = ShapeUtils.getRadiusRectangle(0, 0, WindowUtils.dip2px(mContext, 12), color);
+        viewAttribute.itemBackground = SelectorUtils.newShapeSelector()
+                .setDefaultBgColor(color).setCornerRadius(new float[]{WindowUtils.dip2px(mContext, 12)}).create();
         return this;
     }
 
@@ -106,6 +111,18 @@ public class BottomDialog {
         viewAttribute.isShowCancelButton = isCancel;
         return this;
     }
+
+    /**
+     * 是否显示分割线，不设置默认为true
+     *
+     * @param showLine true/false
+     * @return
+     */
+    public BottomDialog isShowLine(boolean showLine) {
+        viewAttribute.isShowLine = showLine;
+        return this;
+    }
+
 
     public BottomIosDialog asBind(BottomIosDialog bottomIosDialog) {
         bottomIosDialog.mViewAttribute = this.viewAttribute;

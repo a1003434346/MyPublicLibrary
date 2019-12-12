@@ -35,7 +35,7 @@ public abstract class BottomIosDialog extends BottomPopupView implements View.On
     private List<String> items;
 
     private ConstraintLayout ctlContent;
-    private Button lastButtonView;
+    private View lastButtonView;
     private TextView cancelView;
 
     public BottomIosDialog(Context context) {
@@ -154,13 +154,15 @@ public abstract class BottomIosDialog extends BottomPopupView implements View.On
             layoutParams.bottomToTop = lastButtonView.getId();
         }
         lastButtonView = button;
-        if (isAddLine) {
+        if (isAddLine && mViewAttribute.isShowLine) {
             ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, mViewAttribute.lineHeight);
             //添加上边线
             TextView lineView = new TextView(mContext);
+            lineView.setId(View.generateViewId());
             lineView.setBackgroundColor(mViewAttribute.lineColor);
-            params.topToTop = lastButtonView.getId();
+            params.bottomToTop = lastButtonView.getId();
             ctlContent.addView(lineView, params);
+            lastButtonView = lineView;
         }
         ctlContent.addView(button, layoutParams);
     }

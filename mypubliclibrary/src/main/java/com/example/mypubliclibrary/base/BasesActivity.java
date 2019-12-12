@@ -217,6 +217,7 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
      */
     public void getPhotoView(int maxSelect) {
         new BottomDialog(this)
+                .isShowLine(false)
                 .asBind(new BottomIosDialog(this) {
                     @Override
                     protected List<String> getItems() {
@@ -834,6 +835,7 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
     public void hideView(int viewId) {
         bindId(viewId).setVisibility(View.GONE);
     }
+
     /**
      * 显示/隐藏view
      *

@@ -1,9 +1,10 @@
 package com.example.mypubliclibrary.widget.bean;
 
 import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.StateListDrawable;
 
 public abstract class ViewAttribute {
-    public GradientDrawable itemBackground;
+    public StateListDrawable itemBackground;
     public int itemTextColor;
     public int lineColor;
     public int lineHeight;
@@ -11,6 +12,8 @@ public abstract class ViewAttribute {
     public boolean cancel;
     //是否显示取消按钮
     public boolean isShowCancelButton;
+    //是否显示分割线
+    public boolean isShowLine;
 
     public ViewAttribute() {
         initAttribute();
