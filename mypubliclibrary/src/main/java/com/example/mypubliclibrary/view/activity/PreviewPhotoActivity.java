@@ -81,12 +81,12 @@ public class PreviewPhotoActivity extends BasesActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
     }
 
-    @Override
-    public void finish() {
-        super.finish();
-        //设置进出动画
-        overridePendingTransition(0, R.anim.photo_exit_out);
-    }
+//    @Override
+//    public void finish() {
+//        super.finish();
+//        //设置进出动画
+//        overridePendingTransition(0, R.anim.photo_exit_out);
+//    }
 
     public class ViewPageAdapter extends FragmentPagerAdapter {
         private List<Fragment> fragments = new ArrayList<>();

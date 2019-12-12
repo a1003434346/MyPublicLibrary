@@ -95,7 +95,7 @@ public class ImageUtils {
         photos.put("photos", new BundleUtils().put("photos", (Serializable) objects));
         //设置进出动画
         activity.jumpActivity(PreviewPhotoActivity.class, photos);
-        activity.overridePendingTransition(R.anim.photo_enter_go, R.anim.photo_enter_out);
+//        activity.overridePendingTransition(R.anim.photo_enter_go, R.anim.photo_enter_out);
     }
 
 
