@@ -5,7 +5,7 @@ import android.graphics.Color;
 import android.widget.Button;
 
 import com.example.mypubliclibrary.widget.bean.ViewAttribute;
-import com.example.mypubliclibrary.widget.dialog.BottomIosDialog;
+import com.example.mypubliclibrary.widget.dialog.basic.BottomIosDialog;
 
 import java.util.List;
 

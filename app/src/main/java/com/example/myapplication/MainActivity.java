@@ -9,7 +9,7 @@ import com.example.mypubliclibrary.util.CodeUtils;
 import com.example.mypubliclibrary.util.EventBusUtils;
 import com.example.mypubliclibrary.util.ListUtils;
 import com.example.mypubliclibrary.util.SharedPreferencesUtils;
-import com.example.mypubliclibrary.widget.dialog.BuildSelectTextDialog;
+import com.example.mypubliclibrary.widget.dialog.build.BuildSelectTextDialog;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;

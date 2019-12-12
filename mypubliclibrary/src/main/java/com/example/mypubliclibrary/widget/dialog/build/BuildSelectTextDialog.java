@@ -3,7 +3,7 @@ package com.example.mypubliclibrary.widget.dialog.build;
 import android.content.Context;
 
 import com.example.mypubliclibrary.widget.bean.ViewAttribute;
-import com.example.mypubliclibrary.widget.dialog.SelectViewDialog;
+import com.example.mypubliclibrary.widget.dialog.basic.SelectViewDialog;
 
 import java.util.List;
 
