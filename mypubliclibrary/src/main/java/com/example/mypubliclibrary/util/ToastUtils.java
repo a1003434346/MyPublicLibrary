@@ -5,7 +5,7 @@ import android.content.Context;
 import android.os.Handler;
 import android.widget.Toast;
 
-import com.example.mypubliclibrary.widget.dialog.AlarmDailog;
+import com.example.mypubliclibrary.widget.dialog.basic.AlarmDailog;
 
 /**
  * function:

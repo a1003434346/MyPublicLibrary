@@ -2,7 +2,6 @@ package com.example.mypubliclibrary.base;
 
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.StateListDrawable;
 import android.os.Build;
@@ -21,20 +20,15 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.example.mypubliclibrary.R;
 import com.example.mypubliclibrary.base.bean.EventMsg;
-import com.example.mypubliclibrary.util.EventBusUtils;
 import com.example.mypubliclibrary.util.ObjectUtil;
 import com.example.mypubliclibrary.util.SelectorUtils;
 import com.example.mypubliclibrary.util.WindowUtils;
-import com.example.mypubliclibrary.widget.dialog.CProgressDialog;
-import com.example.mypubliclibrary.widget.dialog.WarningDialog;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
-import java.util.TreeMap;
 
 /**
  * function:

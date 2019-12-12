@@ -12,12 +12,10 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.PowerManager;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroupOverlay;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.DatePicker;
 import android.widget.FrameLayout;
@@ -30,12 +28,10 @@ import android.widget.TimePicker;
 import androidx.appcompat.app.AlertDialog;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
-import androidx.fragment.app.Fragment;
 
 import com.example.mypubliclibrary.R;
 import com.example.mypubliclibrary.base.BasesActivity;
-import com.example.mypubliclibrary.base.BasesFragment;
-import com.example.mypubliclibrary.widget.dialog.WarningDialog;
+import com.example.mypubliclibrary.widget.dialog.basic.WarningDialog;
 import com.example.mypubliclibrary.widget.interfaces.DataInterface;
 import com.example.mypubliclibrary.widget.interfaces.DateInterface;
 
