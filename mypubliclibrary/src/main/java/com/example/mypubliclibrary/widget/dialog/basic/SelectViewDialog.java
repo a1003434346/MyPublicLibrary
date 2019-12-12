@@ -21,33 +21,16 @@ import java.util.List;
  * describe:
  * Created By LiQiang on 2019/7/30.
  */
-public abstract class SelectViewDialog<T> extends BottomPopupView implements OnSelectChangedListener, OnSelectData<T> {
+public abstract class SelectViewDialog<T> extends BottomPopupView implements OnSelectChangedListener {
 
-    //AbstractSelectTextAdapter可以设置元素属性
-//    private View mPopView;
-
-//    private PopupWindow mPopWindow;
 
     private XPopup.Builder mPopUp;
 
-//    //滚动栏1选择的内容
-//    protected T mSelectValueOne;
-//
-//    //滚动栏2选择的内容
-//    protected T mSelectValueTwo;
-//
-//    //滚动栏3选择的内容
-//    protected T mSelectValueThree;
 
     private TextView mTvConfirm;
 
     private TextView mTvTitle;
 
-//    protected int mSelectIndexOne;
-//
-//    protected int mSelectIndexTwo;
-//
-//    protected int mSelectIndexThree;
 
     //滚动栏1的View
     protected SelectWheelView mWlvSelectOne;
@@ -71,18 +54,6 @@ public abstract class SelectViewDialog<T> extends BottomPopupView implements OnS
     private int mDefaultLayoutId;
 
     private Context mContext;
-//    //滚动栏1的数据
-//    private List<T> mDataListOne;
-//
-//    /**
-//     * 滚动栏2的数据
-//     */
-//    protected List<T> mDataListTwo;
-//
-//    /**
-//     * 滚动栏3的数据
-//     */
-//    protected List<T> mDataListThree;
 
 
     protected SelectViewDialog(final Context context) {
@@ -105,10 +76,9 @@ public abstract class SelectViewDialog<T> extends BottomPopupView implements OnS
 
     private void initAdapterOne() {
         mWlvSelectOne.addChangingListener(this);
-        mViewAttribute.mDataListOne = getDataListOne();
-        mContentAdapterOne = new WheelContentAdapter<T>(mContext, mViewAttribute.mDataListOne);
-        mViewAttribute.mSelectValueOne = mViewAttribute.mDataListOne.get(0);
-        mViewAttribute.mSelectIndexOne = 0;
+        mContentAdapterOne = new WheelContentAdapter<T>(mContext, mViewAttribute.getListOne());
+        mViewAttribute.mSelectValueOne = mViewAttribute.getListOne().get(0);
+        mViewAttribute.setSelectIndexOne(0);
         mWlvSelectOne.setViewAdapter(mContentAdapterOne);
         setAdapterOneCentre();
     }
@@ -117,44 +87,36 @@ public abstract class SelectViewDialog<T> extends BottomPopupView implements OnS
     /**
      * 设置上下的间距
      *
-     * @param padding 间距
      * @return SelectView
      */
-    public SelectViewDialog setPadding(int padding) {
+    private void setPadding() {
         if (mContentAdapterOne != null)
-            mContentAdapterOne.setPadding(padding);
+            mContentAdapterOne.setPadding(mViewAttribute.getPadding());
         if (mContentAdapterTwo != null)
-            mContentAdapterTwo.setPadding(padding);
+            mContentAdapterTwo.setPadding(mViewAttribute.getPadding());
         if (mContentAdapterThree != null)
-            mContentAdapterThree.setPadding(padding);
-        return this;
+            mContentAdapterThree.setPadding(mViewAttribute.getPadding());
     }
 
     /**
      * 设置文本颜色
      *
-     * @param color 颜色
      * @return SelectView
      */
-    public SelectViewDialog setTextColor(int color) {
+    private void setTextColor() {
         if (mContentAdapterOne != null)
-            mContentAdapterOne.setTextColor(color);
+            mContentAdapterOne.setTextColor(mViewAttribute.getTextColor());
         if (mContentAdapterTwo != null)
-            mContentAdapterTwo.setTextColor(color);
+            mContentAdapterTwo.setTextColor(mViewAttribute.getTextColor());
         if (mContentAdapterThree != null)
-            mContentAdapterThree.setTextColor(color);
-        return this;
+            mContentAdapterThree.setTextColor(mViewAttribute.getTextColor());
     }
 
     /**
-     * 设置请选择颜色
-     *
-     * @param color 颜色
-     * @return SelectView
+     * 设置title颜色
      */
-    public SelectViewDialog setTitleColor(int color) {
-        mTvTitle.setTextColor(color);
-        return this;
+    private void setTitleColor() {
+        mTvTitle.setTextColor(mViewAttribute.getTitleColor());
     }
 
     @Override
@@ -169,13 +131,9 @@ public abstract class SelectViewDialog<T> extends BottomPopupView implements OnS
 
     /**
      * 设置完成颜色
-     *
-     * @param color 颜色
-     * @return SelectView
      */
-    public SelectViewDialog setDoneColor(int color) {
-        mTvConfirm.setTextColor(color);
-        return this;
+    private void setDoneColor() {
+        mTvConfirm.setTextColor(mViewAttribute.getDoneColor());
     }
 
 //    //滚动栏2的事件监听
@@ -183,14 +141,14 @@ public abstract class SelectViewDialog<T> extends BottomPopupView implements OnS
 
     //初始化滚动栏2
     private void initAdapterTwo() {
-        mContentAdapterTwo = new WheelContentAdapter<T>(mContext, mViewAttribute.mDataListTwo);
-        mViewAttribute.mSelectValueTwo = mViewAttribute.mDataListTwo.get(0);
-        mViewAttribute.mSelectIndexTwo = 0;
+        mContentAdapterTwo = new WheelContentAdapter<T>(mContext, mViewAttribute.getListTwo());
+        mViewAttribute.mSelectValueTwo = mViewAttribute.getListTwo().get(0);
+        mViewAttribute.setSelectIndexTwo(0);
         mWlvSelectTwo.setViewAdapter(mContentAdapterTwo);
         mWlvSelectTwo.setVisibility(View.VISIBLE);
         mWlvSelectTwo.addChangingListener(this);
         setAdapterTwoCentre();
-        if ((mViewAttribute.mDataListThree = getDataListThree()) != null && mViewAttribute.mDataListThree.size() > 0 && mWlvSelectThree.getChangListenersLength() == 0) {
+        if ((mViewAttribute.getListThree() != null && mViewAttribute.getListThree().size() > 0 && mWlvSelectThree.getChangListenersLength() == 0)) {
             initAdapterThree();
         }
     }
@@ -200,21 +158,12 @@ public abstract class SelectViewDialog<T> extends BottomPopupView implements OnS
         initView();
     }
 
-    @Override
-    public List<T> getDataListTwo() {
-        return null;
-    }
-
-    @Override
-    public List<T> getDataListThree() {
-        return null;
-    }
 
     //初始化滚动栏3
     private void initAdapterThree() {
-        mContentAdapterThree = new WheelContentAdapter<T>(mContext, mViewAttribute.mDataListThree);
-        mViewAttribute.mSelectValueThree = mViewAttribute.mDataListThree.get(0);
-        mViewAttribute.mSelectIndexThree = 0;
+        mContentAdapterThree = new WheelContentAdapter<T>(mContext, mViewAttribute.getListThree());
+        mViewAttribute.mSelectValueThree = mViewAttribute.getListThree().get(0);
+        mViewAttribute.setSelectIndexThree(0);
         mWlvSelectThree.setViewAdapter(mContentAdapterThree);
         mWlvSelectThree.setVisibility(View.VISIBLE);
         mWlvSelectThree.addChangingListener(this);
@@ -226,7 +175,7 @@ public abstract class SelectViewDialog<T> extends BottomPopupView implements OnS
      */
     private void setAdapterTwoCentre() {
         //如果是循环显示，并且总数大于4，就居中
-        int countTwo = mViewAttribute.mDataListTwo.size();
+        int countTwo = mViewAttribute.getListTwo().size();
         if (mWlvSelectTwo.isCyclic && countTwo >= 4) {
             setCurrentItemTwo(countTwo / 2);
         } else {
@@ -239,7 +188,7 @@ public abstract class SelectViewDialog<T> extends BottomPopupView implements OnS
      */
     private void setAdapterThreeCentre() {
         //如果是循环显示，并且总数大于4，就居中
-        int countTwo = mViewAttribute.mDataListThree.size();
+        int countTwo = mViewAttribute.getListThree().size();
         if (mWlvSelectThree.isCyclic && countTwo >= 4) {
             setCurrentItemThree(countTwo / 2);
         } else {
@@ -247,12 +196,17 @@ public abstract class SelectViewDialog<T> extends BottomPopupView implements OnS
         }
     }
 
+    private void setCurrentItemOne(int index) {
+        mWlvSelectOne.setCurrentItem(mViewAttribute.getCurrentItemOne(), false);
+        mViewAttribute.setSelectIndexOne(mViewAttribute.getCurrentItemOne());
+    }
+
     /**
      * 设置滚动栏1位置居中
      */
     private void setAdapterOneCentre() {
         //如果是循环显示，并且总数大于4，就居中
-        int countOne = mViewAttribute.mDataListOne.size();
+        int countOne = mViewAttribute.getListOne().size();
         if (mWlvSelectOne.isCyclic() && countOne >= 4) {
             setCurrentItemOne(countOne / 2);
         } else {
@@ -266,10 +220,10 @@ public abstract class SelectViewDialog<T> extends BottomPopupView implements OnS
         } else {
             if (mWlvSelectTwo.getVisibility() == View.GONE)
                 mWlvSelectTwo.setVisibility(View.VISIBLE);
-            mContentAdapterTwo = new WheelContentAdapter<T>(mContext, mViewAttribute.mDataListTwo);
+            mContentAdapterTwo = new WheelContentAdapter<T>(mContext, mViewAttribute.getListTwo());
             mWlvSelectTwo.setViewAdapter(mContentAdapterTwo);
-            mViewAttribute.mSelectIndexTwo = 0;
-            mViewAttribute.mSelectValueTwo = mViewAttribute.mDataListTwo.get(mViewAttribute.mSelectIndexTwo);
+            mViewAttribute.setSelectIndexTwo(0);
+            mViewAttribute.mSelectValueTwo = mViewAttribute.getListTwo().get(mViewAttribute.getSelectIndexTwo());
             setAdapterTwoCentre();
         }
     }
@@ -280,10 +234,10 @@ public abstract class SelectViewDialog<T> extends BottomPopupView implements OnS
         } else {
             if (mWlvSelectThree.getVisibility() == View.GONE)
                 mWlvSelectThree.setVisibility(View.VISIBLE);
-            mContentAdapterThree = new WheelContentAdapter<T>(mContext, mViewAttribute.mDataListThree);
+            mContentAdapterThree = new WheelContentAdapter<T>(mContext, mViewAttribute.getListThree());
             mWlvSelectThree.setViewAdapter(mContentAdapterThree);
-            mViewAttribute.mSelectValueThree = mViewAttribute.mDataListThree.get(0);
-            mViewAttribute.mSelectIndexThree = 0;
+            mViewAttribute.mSelectValueThree = mViewAttribute.getListThree().get(0);
+            mViewAttribute.setSelectIndexThree(0);
             setAdapterThreeCentre();
         }
     }
@@ -294,16 +248,13 @@ public abstract class SelectViewDialog<T> extends BottomPopupView implements OnS
     }
 
     private void initView() {
-//        if (mPopView == null) {
-//            mPopView = LayoutInflater.from(mContext).inflate(R.layout.dialog_wheel_select, null);
-//            mPopWindow = WindowUtils.getPopupWindow(mContext, mPopView, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         mWlvSelectOne = findViewById(R.id.wlv_select_one);
         mWlvSelectTwo = findViewById(R.id.wlv_select_two);
         mWlvSelectThree = findViewById(R.id.wlv_select_three);
         mTvConfirm = findViewById(R.id.tv_confirm);
         mTvTitle = findViewById(R.id.tv_title);
         initAdapterOne();
-        if ((mViewAttribute.mDataListTwo = getDataListTwo()) != null && mViewAttribute.mDataListTwo.size() > 0 && mWlvSelectTwo.getChangListenersLength() == 0) {
+        if ((mViewAttribute.getListTwo() != null && mViewAttribute.getListTwo().size() > 0 && mWlvSelectTwo.getChangListenersLength() == 0)) {
             initAdapterTwo();
         }
         findViewById(R.id.tv_confirm).setOnClickListener(new View.OnClickListener() {
@@ -313,7 +264,11 @@ public abstract class SelectViewDialog<T> extends BottomPopupView implements OnS
                 dismiss();
             }
         });
-//        }
+        setCurrentItem();
+        setTextColor();
+        setPadding();
+        setTitleColor();
+        setDoneColor();
     }
 
 
@@ -344,8 +299,8 @@ public abstract class SelectViewDialog<T> extends BottomPopupView implements OnS
      * @return SelectView
      */
     public SelectViewDialog show() {
-        mPopUp.hasShadowBg(mViewAttribute.isWindowShadow)
-                .dismissOnTouchOutside(mViewAttribute.isCancel)
+        mPopUp.hasShadowBg(mViewAttribute.isWindowShadow())
+                .dismissOnTouchOutside(mViewAttribute.isCancel())
                 .asCustom(this)
                 .showWindow();
         return this;
@@ -355,15 +310,15 @@ public abstract class SelectViewDialog<T> extends BottomPopupView implements OnS
     @Override
     public void onChanged(SelectWheelView selectView, int lastIndex, int selectIndex) {
         if (selectView == mWlvSelectOne) {
-            mViewAttribute.mSelectIndexOne = selectIndex;
+            mViewAttribute.setSelectIndexOne(selectIndex);
 //            mSelectValueOne = mContentAdapterOne.getItemText(selectIndex).toString();
-            mViewAttribute.mSelectValueOne = mViewAttribute.mDataListOne.get(selectIndex);
+            mViewAttribute.mSelectValueOne = mViewAttribute.getListOne().get(selectIndex);
         } else if (selectView == mWlvSelectTwo) {
-            mViewAttribute.mSelectIndexTwo = selectIndex;
-            mViewAttribute.mSelectValueTwo = mViewAttribute.mDataListTwo.get(selectIndex);
+            mViewAttribute.setSelectIndexTwo(selectIndex);
+            mViewAttribute.mSelectValueTwo = mViewAttribute.getListTwo().get(selectIndex);
         } else if (selectView == mWlvSelectThree) {
-            mViewAttribute.mSelectIndexThree = selectIndex;
-            mViewAttribute.mSelectValueThree = mViewAttribute.mDataListThree.get(selectIndex);
+            mViewAttribute.setSelectIndexThree(selectIndex);
+            mViewAttribute.mSelectValueThree = mViewAttribute.getListThree().get(selectIndex);
         }
     }
 
@@ -418,80 +373,47 @@ public abstract class SelectViewDialog<T> extends BottomPopupView implements OnS
     }
 
     /**
-     * 设置滚动栏1当前项。当索引出错时什么也不做。
+     * 设置滚动栏当前项。当索引出错时什么也不做。
+     * 可以用list集合.indexOf(对象名)获取索引
+     *
+     * @return
      */
-    public SelectViewDialog setCurrentItemOne(int index) {
-        mWlvSelectOne.setCurrentItem(index, false);
-        mViewAttribute.mSelectIndexOne = index;
+    public SelectViewDialog setCurrentItem() {
+        if (mViewAttribute.getCurrentItemOne() != -1 && mViewAttribute.getCurrentItemOne() < mViewAttribute.getListOne().size()) {
+            mWlvSelectOne.setCurrentItem(mViewAttribute.getCurrentItemOne(), false);
+            mViewAttribute.setSelectIndexOne(mViewAttribute.getCurrentItemOne());
+        }
+        if (mViewAttribute.getCurrentItemTwo() != -1 && mViewAttribute.getCurrentItemTwo() < mViewAttribute.getListTwo().size()) {
+            mWlvSelectTwo.setCurrentItem(mViewAttribute.getCurrentItemTwo(), false);
+            mViewAttribute.setSelectIndexTwo(mViewAttribute.getCurrentItemTwo());
+        }
+        if (mViewAttribute.getCurrentItemThree() != -1 && mViewAttribute.getCurrentItemThree() < mViewAttribute.getListThree().size()) {
+            mWlvSelectThree.setCurrentItem(mViewAttribute.getCurrentItemThree(), false);
+            mViewAttribute.setSelectIndexThree(mViewAttribute.getCurrentItemThree());
+        }
         return this;
     }
 
     /**
      * 设置滚动栏2当前项。当索引出错时什么也不做。
      */
-    public SelectViewDialog setCurrentItemTwo(int index) {
+    private void setCurrentItemTwo(int index) {
         mWlvSelectTwo.setCurrentItem(index, false);
-        mViewAttribute.mSelectIndexTwo = index;
-        mViewAttribute.mSelectValueTwo = mViewAttribute.mDataListTwo.get(index);
-        return this;
+        mViewAttribute.setSelectIndexTwo(index);
+        mViewAttribute.mSelectValueTwo = mViewAttribute.getListTwo().get(index);
     }
 
     /**
      * 设置滚动栏3当前项。当索引出错时什么也不做。
      */
-    public SelectViewDialog setCurrentItemThree(int index) {
+    private void setCurrentItemThree(int index) {
         mWlvSelectThree.setCurrentItem(index, false);
-        mViewAttribute.mSelectIndexThree = index;
-        mViewAttribute.mSelectValueThree = mViewAttribute.mDataListThree.get(index);
-        return this;
+        mViewAttribute.setSelectIndexThree(index);
+        mViewAttribute.mSelectValueThree = mViewAttribute.getListThree().get(index);
     }
 
 
-    /**
-     * 根据值设置滚动栏1当前项。不存在时什么也不做。
-     */
-    public SelectViewDialog setCurrentItemOne(T selectValue) {
-        List<T> list = mViewAttribute.mDataListOne;
-        for (int i = 0; i < list.size(); i++) {
-            if (list.get(i).toString().equals(selectValue.toString())) {
-                mWlvSelectOne.setCurrentItem(i, false);
-                break;
-            }
-        }
-        return this;
-    }
-
-
-    /**
-     * 根据值设置滚动栏2当前项。不存在时什么也不做。
-     */
-    public SelectViewDialog setCurrentItemTwo(T selectValue) {
-        List<T> list = mViewAttribute.mDataListTwo;
-        for (int i = 0; i < list.size(); i++) {
-            if (list.get(i).toString().equals(selectValue.toString())) {
-                mWlvSelectTwo.setCurrentItem(i, false);
-                break;
-            }
-        }
-        return this;
-    }
-
-    /**
-     * 根据值设置滚动栏3当前项。不存在时什么也不做。
-     */
-    public SelectViewDialog setCurrentItemThree(T selectValue) {
-        List<T> list = mViewAttribute.mDataListThree;
-        for (int i = 0; i < list.size(); i++) {
-            if (list.get(i).toString().equals(selectValue.toString())) {
-                mWlvSelectThree.setCurrentItem(i, false);
-                break;
-            }
-        }
-        return this;
-    }
-
-
-    protected abstract List<T> getDataListOne();
+//    protected abstract List<T> getDataListOne();
 
     protected abstract void selectAchieve();
 }
