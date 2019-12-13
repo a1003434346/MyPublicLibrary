@@ -44,14 +44,12 @@ public class EventBusUtils {
      * @return true请求成功
      */
     public static boolean isSuccess(Context context, EventMsg eventMsg, SmartRefreshLayout... srlRefreshHead) {
-        boolean result = true;
-        if (eventMsg.getRequest() != null && eventMsg.getMessage() != null && !eventMsg.getMessage().equals(DataInterface.SUCCESS)) {
+        boolean result = eventMsg.getRequest() != null && eventMsg.getMessage() != null && eventMsg.getMessage().equals(DataInterface.SUCCESS);
+        if (!result && eventMsg.getRequest() != null)
             ToastUtils.showLongToast(context, eventMsg.getMessage());
-            result = false;
-            if (srlRefreshHead.length > 0) {
-                srlRefreshHead[0].finishRefresh(false);
-                srlRefreshHead[0].finishLoadMore(false);
-            }
+        if (srlRefreshHead.length > 0) {
+            srlRefreshHead[0].finishRefresh(result);
+            srlRefreshHead[0].finishLoadMore(result);
         }
         return result;
     }

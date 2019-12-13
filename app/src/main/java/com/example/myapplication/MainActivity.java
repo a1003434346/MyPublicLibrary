@@ -41,7 +41,6 @@ public class MainActivity extends BasesActivity<TestPre> {
         EventBusUtils.register(this);
         Log.i("testId", bindId(R.id.ctl_content).getId() + "");
         SharedPreferencesUtils.getInstance().init(this);
-        TextView textView = bindId(R.id.tv_test);
 
     }
 
