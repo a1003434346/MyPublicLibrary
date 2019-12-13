@@ -69,8 +69,9 @@ public abstract class BasesFragment<T> extends Fragment implements View.OnClickL
     /**
      * 当前Fragment是否在显示状态
      * 非ViewPage状态下：
-     * 如果有多个Fragment，只有当前显示的页面会走onCreateView方法（只有当前显示的UI为true）
-     * 如果切换页面，当前页面的mFragmentIsShow会自动设置为false
+     * 如果有多个Fragment，这个属性会在构造函数里都初始化为true,但是只有当前显示的页面会走onCreateView方法，如果切换页面，当前页面的mFragmentIsShow会自动设置为false，其它Fragment默认为True
+     * （所以虽然在初始化的时候都为true,但是只有一个页面可以判断到这个值,也就是不调用onCreateView就没有办法判断mFragmentIsShow的真实值，而可以调用到onCreateView后mFragmentIsShow又还原到了正确的值）
+     * 之所以绕这么大一个圈子是因为不能在onCreateView里面设置状态，因为ViewPage下的Fragment在懒加载状态下每一个Fragment都会进入到onCreateView，这样做虽然绕了一个圈子但是最终的结果是正确的
      * VIewPage状态下：
      * 如果有多个Fragment，这个属性会在构造函数里都初始化为true，之后会依次调用setUserVisibleHint函数（调用的次数跟懒加载的设置有关
      * 顺序为：如果懒加载是1，那么默认先走第一个回调为false(第一个页面),第二个回调为false(懒加载的页面),第三个回调为true(第一个页面)），
@@ -81,13 +82,12 @@ public abstract class BasesFragment<T> extends Fragment implements View.OnClickL
     protected boolean mUiLoadDone;
 
     public BasesFragment() {
-//        mFragmentIsShow = true;
+        mFragmentIsShow = true;
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mFragmentIsShow = true;
         if (myView == null) {
             myView = inflater.inflate(onRegistered(), container, false);
 //            if (isSetStatus)
