@@ -81,12 +81,13 @@ public abstract class BasesFragment<T> extends Fragment implements View.OnClickL
     protected boolean mUiLoadDone;
 
     public BasesFragment() {
-        mFragmentIsShow = true;
+//        mFragmentIsShow = true;
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        mFragmentIsShow = true;
         if (myView == null) {
             myView = inflater.inflate(onRegistered(), container, false);
 //            if (isSetStatus)
