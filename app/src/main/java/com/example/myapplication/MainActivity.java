@@ -1,5 +1,6 @@
 package com.example.myapplication;
 
+import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 
@@ -8,6 +9,7 @@ import com.example.mypubliclibrary.base.bean.EventMsg;
 import com.example.mypubliclibrary.util.CodeUtils;
 import com.example.mypubliclibrary.util.EventBusUtils;
 import com.example.mypubliclibrary.util.ListUtils;
+import com.example.mypubliclibrary.util.NumberUtil;
 import com.example.mypubliclibrary.util.SharedPreferencesUtils;
 import com.example.mypubliclibrary.util.ToastUtils;
 import com.example.mypubliclibrary.widget.dialog.build.BuildSelectTextAttribute;
@@ -16,6 +18,8 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class MainActivity extends BasesActivity<TestPre> {
 
@@ -36,6 +40,7 @@ public class MainActivity extends BasesActivity<TestPre> {
         EventBusUtils.register(this);
         Log.i("testId", bindId(R.id.ctl_content).getId() + "");
         SharedPreferencesUtils.getInstance().init(this);
+
     }
 
     @Override
@@ -46,17 +51,26 @@ public class MainActivity extends BasesActivity<TestPre> {
 
     @Override
     protected void initListener() {
-        bindClick(R.id.tv_test);
+        bindClick(new ListUtils<Integer>().add(R.id.tv_test, R.id.tv_test1));
     }
 
 
     boolean test;
+    Timer mTimer;
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_test:
-                getInputDialog("请输入内容", R.id.tv_test).show();
+                mTimer = new Timer();
+                mTimer.schedule(new TimerTask() {
+                    public void run() {
+                        Looper.prepare();
+                        ToastUtils.showLongToast(MainActivity.this, "执行了");
+                        Looper.loop();
+                    }
+                }, NumberUtil.getRandom(4000, 8000));// 这里是毫秒
+
 //                getPhotoView(3);
 //                ImageUtils.previewPhoto(this, new ListUtils<>().add("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1548756837006&di=551df0dcf59d1d71673c3d46b33f0d93&imgtype=0&src=http%3A%2F%2Fimg5.duitang.com%2Fuploads%2Fitem%2F201308%2F04%2F20130804155912_wCRnE.thumb.700_0.jpeg",
 //                        "https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=2279952540,2544282724&fm=26&gp=0.jpg", "https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=851052518,4050485518&fm=26&gp=0.jpg"));
@@ -75,6 +89,9 @@ public class MainActivity extends BasesActivity<TestPre> {
 //
 //                    }
 //                }.setBackgroundColor(Color.parseColor("#000000")).setLineColor(Color.parseColor("#565656")).setCancelShow(false).show();
+                break;
+            case R.id.tv_test1:
+                mTimer.cancel();
                 break;
         }
     }

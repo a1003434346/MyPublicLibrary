@@ -24,7 +24,7 @@ public class MapUtils<K, V> {
      * @param v v
      * @return kvMap
      */
-    public MapUtils putValueNotNull(K k, V v) {
+    public MapUtils<K,V> putValueNotNull(K k, V v) {
         if (v != null) {
             mKvMap.put(k, v);
         }
@@ -39,7 +39,7 @@ public class MapUtils<K, V> {
      * @param v v
      * @return kvMap
      */
-    public MapUtils putValue(K k, V v) {
+    public MapUtils<K,V>  putValue(K k, V v) {
         mKvMap.put(k, v);
         return this;
     }

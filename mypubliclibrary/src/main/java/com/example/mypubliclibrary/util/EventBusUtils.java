@@ -45,7 +45,7 @@ public class EventBusUtils {
      */
     public static boolean isSuccess(Context context, EventMsg eventMsg, SmartRefreshLayout... srlRefreshHead) {
         boolean result = true;
-        if (eventMsg.getMessage() != null && !eventMsg.getMessage().equals(DataInterface.SUCCESS)) {
+        if (eventMsg.getRequest() != null && eventMsg.getMessage() != null && !eventMsg.getMessage().equals(DataInterface.SUCCESS)) {
             ToastUtils.showLongToast(context, eventMsg.getMessage());
             result = false;
             if (srlRefreshHead.length > 0) {
