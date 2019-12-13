@@ -258,7 +258,7 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
      *                    setResult(10,getIntent());
      *                    finish();
      */
-    public void jumpActivity(Class<?> aClass, TreeMap<String, Object> paramMap, int requestCode, int flags) {
+    public void jumpActivity(Class aClass, TreeMap<String, Object> paramMap, int requestCode, int flags) {
         startActivityForResult(paramIntent(aClass, paramMap).addFlags(flags == 0 ? Intent.FLAG_ACTIVITY_REORDER_TO_FRONT : flags), requestCode);
         if (mJumpAnim) overridePendingTransition(R.anim.tran_enter_go, R.anim.tran_exit_go);
     }
@@ -272,7 +272,7 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
      * @param code     code
      * @param isFlags  true为flags,false为requestCode
      */
-    public void jumpActivity(Class<?> aClass, TreeMap<String, Object> paramMap, int code, boolean isFlags) {
+    public void jumpActivity(Class aClass, TreeMap<String, Object> paramMap, int code, boolean isFlags) {
         if (isFlags) {
             startActivity(paramIntent(aClass, paramMap).addFlags(code == 0 ? Intent.FLAG_ACTIVITY_REORDER_TO_FRONT : code));
         } else {
@@ -287,7 +287,7 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
      * @param aClass
      * @param paramMap
      */
-    public void jumpActivity(Class<?> aClass, TreeMap<String, Object> paramMap) {
+    public void jumpActivity(Class aClass, TreeMap<String, Object> paramMap) {
         startActivity(paramIntent(aClass, paramMap).addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
         if (mJumpAnim) overridePendingTransition(R.anim.tran_enter_go, R.anim.tran_exit_go);
     }
@@ -303,7 +303,7 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
      *                    setResult(10,getIntent());
      *                    finish();
      */
-    public void jumpActivity(Class<?> aClass, int requestCode, int flags) {
+    public void jumpActivity(Class aClass, int requestCode, int flags) {
         startActivityForResult(new Intent(this, aClass).addFlags(flags == 0 ? Intent.FLAG_ACTIVITY_REORDER_TO_FRONT : flags), requestCode);
         if (mJumpAnim) overridePendingTransition(R.anim.tran_enter_go, R.anim.tran_exit_go);
     }
@@ -316,7 +316,7 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
      * @param code    code
      * @param isFlags true为flags,false为requestCode
      */
-    public void jumpActivity(Class<?> aClass, int code, boolean isFlags) {
+    public void jumpActivity(Class aClass, int code, boolean isFlags) {
         if (isFlags) {
             startActivity(new Intent(this, aClass).addFlags(code == 0 ? Intent.FLAG_ACTIVITY_REORDER_TO_FRONT : code));
         } else {
@@ -335,7 +335,7 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
      *
      * @param aClass Activity的Class
      */
-    public void jumpActivity(Class<?> aClass) {
+    public void jumpActivity(Class aClass) {
         startActivity(new Intent(this, aClass).addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
         if (mJumpAnim) overridePendingTransition(R.anim.tran_enter_go, R.anim.tran_exit_go);
     }
