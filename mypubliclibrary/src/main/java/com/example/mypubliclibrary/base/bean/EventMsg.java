@@ -5,7 +5,7 @@ package com.example.mypubliclibrary.base.bean;
  * describe:
  * Created By LiQiang on 2019/7/10.
  */
-public class EventMsg<T, I> {
+public class EventMsg {
     //发起人是谁，一般用来区分发起人
     private String mInitiator;
     //传递消息,成功对应CannotLittle里的常量,失败返回错误信息
@@ -13,12 +13,12 @@ public class EventMsg<T, I> {
     //事件类型，一般用来处理逻辑
     private String mType;
     //当前请求的Request，对应请求数据接口的枚举类型（可选）
-    private I mRequest;
+    private Object mRequest;
 
-    private T mData;
+    private Object mData;
 
-    public I getRequest() {
-        return mRequest;
+    public <T> T getRequest() {
+        return (T) mRequest;
     }
 
     public String getType() {
@@ -30,15 +30,15 @@ public class EventMsg<T, I> {
         return this;
     }
 
-    public void setRequest(I mRequest) {
+    public void setRequest(Object mRequest) {
         this.mRequest = mRequest;
     }
 
-    public T getData() {
-        return mData;
+    public <T> T getData() {
+        return (T) mData;
     }
 
-    public EventMsg<T, I> setData(T data) {
+    public EventMsg setData(Object data) {
         this.mData = data;
         return this;
     }
@@ -47,7 +47,7 @@ public class EventMsg<T, I> {
         return mInitiator == null ? "" : mInitiator;
     }
 
-    public EventMsg<T, I> setInitiator(String initiator) {
+    public EventMsg setInitiator(String initiator) {
         this.mInitiator = initiator;
         return this;
     }
@@ -56,7 +56,7 @@ public class EventMsg<T, I> {
         return mMessage == null ? "" : mMessage;
     }
 
-    public EventMsg<T, I> setMessage(String message) {
+    public EventMsg setMessage(String message) {
         this.mMessage = message;
         return this;
     }
