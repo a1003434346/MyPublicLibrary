@@ -3,6 +3,7 @@ package com.example.myapplication;
 import android.os.Looper;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 import com.example.mypubliclibrary.base.BasesActivity;
 import com.example.mypubliclibrary.base.bean.EventMsg;
@@ -40,6 +41,7 @@ public class MainActivity extends BasesActivity<TestPre> {
         EventBusUtils.register(this);
         Log.i("testId", bindId(R.id.ctl_content).getId() + "");
         SharedPreferencesUtils.getInstance().init(this);
+        TextView textView = bindId(R.id.tv_test);
 
     }
 
@@ -63,6 +65,7 @@ public class MainActivity extends BasesActivity<TestPre> {
         switch (view.getId()) {
             case R.id.tv_test:
                 mTimer = new Timer();
+
                 mTimer.schedule(new TimerTask() {
                     public void run() {
                         Looper.prepare();

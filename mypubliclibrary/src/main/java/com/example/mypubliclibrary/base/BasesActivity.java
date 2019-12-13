@@ -734,11 +734,11 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
         }
     }
 
-    public <T extends View> T bindId(int viewId) {
-        return (T) findViewById(viewId);
+    public <V extends View> V bindId(int viewId) {
+        return (V) findViewById(viewId);
     }
 
-    public <T extends View> T bindId(View view, int viewId) {
+    public <V extends View> V bindId(View view, int viewId) {
         return view.findViewById(viewId);
     }
 
