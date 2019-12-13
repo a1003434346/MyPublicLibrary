@@ -69,7 +69,7 @@ public abstract class BasesFragment<T> extends Fragment implements View.OnClickL
     /**
      * 当前Fragment是否在显示状态
      * 非ViewPage状态下：
-     * 如果有多个Fragment，这个属性会在构造函数里都初始化为true,但是只有当前显示的页面会走onCreateView方法（所以虽然所有都为true,但是只有一个页面会显示UI）
+     * 如果有多个Fragment，只有当前显示的页面会走onCreateView方法（只有当前显示的UI为true）
      * 如果切换页面，当前页面的mFragmentIsShow会自动设置为false
      * VIewPage状态下：
      * 如果有多个Fragment，这个属性会在构造函数里都初始化为true，之后会依次调用setUserVisibleHint函数（调用的次数跟懒加载的设置有关
