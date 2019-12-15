@@ -120,16 +120,16 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         //避免按Home键 会重新实例化入口类的activity
-        if (!this.isTaskRoot()) {
-            Intent intent = getIntent();
-            if (intent != null) {
-                String action = intent.getAction();
-                if (intent.hasCategory(Intent.CATEGORY_LAUNCHER) && Intent.ACTION_MAIN.equals(action)) {
-                    finish();
-                    return;
-                }
-            }
-        }
+//        if (!this.isTaskRoot()) {
+//            Intent intent = getIntent();
+//            if (intent != null) {
+//                String action = intent.getAction();
+//                if (intent.hasCategory(Intent.CATEGORY_LAUNCHER) && Intent.ACTION_MAIN.equals(action)) {
+//                    finish();
+//                    return;
+//                }
+//            }
+//        }
         super.onCreate(savedInstanceState);
         mJumpAnim = true;
         setStatusBar();
