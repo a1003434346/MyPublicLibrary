@@ -37,8 +37,8 @@ import java.util.List;
  */
 public abstract class BasesFragment<T> extends Fragment implements View.OnClickListener {
     protected T mPresenter;
-    //当前页面的简单名称
-    public String mSimpleName;
+    //当前页面的唯一标识
+    public String mOnlyMark;
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public abstract void onEvent(EventMsg message);
@@ -100,7 +100,9 @@ public abstract class BasesFragment<T> extends Fragment implements View.OnClickL
                 @Override
                 public boolean queueIdle() {
                     mUiLoadDone = true;
-                    mSimpleName = BasesFragment.this.getClass().getSimpleName();
+//                    mSimpleName = BasesFragment.this.getClass().getSimpleName();
+                    //获取代表该类的唯一值
+                    mOnlyMark = System.nanoTime() + "";
                     //Ui线程空闲下来后去执行（所有生命周期执行完以后才会去执行）
                     mPresenter = ObjectUtil.getT(BasesFragment.this.getClass());
                     initData();

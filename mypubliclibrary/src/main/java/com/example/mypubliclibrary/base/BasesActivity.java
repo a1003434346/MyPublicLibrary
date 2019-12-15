@@ -105,8 +105,8 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
 
     //拍照
     private MediaStoreCompat mMediaStoreCompat;
-    //当前页面的简单名称
-    public String mSimpleName;
+    //当前页面的唯一标识
+    public String mOnlyMark;
 
     public int getDP(int px) {
         return WindowUtils.dip2px(this, px);
@@ -147,7 +147,9 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
             @Override
             public boolean queueIdle() {
                 mUiLoadDone = true;
-                mSimpleName = BasesActivity.this.getClass().getSimpleName();
+//                mSimpleName = BasesActivity.this.getClass().getSimpleName();
+                //获取代表该类的唯一值
+                mOnlyMark = System.nanoTime() + "";
                 //Ui线程空闲下来后去执行（所有生命周期执行完以后才会去执行）
                 mFragmentManager = getSupportFragmentManager();
                 getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
