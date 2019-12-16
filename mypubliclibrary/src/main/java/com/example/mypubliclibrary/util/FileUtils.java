@@ -19,11 +19,11 @@ public class FileUtils {
      * @param files files
      * @return
      */
-    public static List<MultipartBody.Part> getParts(List<File> files) {
+    public static List<MultipartBody.Part> getParts(String partName, List<File> files) {
         MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM);  //表单类型
         for (File file : files) {
             RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
-            builder.addFormDataPart("file", file.getName(), requestBody);//file 后台接收图片流的参数名
+            builder.addFormDataPart(partName, file.getName(), requestBody);//file 后台接收图片流的参数名
         }
 //        MultipartBody.Part part = MultipartBody.Part.createFormData("file", file.getName(), requestBody);
         return builder.build().parts();

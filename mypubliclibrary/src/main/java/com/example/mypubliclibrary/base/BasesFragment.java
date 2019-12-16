@@ -54,7 +54,10 @@ public abstract class BasesFragment<T> extends Fragment implements View.OnClickL
     //初始化事件
     protected abstract void initListener();
 
-    //请求接口数据
+    /**
+     * 请求接口数据
+     * 会在onShowFragment回调里调用该方法，接口请求成功记得要把mIsInitData设置为true,否则每次回调onShowFragment的时候都会请求接口数据
+     */
     protected abstract void requestData();
 
 //    protected abstract void getBaseActivity();
