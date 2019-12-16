@@ -53,11 +53,10 @@ public class ImageUtils {
     /**
      * 设置图片为圆角
      *
-     * @param context        context
      * @param imageView      imageView
      * @param roundingRadius 圆角的度数
      */
-    public static void setImageCorners(Context context, ImageView imageView, Object path, int roundingRadius) {
+    public static void setImageCorners(ImageView imageView, Object path, int roundingRadius) {
         //设置图片为圆角
         RoundedCorners roundedCorners = new RoundedCorners(roundingRadius);//数字为圆角度数
         RequestOptions coverRequestOptions = new RequestOptions()
@@ -65,19 +64,18 @@ public class ImageUtils {
                 .diskCacheStrategy(DiskCacheStrategy.ALL)//磁盘缓存
                 .skipMemoryCache(false);//跳过内存缓存
         //Glide 加载图片简单用法
-        Glide.with(context).load(path)
+        Glide.with(imageView).load(path)
                 .apply(coverRequestOptions).into(imageView);
     }
 
     /**
      * 设置图片为圆形
      *
-     * @param context   context
      * @param imageView imageView
      * @param path      path
      */
-    public static void setImageCrop(Context context, ImageView imageView, Object path) {
-        Glide.with(context).load(path)
+    public static void setImageCrop( ImageView imageView, Object path) {
+        Glide.with(imageView).load(path)
                 .apply(RequestOptions.bitmapTransform(new CircleCrop()))
                 .into(imageView);
     }
