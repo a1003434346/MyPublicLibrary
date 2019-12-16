@@ -54,6 +54,11 @@ public class PreviewPhotoFragment extends BasesFragment {
 
     }
 
+    @Override
+    protected void requestData() {
+
+    }
+
     public PreviewPhotoFragment(int index, Object photo) {
         this.photo = photo;
         this.index = index + 1;
