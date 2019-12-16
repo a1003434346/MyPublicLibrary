@@ -54,6 +54,9 @@ public abstract class BasesFragment<T> extends Fragment implements View.OnClickL
     //初始化事件
     protected abstract void initListener();
 
+    //请求接口数据
+    protected abstract void requestData();
+
 //    protected abstract void getBaseActivity();
 
     protected View myView;
@@ -80,6 +83,8 @@ public abstract class BasesFragment<T> extends Fragment implements View.OnClickL
     protected boolean mFragmentIsShow;
     //Ui是否加载完成
     protected boolean mUiLoadDone;
+    //是否已经初始化数据
+    protected boolean mIsInitData;
 
     public BasesFragment() {
         mFragmentIsShow = true;
@@ -427,6 +432,7 @@ public abstract class BasesFragment<T> extends Fragment implements View.OnClickL
      */
     protected void onShowFragment() {
         Log.i("BasesFragment", "执行了onShowFragment:" + this.getClass().getSimpleName());
+        if (!mIsInitData) requestData();
         if (myView != null)
             WindowUtils.setStatusTitle(getContext(), myView);
 //        if (isSetStatus)
