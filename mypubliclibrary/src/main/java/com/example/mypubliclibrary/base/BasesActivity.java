@@ -833,9 +833,7 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
         if (connect.length == 0) {
             //关联显示TextView,不显示提交按钮，并且键盘右下角显示为完成
             inputDialog.connectView(inputView);
-            inputDialog.setSubmitVisibility(false);
-        } else {
-            inputDialog.setSubmitText("提交");
+//            inputDialog.setSubmitVisibility(false);
         }
         inputDialog.setInputValue(inputView.getText().toString());
         return inputDialog;
