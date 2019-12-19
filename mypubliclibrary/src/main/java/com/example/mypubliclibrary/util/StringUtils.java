@@ -70,7 +70,7 @@ public class StringUtils {
      * @param color         颜色
      * @return 直接赋值给TextView.setText()即可
      */
-    public SpannableStringBuilder addColorToText(String value, String addColorValue, int color) {
+    public static SpannableStringBuilder addColorToText(String value, String addColorValue, int color) {
         SpannableStringBuilder style = new SpannableStringBuilder(value);
         int start = value.indexOf(addColorValue);
         style.setSpan(new ForegroundColorSpan(color), start, start + addColorValue.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -78,7 +78,7 @@ public class StringUtils {
     }
 
 
-    public String getIndexString(String value, int start, int length) {
+    public static String getIndexString(String value, int start, int length) {
         return value.substring(start, start + length);
     }
 
