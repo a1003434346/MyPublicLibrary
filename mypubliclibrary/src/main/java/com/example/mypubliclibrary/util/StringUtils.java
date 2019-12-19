@@ -5,60 +5,77 @@ import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
 
+import com.example.mypubliclibrary.base.BasesActivity;
+
 /**
  * function:
  * describe:
  * Created By LiQiang on 2019/7/18.
  */
 public class StringUtils {
-    //字符串颜色工具类
-    public static StringColor newStringColor() {
-        return new StringColor();
+//    //字符串颜色工具类
+//    public static StringColor newStringColor() {
+//        return new StringColor();
+//    }
+//
+//    public static final class StringColor {
+//        //开始位置,下标从0开始,包含开始位置
+//        private int startIndex;
+//        //结束位置，下标从0开始，不包含结束位置
+//        private int endIndex;
+//        //颜色
+//        private int color;
+//        //显示的内容
+//        private String value;
+//
+//
+//        public StringColor setStartIndex(int startIndex) {
+//            this.startIndex = startIndex;
+//            return this;
+//        }
+//
+//        public StringColor setEndIndex(int endIndex) {
+//            this.endIndex = endIndex;
+//            return this;
+//        }
+//
+//        public StringColor setColor(int color) {
+//            this.color = color;
+//            return this;
+//        }
+//
+//        public StringColor setValue(String value) {
+//            this.value = value;
+//            return this;
+//        }
+//
+//        /**
+//         * 给字符串设置区间的颜色
+//         *
+//         * @param context context
+//         * @return 直接复制给TextView.setText()即可
+//         */
+//        public SpannableStringBuilder create(Context context) {
+//            SpannableStringBuilder style = new SpannableStringBuilder(value);
+//            style.setSpan(new ForegroundColorSpan(context.getResources().getColor(color)), startIndex, endIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+//            return style;
+//        }
+//    }
+
+    /**
+     * 给部分文本增加颜色
+     *
+     * @param value 字符串
+     * @param start 开始区间的位置
+     * @param color 颜色
+     * @return 直接复制给TextView.setText()即可
+     */
+    public static SpannableStringBuilder addColorToText(String value, int start, int color) {
+        SpannableStringBuilder style = new SpannableStringBuilder(value);
+        style.setSpan(new ForegroundColorSpan(color), start, start + value.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        return style;
     }
 
-    public static final class StringColor {
-        //开始位置,下标从0开始,包含开始位置
-        private int startIndex;
-        //结束位置，下标从0开始，不包含结束位置
-        private int endIndex;
-        //颜色
-        private int color;
-        //显示的内容
-        private String value;
-
-
-        public StringColor setStartIndex(int startIndex) {
-            this.startIndex = startIndex;
-            return this;
-        }
-
-        public StringColor setEndIndex(int endIndex) {
-            this.endIndex = endIndex;
-            return this;
-        }
-
-        public StringColor setColor(int color) {
-            this.color = color;
-            return this;
-        }
-
-        public StringColor setValue(String value) {
-            this.value = value;
-            return this;
-        }
-
-        /**
-         * 给字符串设置区间的颜色
-         *
-         * @param context context
-         * @return 直接复制给TextView.setText()即可
-         */
-        public SpannableStringBuilder create(Context context) {
-            SpannableStringBuilder style = new SpannableStringBuilder(value);
-            style.setSpan(new ForegroundColorSpan(context.getResources().getColor(color)), startIndex, endIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            return style;
-        }
-    }
 
     public String getIndexString(String value, int start, int length) {
         return value.substring(start, start + length);
