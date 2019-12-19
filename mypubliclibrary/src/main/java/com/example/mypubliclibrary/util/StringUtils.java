@@ -65,13 +65,14 @@ public class StringUtils {
     /**
      * 给部分文本增加颜色
      *
-     * @param value 字符串
-     * @param start 开始区间的位置
-     * @param color 颜色
-     * @return 直接复制给TextView.setText()即可
+     * @param value         完整字符串
+     * @param addColorValue 要添加颜色的文本
+     * @param start         开始区间的位置
+     * @param color         颜色
+     * @return 直接赋值给TextView.setText()即可
      */
-    public static SpannableStringBuilder addColorToText(String value, int start, int color) {
-        SpannableStringBuilder style = new SpannableStringBuilder(value);
+    public static SpannableStringBuilder addColorToText(String value, String addColorValue, int start, int color) {
+        SpannableStringBuilder style = new SpannableStringBuilder(addColorValue);
         style.setSpan(new ForegroundColorSpan(color), start, start + value.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         return style;
     }
