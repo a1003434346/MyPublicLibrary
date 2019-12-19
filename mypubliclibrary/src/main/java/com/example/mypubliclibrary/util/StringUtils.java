@@ -73,7 +73,7 @@ public class StringUtils {
      */
     public static SpannableStringBuilder addColorToText(String value, String addColorValue, int start, int color) {
         SpannableStringBuilder style = new SpannableStringBuilder(addColorValue);
-        style.setSpan(new ForegroundColorSpan(color), start, start + value.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        style.setSpan(new ForegroundColorSpan(color), start, start + addColorValue.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         return style;
     }
 
