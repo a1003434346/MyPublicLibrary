@@ -432,15 +432,15 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
      * @param color     背景色
      * @param radius    圆角
      * @param isPressed 是否增加按下特效，默认为true,为true以后必须注册点击事件才会生效，否则不会有按下效果
-     * @return StateListDrawable
+     * @return StateListDrawable 记得要调用.create()
      */
-    public StateListDrawable getBackRadius(int color, int radius, boolean... isPressed) {
+    public SelectorUtils.ShapeSelector getBackRadius(int color, int radius, boolean... isPressed) {
         SelectorUtils.ShapeSelector selector = SelectorUtils.newShapeSelector().setDefaultBgColor(color).setCornerRadius(new float[]{getDP(radius)});
         if (isPressed.length > 0 && !isPressed[0]) {
-            return selector.create();
+            return selector;
         }
         selector.setPressedBgColor(ColorUtils.getTranslucentColor(0.85f, color));
-        return selector.create();
+        return selector;
     }
 
     /**
