@@ -67,12 +67,12 @@ public class StringUtils {
      *
      * @param value         完整字符串
      * @param addColorValue 要添加颜色的文本
-     * @param start         开始区间的位置
      * @param color         颜色
      * @return 直接赋值给TextView.setText()即可
      */
-    public static SpannableStringBuilder addColorToText(String value, String addColorValue, int start, int color) {
-        SpannableStringBuilder style = new SpannableStringBuilder(addColorValue);
+    public SpannableStringBuilder addColorToText(String value, String addColorValue, int color) {
+        SpannableStringBuilder style = new SpannableStringBuilder(value);
+        int start = value.indexOf(addColorValue);
         style.setSpan(new ForegroundColorSpan(color), start, start + addColorValue.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         return style;
     }

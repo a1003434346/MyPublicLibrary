@@ -73,7 +73,7 @@ public class ColorUtils {
     /**
      * 给当前颜色值设置透明度
      *
-     * @param percent 透明值 值越小，透明度越高
+     * @param percent 0.1-1.0f 透明值 值越小，透明度越高
      * @param rgb     rgb
      * @return
      */
