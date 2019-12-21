@@ -13,6 +13,7 @@ import com.example.mypubliclibrary.util.ListUtils;
 import com.example.mypubliclibrary.util.NumberUtil;
 import com.example.mypubliclibrary.util.SharedPreferencesUtils;
 import com.example.mypubliclibrary.util.ToastUtils;
+import com.example.mypubliclibrary.widget.dialog.build.BuildPasswordAttribute;
 import com.example.mypubliclibrary.widget.dialog.build.BuildSelectTextAttribute;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -63,15 +64,16 @@ public class MainActivity extends BasesActivity<TestPre> {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_test:
-                mTimer = new Timer();
-
-                mTimer.schedule(new TimerTask() {
-                    public void run() {
-                        Looper.prepare();
-                        ToastUtils.showLongToast(MainActivity.this, "执行了");
-                        Looper.loop();
+                new BuildPasswordAttribute(this) {
+                    @Override
+                    protected void onDone(String password) {
+                        ToastUtils.showLongToast(MainActivity.this, "输入了" + password);
                     }
-                }, NumberUtil.getRandom(4000, 8000));// 这里是毫秒
+                }.setTitle("请输入支付密码")
+                        .setHintText("使用会员卡余额支付需要验证身份。")
+                        .setMoney("￥ 100.00")
+                        .createWindow()
+                        .show();
 
 //                getPhotoView(3);
 //                ImageUtils.previewPhoto(this, new ListUtils<>().add("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1548756837006&di=551df0dcf59d1d71673c3d46b33f0d93&imgtype=0&src=http%3A%2F%2Fimg5.duitang.com%2Fuploads%2Fitem%2F201308%2F04%2F20130804155912_wCRnE.thumb.700_0.jpeg",

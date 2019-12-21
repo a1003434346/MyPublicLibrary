@@ -22,4 +22,11 @@
     <style name="ClearShadow" parent="@style/Widget.AppCompat.Button.Borderless">
 
     </style>
+
+    <!-- 默认水平分割线样式 -->
+    <style name="HorizontalLineStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/line_size</item>
+        <item name="android:background">@color/colorLine</item>
+    </style>
 </resources>

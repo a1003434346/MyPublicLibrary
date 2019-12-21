@@ -11,4 +11,9 @@
     <color name="colorPrairieGreen">#07c160</color>
     <color name="colorDeepGreen">#06AE56</color>
     <color name="colorThinBlack">#565656</color>
+    <!-- 分割线的颜色 -->
+    <color name="colorLine">#ECECEC</color>
+    <color name="black5">#0D000000</color>
+    <!-- 透明色 -->
+    <color name="transparent">#00000000</color>
 </resources>
