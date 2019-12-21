@@ -69,9 +69,9 @@ public class MainActivity extends BasesActivity<TestPre> {
                     protected void onDone(String password) {
                         ToastUtils.showLongToast(MainActivity.this, "输入了" + password);
                     }
-                }.setTitle("请输入支付密码")
-                        .setHintText("使用会员卡余额支付需要验证身份。")
-                        .setMoney("￥ 100.00")
+                }.setTitle("请再次输入支付密码")
+//                        .setHintText("使用会员卡余额支付需要验证身份。")
+//                        .setMoney("￥ 100.00")
                         .createWindow()
                         .show();
 
