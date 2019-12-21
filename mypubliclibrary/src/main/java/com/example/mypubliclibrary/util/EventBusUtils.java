@@ -46,11 +46,12 @@ public class EventBusUtils {
      * @return true请求成功
      */
     public static boolean isSuccess(Context context, EventMsg eventMsg, String initiator, boolean currentValid, SmartRefreshLayout... srlRefreshHead) {
+        //判断当前发起人是否有效
         boolean isValid = !currentValid || initiator.equals(eventMsg.getInitiator());
         boolean result = eventMsg.getRequest() != null && eventMsg.getMessage() != null && eventMsg.getMessage().equals(DataInterface.SUCCESS) && isValid;
         if (!result && eventMsg.getRequest() != null && !StringUtils.isEmpty(eventMsg.getMessage()) && initiator.equals(eventMsg.getInitiator()))
             ToastUtils.showLongToast(context, eventMsg.getMessage());
-        if (srlRefreshHead.length > 0 && srlRefreshHead[0] != null && eventMsg.getRequest() != null) {
+        if (srlRefreshHead.length > 0 && srlRefreshHead[0] != null && eventMsg.getRequest() != null && initiator.equals(eventMsg.getInitiator())) {
             srlRefreshHead[0].finishRefresh(result);
             srlRefreshHead[0].finishLoadMore(result);
         }
