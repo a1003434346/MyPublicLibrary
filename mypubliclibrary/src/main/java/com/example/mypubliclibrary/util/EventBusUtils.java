@@ -51,7 +51,7 @@ public class EventBusUtils {
         boolean result = eventMsg.getRequest() != null && eventMsg.getMessage() != null && eventMsg.getMessage().equals(DataInterface.SUCCESS) && isValid;
         if (!result && eventMsg.getRequest() != null && !StringUtils.isEmpty(eventMsg.getMessage()) && initiator.equals(eventMsg.getInitiator()))
             ToastUtils.showLongToast(context, eventMsg.getMessage());
-        if (srlRefreshHead.length > 0 && srlRefreshHead[0] != null && eventMsg.getRequest() != null && initiator.equals(eventMsg.getInitiator())) {
+        if (srlRefreshHead.length > 0 && srlRefreshHead[0] != null && eventMsg.getRequest() != null ) {
             srlRefreshHead[0].finishRefresh(result);
             srlRefreshHead[0].finishLoadMore(result);
         }
