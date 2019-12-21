@@ -44,8 +44,8 @@ public class ListUtils<T> {
      * @param oldData 数据源
      * @param newData 新的数据
      */
-    public static <T> void updateListData(List<T> oldData, List<T> newData, boolean clearOldData) {
-        if (clearOldData) oldData.clear();
+    public static <T> void updateListData(List<T> oldData, List<T> newData, boolean... clearOldData) {
+        if (clearOldData.length == 0 || clearOldData[0]) oldData.clear();
         if (newData != null) oldData.addAll(newData);
     }
 

@@ -39,7 +39,7 @@ public class RecyclerViewUtils {
      * @param newData 新的数据
      * @param adapter adapter
      */
-    public static <T> void updateData(List<T> oldData, List<T> newData, boolean clearOldData, CommonAdapter adapter) {
+    public static <T> void updateData(List<T> oldData, List<T> newData, CommonAdapter adapter, boolean... clearOldData) {
         ListUtils.updateListData(oldData, newData, clearOldData);
         adapter.notifyDataSetChanged();
     }
