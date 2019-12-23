@@ -102,6 +102,8 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
 //    protected boolean isSetStatusColor;
     //是否开启跳转动画，默认为开启
     protected boolean mJumpAnim;
+    //是否允许滑动Finish
+    protected boolean isSlideFinish;
 
     //拍照
     private MediaStoreCompat mMediaStoreCompat;
@@ -133,6 +135,7 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
         super.onCreate(savedInstanceState);
         mJumpAnim = true;
         setStatusBar();
+        setSwipeBackEnable(!isSlideFinish);
         setContentView(onRegistered());
         //设置状态栏的背景色为title的背景色,如果有title,给title增加状态栏间距
         setStatusTitle();
@@ -706,7 +709,7 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         //FragmentManager中的所有Fragment都清理掉，避免旋转屏幕的时候出现重叠
-        mFragmentManager.getFragments().clear();
+        if (mFragmentManager != null) mFragmentManager.getFragments().clear();
     }
 
     public void bindClick(int viewId) {

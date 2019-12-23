@@ -145,8 +145,13 @@ public abstract class BuildWarningAttribute extends ViewAttribute {
         return this;
     }
 
-    protected abstract void oneClick();
+    protected void oneClick() {
 
+    }
+
+    ;
+
+    //因为通常情况只处理这个事件，所以这个为抽象，其它方法为按需重写
     protected abstract void twoClick();
 
     protected void middleClick() {
