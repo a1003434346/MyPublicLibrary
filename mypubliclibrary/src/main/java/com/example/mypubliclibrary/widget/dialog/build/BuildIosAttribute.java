@@ -140,6 +140,12 @@ public abstract class BuildIosAttribute extends ViewAttribute {
         return this;
     }
 
+    public boolean isShowCancelButton() {
+        return isShowCancelButton;
+    }
+
+
+
     protected abstract void itemClick(Button button, int position);
 
     public BottomIosDialog createWindow() {

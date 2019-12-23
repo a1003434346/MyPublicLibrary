@@ -68,6 +68,11 @@ public abstract class BuildWarningAttribute extends ViewAttribute {
         return title;
     }
 
+    public BuildWarningAttribute isCancel(boolean isCancel) {
+        this.isCancel = isCancel;
+        return this;
+    }
+
     public BuildWarningAttribute setTitle(String title) {
         this.title = title;
         return this;
@@ -77,8 +82,14 @@ public abstract class BuildWarningAttribute extends ViewAttribute {
         return buttonText1;
     }
 
+
     public BuildWarningAttribute setButtonText1(String buttonText1) {
         this.buttonText1 = buttonText1;
+        return this;
+    }
+
+    public BuildWarningAttribute isWindowShadow(boolean isWindowShadow) {
+        this.isWindowShadow = isWindowShadow;
         return this;
     }
 

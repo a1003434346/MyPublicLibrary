@@ -169,8 +169,8 @@ public abstract class WarningDialog extends CenterPopupView {
 
 
     public WarningDialog show() {
-        mPopUp.hasShadowBg(mBuildAttribute.isWindowShadow())
-                .dismissOnTouchOutside(mBuildAttribute.isCancel())
+        mPopUp.hasShadowBg(mBuildAttribute.isWindowShadow)
+                .dismissOnTouchOutside(mBuildAttribute.isCancel)
                 .asCustom(this)
                 .showWindow();
         return this;

@@ -13,7 +13,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import com.example.mypubliclibrary.R;
 import com.example.mypubliclibrary.util.SelectorUtils;
 import com.example.mypubliclibrary.util.WindowUtils;
-import com.example.mypubliclibrary.widget.bean.ViewAttribute;
+import com.example.mypubliclibrary.widget.dialog.build.BuildIosAttribute;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BottomPopupView;
 
@@ -58,7 +58,7 @@ public abstract class BottomIosDialog extends BottomPopupView implements View.On
     }
 
     private StateListDrawable getBackGround() {
-        return SelectorUtils.newShapeSelector().setDefaultBgColor(mViewAttribute.getItemBackgroundColor()).setCornerRadius(new float[]{WindowUtils.dip2px(mContext, 12)}).create();
+        return SelectorUtils.newShapeSelector().setDefaultBgColor(mViewAttribute.itemBackgroundColor).setCornerRadius(new float[]{WindowUtils.dip2px(mContext, 12)}).create();
     }
 
 
@@ -75,10 +75,10 @@ public abstract class BottomIosDialog extends BottomPopupView implements View.On
     }
 
 
-    private ViewAttribute mViewAttribute;
+    private BuildIosAttribute mViewAttribute;
 
 
-    public BottomIosDialog setViewAttribute(ViewAttribute mViewAttribute) {
+    public BottomIosDialog setViewAttribute(BuildIosAttribute mViewAttribute) {
         this.mViewAttribute = mViewAttribute;
         return this;
     }
@@ -97,8 +97,8 @@ public abstract class BottomIosDialog extends BottomPopupView implements View.On
 
     private void addViews() {
         SelectorUtils.ShapeSelector shapeSelector = SelectorUtils.newShapeSelector()
-                .setDefaultBgColor(mViewAttribute.getItemBackgroundColor())
-                .setPressedBgColor(mViewAttribute.getItemParseColor());
+                .setDefaultBgColor(mViewAttribute.itemBackgroundColor)
+                .setPressedBgColor(mViewAttribute.itemParseColor);
         cancelView.setBackground(shapeSelector.setCornerRadius(new float[]{getDP(12)}).create());
         for (int i = 0; i < items.size(); i++) {
             if (i == 0) {
@@ -136,7 +136,7 @@ public abstract class BottomIosDialog extends BottomPopupView implements View.On
         button.setId(View.generateViewId());
         button.setBackground(stateListDrawable);
         button.setTag(index);
-        button.setTextColor(mViewAttribute.getItemTextColor());
+        button.setTextColor(mViewAttribute.itemTextColor);
         button.setOnClickListener(this);
         //构造宽高的属性
         ConstraintLayout.LayoutParams layoutParams = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, getDP(50));
@@ -147,12 +147,12 @@ public abstract class BottomIosDialog extends BottomPopupView implements View.On
             layoutParams.bottomToTop = lastButtonView.getId();
         }
         lastButtonView = button;
-        if (isAddLine && mViewAttribute.isShowLine()) {
-            ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, mViewAttribute.getLineHeight());
+        if (isAddLine && mViewAttribute.isShowLine) {
+            ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, mViewAttribute.lineHeight);
             //添加上边线
             TextView lineView = new TextView(mContext);
             lineView.setId(View.generateViewId());
-            lineView.setBackgroundColor(mViewAttribute.getLineColor());
+            lineView.setBackgroundColor(mViewAttribute.lineColor);
             params.bottomToTop = lastButtonView.getId();
             ctlContent.addView(lineView, params);
             lastButtonView = lineView;
@@ -171,8 +171,8 @@ public abstract class BottomIosDialog extends BottomPopupView implements View.On
      * @return BottomIosDialog
      */
     public BottomIosDialog show() {
-        mPopUp.hasShadowBg(mViewAttribute.isWindowShadow())
-                .dismissOnTouchOutside(mViewAttribute.isCancel())
+        mPopUp.hasShadowBg(mViewAttribute.isWindowShadow)
+                .dismissOnTouchOutside(mViewAttribute.isCancel)
                 .asCustom(this)
                 .showWindow();
         return this;

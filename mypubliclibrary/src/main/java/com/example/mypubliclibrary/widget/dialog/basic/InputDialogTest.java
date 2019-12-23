@@ -246,8 +246,8 @@ public class InputDialogTest extends BottomPopupView {
 
 
     public InputDialogTest show() {
-        mPopUp.hasShadowBg(mViewAttribute.isWindowShadow())
-                .dismissOnTouchOutside(mViewAttribute.isCancel())
+        mPopUp.hasShadowBg(mViewAttribute.isWindowShadow)
+                .dismissOnTouchOutside(mViewAttribute.isCancel)
                 .moveUpToKeyboard(false)
                 .asCustom(this)
                 .showWindow();
