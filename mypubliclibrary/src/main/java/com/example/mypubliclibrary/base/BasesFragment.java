@@ -8,6 +8,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Looper;
 import android.os.MessageQueue;
+import android.text.InputFilter;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -484,6 +485,11 @@ public abstract class BasesFragment<T> extends Fragment implements View.OnClickL
      */
     protected void showView(int viewId) {
         bindId(viewId).setVisibility(View.VISIBLE);
+    }
+
+    public void setMaxLength(int resId, int maxLength) {
+        ((TextView) bindId(resId)).setFilters(new InputFilter[]{new InputFilter.LengthFilter(10) {
+        }});
     }
 
     /**

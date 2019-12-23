@@ -44,7 +44,7 @@ public class EventMsg {
     }
 
     public String getInitiator() {
-        return mInitiator == null ? "" : mInitiator;
+        return mInitiator ;
     }
 
     public EventMsg setInitiator(String initiator) {

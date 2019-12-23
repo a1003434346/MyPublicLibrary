@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.os.Looper;
 import android.os.MessageQueue;
 import android.provider.Settings;
+import android.text.InputFilter;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -451,6 +452,11 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
         }
         selector.setPressedBgColor(ColorUtils.getTranslucentColor(0.85f, color));
         return selector;
+    }
+
+    public void setMaxLength(int resId, int maxLength) {
+        ((TextView) bindId(resId)).setFilters(new InputFilter[]{new InputFilter.LengthFilter(10) {
+        }});
     }
 
     /**
