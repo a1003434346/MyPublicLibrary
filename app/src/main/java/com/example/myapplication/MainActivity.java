@@ -76,8 +76,17 @@ public class MainActivity extends BasesActivity<TestPre> {
 ////                        .setMoney("￥ 100.00")
 //                        .createWindow()
 //                        .show();
-                new BuildWarningAttribute(this)
-                        .setTitle("登录")
+                new BuildWarningAttribute(this) {
+                    @Override
+                    protected void oneClick() {
+
+                    }
+
+                    @Override
+                    protected void twoClick() {
+
+                    }
+                }.setTitle("登录")
                         .setShowValue("需要登录才能购买，是否现在去登录？")
                         .createWindow()
                         .show();

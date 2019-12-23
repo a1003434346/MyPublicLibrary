@@ -11,7 +11,7 @@ import com.example.mypubliclibrary.widget.dialog.basic.WarningDialog;
  * 功能:
  * Created By leeyushi on 2019/12/23.
  */
-public class BuildWarningAttribute extends ViewAttribute {
+public abstract class BuildWarningAttribute extends ViewAttribute {
     //中间文本内容，设置了以后只显示一个Button在中间
     private String middleOneValue;
     //Button2的文本内容
@@ -25,11 +25,14 @@ public class BuildWarningAttribute extends ViewAttribute {
     private int showValueColor;
     private int titleColor;
     private Context context;
+    //点击button1自动销毁
+    private boolean btnClick1Dismiss;
 
     @Override
     protected void initAttribute() {
         isCancel = true;
         isWindowShadow = true;
+        btnClick1Dismiss = true;
         buttonText2 = "确定";
         buttonText1 = "返回";
         btn2TextColor = Color.parseColor("#000000");
@@ -133,7 +136,40 @@ public class BuildWarningAttribute extends ViewAttribute {
         return this;
     }
 
+    public boolean isBtnClick1Dismiss() {
+        return btnClick1Dismiss;
+    }
+
+    public BuildWarningAttribute setBtnClick1Dismiss(boolean btnClick1Dismiss) {
+        this.btnClick1Dismiss = btnClick1Dismiss;
+        return this;
+    }
+
+    protected abstract void oneClick();
+
+    protected abstract void twoClick();
+
+    protected void middleClick() {
+
+    }
+
     public WarningDialog createWindow() {
-        return new WarningDialog(context).setViewAttribute(this);
+        return new WarningDialog(context) {
+            @Override
+            protected void btnOneClick() {
+                oneClick();
+                if (btnClick1Dismiss) dismiss();
+            }
+
+            @Override
+            protected void btnTwoClick() {
+                twoClick();
+            }
+
+            @Override
+            protected void btnMiddleClick() {
+                middleClick();
+            }
+        }.setViewAttribute(this);
     }
 }

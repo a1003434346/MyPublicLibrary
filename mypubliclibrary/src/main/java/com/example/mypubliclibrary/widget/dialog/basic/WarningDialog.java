@@ -26,7 +26,7 @@ import com.lxj.xpopup.enums.PopupAnimation;
  * describe:警告窗口
  * Created By LiQiang on 2019/8/15.
  */
-public class WarningDialog extends CenterPopupView {
+public abstract class WarningDialog extends CenterPopupView {
     private Context context;
     private XPopup.Builder mPopUp;
     private BuildWarningAttribute mBuildAttribute;
@@ -124,23 +124,17 @@ public class WarningDialog extends CenterPopupView {
     /**
      * 点击btn1的回调
      */
-    protected void btnOneClick() {
-        dismiss();
-    }
+    protected abstract void btnOneClick();
 
     /**
      * 点击btn2的回调
      */
-    protected void btnTwoClick() {
-
-    }
+    protected  abstract void btnTwoClick();
 
     /**
      * 点击中间btn的回调（只有一个Button,居中显示）
      */
-    protected void btnMiddleClick() {
-
-    }
+    protected abstract void btnMiddleClick();
 
 
     /**
