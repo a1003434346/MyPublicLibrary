@@ -154,7 +154,7 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
                 //获取代表该类的唯一值
                 mOnlyMark = System.nanoTime() + "";
                 //Ui线程空闲下来后去执行（所有生命周期执行完以后才会去执行）
-                mFragmentManager = getSupportFragmentManager();
+                initSupportFragmentManager();
                 getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
                 imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 mPresenter = ObjectUtil.getT(BasesActivity.this.getClass());
@@ -163,6 +163,10 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
                 return false;
             }
         });
+    }
+
+    private void initSupportFragmentManager() {
+        if (mFragmentManager == null) mFragmentManager = getSupportFragmentManager();
     }
 
     /**
@@ -709,7 +713,8 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         //FragmentManager中的所有Fragment都清理掉，避免旋转屏幕的时候出现重叠
-        if (mFragmentManager != null) mFragmentManager.getFragments().clear();
+        initSupportFragmentManager();
+        mFragmentManager.getFragments().clear();
     }
 
     public void bindClick(int viewId) {
