@@ -258,19 +258,19 @@ public class WindowUtils {
     }
 
 
-    /**
-     * 显示警示弹框
-     *
-     * @param context   context
-     * @param showValue 显示内容
-     *                  button1默认内容返回
-     *                  button2默认内容确定
-     * @return WarningDialog
-     * 如果设置居中的按钮显示，将自动隐藏左右按钮。记得调用.show()方法显示
-     */
-    public static WarningDialog getWarningDialog(Context context, String title, String showValue) {
-        return new WarningDialog(context, showValue).setTitle(title);
-    }
+//    /**
+//     * 显示警示弹框
+//     *
+//     * @param context   context
+//     * @param showValue 显示内容
+//     *                  button1默认内容返回
+//     *                  button2默认内容确定
+//     * @return WarningDialog
+//     * 如果设置居中的按钮显示，将自动隐藏左右按钮。记得调用.show()方法显示
+//     */
+//    public static WarningDialog getWarningDialog(Context context, String title, String showValue) {
+//        return new WarningDialog(context, showValue).setTitle(title);
+//    }
 
 //    /**
 //     * 获取选择图片和视频的窗口

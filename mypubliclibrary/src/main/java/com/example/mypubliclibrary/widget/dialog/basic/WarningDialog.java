@@ -3,10 +3,8 @@ package com.example.mypubliclibrary.widget.dialog.basic;
 import android.content.Context;
 import android.os.Build;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
@@ -16,32 +14,41 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import com.example.mypubliclibrary.R;
 import com.example.mypubliclibrary.util.ShapeUtils;
 import com.example.mypubliclibrary.util.WindowUtils;
-import com.example.mypubliclibrary.widget.interfaces.WidgetInterface;
+import com.example.mypubliclibrary.widget.dialog.build.BuildPasswordAttribute;
+import com.example.mypubliclibrary.widget.dialog.build.BuildWarningAttribute;
+import com.lxj.xpopup.XPopup;
+import com.lxj.xpopup.core.BottomPopupView;
+import com.lxj.xpopup.core.CenterPopupView;
+import com.lxj.xpopup.enums.PopupAnimation;
 
 /**
  * function:
  * describe:警告窗口
  * Created By LiQiang on 2019/8/15.
  */
-public class WarningDialog {
+public class WarningDialog extends CenterPopupView {
     private Context context;
+    private XPopup.Builder mPopUp;
+    private BuildWarningAttribute mBuildAttribute;
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
-    public WarningDialog(Context context, String shouValue) {
+    public WarningDialog(Context context) {
+        super(context);
         this.context = context;
-        this.showValue = shouValue;
-        initView();
+        mPopUp = new XPopup.Builder(getContext())
+                .popupAnimation(PopupAnimation.TranslateFromBottom);
     }
 
-    private View popView;
-
-    private PopupWindow popWindow;
-    //按钮1的单击接口
-    private WidgetInterface.Warning clickBtn1;
-    //按钮2的单击接口
-    private WidgetInterface.Warning clickBtn2;
-    //中间按钮的单击接口
-    private WidgetInterface.Warning middleOne;
+    //
+//    private View popView;
+//
+//    private PopupWindow popWindow;
+//    //按钮1的单击接口
+//    private WidgetInterface.Warning clickBtn1;
+//    //按钮2的单击接口
+//    private WidgetInterface.Warning clickBtn2;
+//    //中间按钮的单击接口
+//    private WidgetInterface.Warning middleOne;
     //按钮1
     private Button btnClick1;
     //按钮1
@@ -53,161 +60,145 @@ public class WarningDialog {
     //标题的区域
     private ConstraintLayout ctlTitle;
 
+    private TextView tvWarningValue;
     private TextView tvLine;
-    //显示内容
-    private String showValue;
+
+
+    @Override
+    protected int getImplLayoutId() {
+        return R.layout.dialog_warning;
+    }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     private void initView() {
-        if (popView == null) {
-            popView = LayoutInflater.from(context).inflate(R.layout.dialog_warning, null);
-            popWindow = WindowUtils.getPopupWindow(context, popView, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
-            View.OnClickListener onClickListener = getOnClickListener();
-            ConstraintLayout ctlDialogWarning = popView.findViewById(R.id.ctl_dialog_warning);
-            ConstraintLayout ctlContent = popView.findViewById(R.id.ctl_content);
-            btnClick1 = popView.findViewById(R.id.btn_click1);
-            btnClick2 = popView.findViewById(R.id.btn_click2);
-            title = popView.findViewById(R.id.tv_title);
-            ctlTitle = popView.findViewById(R.id.ctl_title);
-            btnMiddleOne = popView.findViewById(R.id.btn_middle_one);
-            tvLine = popView.findViewById(R.id.tv_line);
-            ((TextView) popView.findViewById(R.id.tv_warning_value)).setText(showValue);
-            ctlDialogWarning.setOnClickListener(onClickListener);
-            ctlContent.setOnClickListener(onClickListener);
-            btnClick1.setOnClickListener(onClickListener);
-            btnClick2.setOnClickListener(onClickListener);
-            btnMiddleOne.setOnClickListener(onClickListener);
-            ctlContent.setBackground(ShapeUtils.getRadiusRectangle(0, 0, 14, context.getResources().getColor(R.color.colorWhite)));
-            btnClick1.setBackground(ShapeUtils.getRadiusRectangle(0, 0, new float[]{0, 0, 0, 0, 0, 0, 14, 14}, context.getResources().getColor(R.color.colorWindowBack)));
-            btnClick2.setBackground(ShapeUtils.getRadiusRectangle(0, 0, new float[]{0, 0, 0, 0, 14, 14, 0, 0}, context.getResources().getColor(R.color.colorWindowBack)));
-            btnMiddleOne.setBackground(ShapeUtils.getRadiusRectangle(0, 0, new float[]{0, 0, 0, 0, 14, 14, 14, 14}, context.getResources().getColor(R.color.colorWindowBack)));
-        }
+        ConstraintLayout ctlContent = findViewById(R.id.ctl_content);
+        btnClick1 = findViewById(R.id.btn_click1);
+        btnClick2 = findViewById(R.id.btn_click2);
+        title = findViewById(R.id.tv_title);
+        ctlTitle = findViewById(R.id.ctl_title);
+        btnMiddleOne = findViewById(R.id.btn_middle_one);
+        tvLine = findViewById(R.id.tv_line);
+        tvWarningValue = findViewById(R.id.tv_warning_value);
+
+        ctlContent.setBackground(ShapeUtils.getRadiusRectangle(0, 0, 14, context.getResources().getColor(R.color.colorWhite)));
+        btnClick1.setBackground(ShapeUtils.getRadiusRectangle(0, 0, new float[]{0, 0, 0, 0, 0, 0, 14, 14}, context.getResources().getColor(R.color.colorWindowBack)));
+        btnClick2.setBackground(ShapeUtils.getRadiusRectangle(0, 0, new float[]{0, 0, 0, 0, 14, 14, 0, 0}, context.getResources().getColor(R.color.colorWindowBack)));
+        btnMiddleOne.setBackground(ShapeUtils.getRadiusRectangle(0, 0, new float[]{0, 0, 0, 0, 14, 14, 14, 14}, context.getResources().getColor(R.color.colorWindowBack)));
+        initData();
+    }
+
+    private void initData() {
+
+        btnClick1.setText(mBuildAttribute.getButtonText1());
+        btnClick2.setText(mBuildAttribute.getButtonText2());
+        setMiddleOneValue(mBuildAttribute.getMiddleOneValue());
+        tvWarningValue.setText(mBuildAttribute.getShowValue());
+        setTitle(mBuildAttribute.getTitle());
+
+        btnClick1.setTextColor(mBuildAttribute.getBtn1TextColor());
+        btnClick2.setTextColor(mBuildAttribute.getBtn2TextColor());
+        btnMiddleOne.setTextColor(mBuildAttribute.getMiddleTextColor());
+        tvWarningValue.setTextColor(mBuildAttribute.getShowValueColor());
+        title.setTextColor(mBuildAttribute.getTitleColor());
+
+        View.OnClickListener onClickListener = getOnClickListener();
+        btnClick1.setOnClickListener(onClickListener);
+        btnClick2.setOnClickListener(onClickListener);
+        btnMiddleOne.setOnClickListener(onClickListener);
     }
 
     private View.OnClickListener getOnClickListener() {
-        return  view -> {
-            int id = view.getId();
-            if (id == R.id.ctl_dialog_warning) {//窗口
-                popWindow.dismiss();
-            } else if (id == R.id.ctl_content) {//内容,进行占位,避免误触关闭
-            } else if (id == R.id.btn_click1) {//点击Button1
-                if (clickBtn1 != null) clickBtn1.selectDone();
-                popWindow.dismiss();
-            } else if (id == R.id.btn_click2) {//点击Button2
-                if (clickBtn2 != null) clickBtn2.selectDone();
-                popWindow.dismiss();
-            } else if (id == R.id.btn_middle_one) {//点击中间按钮
-                if (middleOne != null) middleOne.selectDone();
-                popWindow.dismiss();
+        return view -> {
+            int i = view.getId();
+            if (i == R.id.btn_click1) {
+                btnOneClick();
+            } else if (i == R.id.btn_click2) {
+                btnTwoClick();
+            } else if (i == R.id.btn_middle_one) {
+                btnMiddleClick();
+                dismiss();
             }
         };
     }
 
-
     /**
-     * 设置Button1的单击接口
-     *
-     * @param clickBtn1 单击接口
+     * 点击btn1的回调
      */
-    public WarningDialog setClickBtn1Interface(WidgetInterface.Warning clickBtn1) {
-        this.clickBtn1 = clickBtn1;
-        return this;
+    protected void btnOneClick() {
+        dismiss();
     }
 
     /**
-     * 设置Button1的文本颜色
-     *
-     * @param color 颜色
+     * 点击btn2的回调
      */
-    public WarningDialog setClickBtn1TextColor(int color) {
-        btnClick1.setTextColor(color);
-        return this;
+    protected void btnTwoClick() {
+
     }
 
     /**
-     * 设置Button2的文本颜色
-     *
-     * @param color 颜色
+     * 点击中间btn的回调（只有一个Button,居中显示）
      */
-    public WarningDialog setClickBtn2TextColor(int color) {
-        btnClick2.setTextColor(color);
-        return this;
-    }
+    protected void btnMiddleClick() {
 
-    /**
-     * 设置Button2的单击接口
-     *
-     * @param clickBtn2 单击接口
-     */
-    public WarningDialog setClickBtn2Interface(WidgetInterface.Warning clickBtn2) {
-        this.clickBtn2 = clickBtn2;
-        return this;
-    }
-
-    /**
-     * 设置中间按钮的的单击接口
-     *
-     * @param middleOne 单击接口
-     */
-    public WarningDialog setMiddleOneInterface(WidgetInterface.Warning middleOne) {
-        this.middleOne = middleOne;
-        return this;
     }
 
 
     /**
-     * 设置Button1的文本内容
+     * 设置title的文本内容
      *
      * @param value 内容
      */
-    public WarningDialog setButtonText1(String value) {
-        btnClick1.setText(value);
-        return this;
-    }
-
-    /**
-     * 设置Button1的文本内容
-     *
-     * @param value 内容
-     */
-    public WarningDialog setTitle(String value) {
+    private void setTitle(String value) {
         if (!value.isEmpty()) {
             title.setText(value);
             ctlTitle.setVisibility(View.VISIBLE);
         } else {
             ctlTitle.setVisibility(View.GONE);
         }
-        return this;
     }
 
-    /**
-     * 设置Button2的文本内容
-     *
-     * @param value 内容
-     */
-    public WarningDialog setButtonText2(String value) {
-        btnClick2.setText(value);
-        return this;
-    }
 
     /**
      * 设置中间按钮的文本内容
      *
      * @param value 内容
      */
-    public WarningDialog setMiddleOne(String value) {
-        btnClick1.setVisibility(View.GONE);
-        btnClick2.setVisibility(View.GONE);
-        tvLine.setVisibility(View.GONE);
-        btnMiddleOne.setText(value);
-        btnMiddleOne.setVisibility(View.VISIBLE);
-        return this;
+    private void setMiddleOneValue(String value) {
+        if (value != null) {
+            btnClick1.setVisibility(View.GONE);
+            btnClick2.setVisibility(View.GONE);
+            tvLine.setVisibility(View.GONE);
+            btnMiddleOne.setText(value);
+            btnMiddleOne.setVisibility(View.VISIBLE);
+        }
     }
 
 
     public WarningDialog show() {
-        WindowUtils.setBackgroundAlpha(context, 0.5f);
-        popWindow.showAtLocation(popView, Gravity.CENTER, 0, 0);
+        mPopUp.hasShadowBg(mBuildAttribute.isWindowShadow())
+                .dismissOnTouchOutside(mBuildAttribute.isCancel())
+                .asCustom(this)
+                .showWindow();
         return this;
+    }
+
+    public WarningDialog setViewAttribute(BuildWarningAttribute viewAttribute) {
+        mBuildAttribute = viewAttribute;
+        return this;
+    }
+
+    @Override
+    protected void onCreate() {
+        initView();
+    }
+
+    @Override
+    protected void onDismiss() {
+
+    }
+
+    @Override
+    protected void onShow() {
+
     }
 }

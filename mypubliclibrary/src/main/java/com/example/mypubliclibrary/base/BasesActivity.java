@@ -397,15 +397,15 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
         return intent;
     }
 
-    /**
-     * 获取提示框
-     *
-     * @param showValue WarningDialog
-     *                  记得调用.show()方法显示
-     */
-    public WarningDialog getWarningDialog(String title, String showValue) {
-        return WindowUtils.getWarningDialog(this, title, showValue);
-    }
+//    /**
+//     * 获取提示框
+//     *
+//     * @param showValue WarningDialog
+//     *                  记得调用.show()方法显示
+//     */
+//    public WarningDialog getWarningDialog(String title, String showValue) {
+//        return WindowUtils.getWarningDialog(this, title, showValue);
+//    }
 
     @Override
     public void finish() {
