@@ -25,6 +25,8 @@ public abstract class BuildWarningAttribute extends ViewAttribute {
     private int showValueColor;
     private int titleColor;
     private Context context;
+    private boolean btnClick2Dismiss;
+    private boolean btnMiddleDismiss;
     //点击button1自动销毁
     private boolean btnClick1Dismiss;
 
@@ -33,6 +35,8 @@ public abstract class BuildWarningAttribute extends ViewAttribute {
         isCancel = true;
         isWindowShadow = true;
         btnClick1Dismiss = true;
+        btnClick2Dismiss = true;
+        btnMiddleDismiss = true;
         buttonText2 = "确定";
         buttonText1 = "返回";
         btn2TextColor = Color.parseColor("#000000");
@@ -104,6 +108,14 @@ public abstract class BuildWarningAttribute extends ViewAttribute {
 
     public int getBtn1TextColor() {
         return btn1TextColor;
+    }
+
+    public void setBtnClick2Dismiss(boolean btnClick2Dismiss) {
+        this.btnClick2Dismiss = btnClick2Dismiss;
+    }
+
+    public void setBtnMiddleDismiss(boolean btnMiddleDismiss) {
+        this.btnMiddleDismiss = btnMiddleDismiss;
     }
 
     public BuildWarningAttribute setBtn1TextColor(int btn1TextColor) {
@@ -180,12 +192,15 @@ public abstract class BuildWarningAttribute extends ViewAttribute {
             @Override
             protected void btnTwoClick() {
                 twoClick();
+                if (btnClick2Dismiss) dismiss();
             }
 
             @Override
             protected void btnMiddleClick() {
                 middleClick();
+                if (btnMiddleDismiss) dismiss();
             }
         }.setViewAttribute(this);
     }
+
 }

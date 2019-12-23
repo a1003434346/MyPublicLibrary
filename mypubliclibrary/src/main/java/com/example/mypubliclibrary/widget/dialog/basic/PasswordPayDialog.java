@@ -60,8 +60,8 @@ public abstract class PasswordPayDialog extends BottomPopupView implements BaseR
      * @return BottomIosDialog
      */
     public PasswordPayDialog show() {
-        mPopUp.hasShadowBg(mBuildAttribute.isWindowShadow)
-                .dismissOnTouchOutside(mBuildAttribute.isCancel)
+        mPopUp.hasShadowBg(mBuildAttribute.isWindowShadow())
+                .dismissOnTouchOutside(mBuildAttribute.isCancel())
                 .asCustom(this)
                 .showWindow();
         return this;

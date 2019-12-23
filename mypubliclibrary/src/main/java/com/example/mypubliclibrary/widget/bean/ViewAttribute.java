@@ -7,19 +7,19 @@ import android.graphics.drawable.StateListDrawable;
  * 视图属性
  */
 public abstract class ViewAttribute {
-    public int itemBackgroundColor;
-    public int itemTextColor;
-    public int lineColor;
-    public int lineHeight;
-    public int itemParseColor;
+    protected int itemBackgroundColor;
+    protected int itemTextColor;
+    protected int lineColor;
+    protected int lineHeight;
+    protected int itemParseColor;
     //点击窗口区域外是否可以关闭窗口
-    public boolean isCancel;
+    protected boolean isCancel;
     //是否显示取消按钮
-    public boolean isShowCancelButton;
+    protected boolean isShowCancelButton;
     //是否显示分割线
-    public boolean isShowLine;
+    protected boolean isShowLine;
     //窗口区域外是否显示阴影
-    public boolean isWindowShadow;
+    protected boolean isWindowShadow;
 
     protected ViewAttribute() {
         initAttribute();
@@ -29,39 +29,39 @@ public abstract class ViewAttribute {
     protected abstract void initAttribute();
 
 
-//    protected int getItemBackgroundColor() {
-//        return itemBackgroundColor;
-//    }
-//
-//    protected int getItemTextColor() {
-//        return itemTextColor;
-//    }
-//
-//    protected int getLineColor() {
-//        return lineColor;
-//    }
-//
-//    protected int getLineHeight() {
-//        return lineHeight;
-//    }
-//
-//    protected int getItemParseColor() {
-//        return itemParseColor;
-//    }
-//
-//    protected boolean isCancel() {
-//        return isCancel;
-//    }
-//
-//    protected boolean isShowCancelButton() {
-//        return isShowCancelButton;
-//    }
-//
-//    protected boolean isShowLine() {
-//        return isShowLine;
-//    }
-//
-//    protected boolean isWindowShadow() {
-//        return isWindowShadow;
-//    }
+    public int itemBackgroundColor() {
+        return itemBackgroundColor;
+    }
+
+    public int itemTextColor() {
+        return itemTextColor;
+    }
+
+    public int lineColor() {
+        return lineColor;
+    }
+
+    public int lineHeight() {
+        return lineHeight;
+    }
+
+    public int itemParseColor() {
+        return itemParseColor;
+    }
+
+    public boolean isCancel() {
+        return isCancel;
+    }
+
+    public boolean isShowCancelButton() {
+        return isShowCancelButton;
+    }
+
+    public boolean isShowLine() {
+        return isShowLine;
+    }
+
+    public boolean isWindowShadow() {
+        return isWindowShadow;
+    }
 }

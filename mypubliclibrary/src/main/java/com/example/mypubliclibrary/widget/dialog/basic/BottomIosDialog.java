@@ -58,7 +58,7 @@ public abstract class BottomIosDialog extends BottomPopupView implements View.On
     }
 
     private StateListDrawable getBackGround() {
-        return SelectorUtils.newShapeSelector().setDefaultBgColor(mViewAttribute.itemBackgroundColor).setCornerRadius(new float[]{WindowUtils.dip2px(mContext, 12)}).create();
+        return SelectorUtils.newShapeSelector().setDefaultBgColor(mViewAttribute.itemBackgroundColor()).setCornerRadius(new float[]{WindowUtils.dip2px(mContext, 12)}).create();
     }
 
 
@@ -97,8 +97,8 @@ public abstract class BottomIosDialog extends BottomPopupView implements View.On
 
     private void addViews() {
         SelectorUtils.ShapeSelector shapeSelector = SelectorUtils.newShapeSelector()
-                .setDefaultBgColor(mViewAttribute.itemBackgroundColor)
-                .setPressedBgColor(mViewAttribute.itemParseColor);
+                .setDefaultBgColor(mViewAttribute.itemBackgroundColor())
+                .setPressedBgColor(mViewAttribute.itemParseColor());
         cancelView.setBackground(shapeSelector.setCornerRadius(new float[]{getDP(12)}).create());
         for (int i = 0; i < items.size(); i++) {
             if (i == 0) {
@@ -136,7 +136,7 @@ public abstract class BottomIosDialog extends BottomPopupView implements View.On
         button.setId(View.generateViewId());
         button.setBackground(stateListDrawable);
         button.setTag(index);
-        button.setTextColor(mViewAttribute.itemTextColor);
+        button.setTextColor(mViewAttribute.itemTextColor());
         button.setOnClickListener(this);
         //构造宽高的属性
         ConstraintLayout.LayoutParams layoutParams = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, getDP(50));
@@ -147,12 +147,12 @@ public abstract class BottomIosDialog extends BottomPopupView implements View.On
             layoutParams.bottomToTop = lastButtonView.getId();
         }
         lastButtonView = button;
-        if (isAddLine && mViewAttribute.isShowLine) {
-            ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, mViewAttribute.lineHeight);
+        if (isAddLine && mViewAttribute.isShowLine()) {
+            ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, mViewAttribute.lineHeight());
             //添加上边线
             TextView lineView = new TextView(mContext);
             lineView.setId(View.generateViewId());
-            lineView.setBackgroundColor(mViewAttribute.lineColor);
+            lineView.setBackgroundColor(mViewAttribute.lineColor());
             params.bottomToTop = lastButtonView.getId();
             ctlContent.addView(lineView, params);
             lastButtonView = lineView;
@@ -171,8 +171,8 @@ public abstract class BottomIosDialog extends BottomPopupView implements View.On
      * @return BottomIosDialog
      */
     public BottomIosDialog show() {
-        mPopUp.hasShadowBg(mViewAttribute.isWindowShadow)
-                .dismissOnTouchOutside(mViewAttribute.isCancel)
+        mPopUp.hasShadowBg(mViewAttribute.isWindowShadow())
+                .dismissOnTouchOutside(mViewAttribute.isCancel())
                 .asCustom(this)
                 .showWindow();
         return this;

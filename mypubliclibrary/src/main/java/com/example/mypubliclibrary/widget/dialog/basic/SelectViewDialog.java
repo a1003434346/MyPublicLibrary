@@ -299,8 +299,8 @@ public abstract class SelectViewDialog<T> extends BottomPopupView implements OnS
      * @return SelectView
      */
     public SelectViewDialog show() {
-        mPopUp.hasShadowBg(mViewAttribute.isWindowShadow)
-                .dismissOnTouchOutside(mViewAttribute.isCancel)
+        mPopUp.hasShadowBg(mViewAttribute.isWindowShadow())
+                .dismissOnTouchOutside(mViewAttribute.isCancel())
                 .asCustom(this)
                 .showWindow();
         return this;
