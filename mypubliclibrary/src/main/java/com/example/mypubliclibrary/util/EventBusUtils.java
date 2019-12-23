@@ -49,9 +49,11 @@ public class EventBusUtils {
         //判断当前发起人是否有效
         boolean isValid = !currentValid || initiator.equals(eventMsg.getInitiator());
         boolean result = eventMsg.getRequest() != null && eventMsg.getMessage() != null && eventMsg.getMessage().equals(DataInterface.SUCCESS) && isValid;
-        if (!result && eventMsg.getRequest() != null && !StringUtils.isEmpty(eventMsg.getMessage()) && initiator.equals(eventMsg.getInitiator()))
+        //因为之前的写法有一些eventMsg.getInitiator()是Null,所以导致不会报错误信息，全部更改工作量暂时有点大
+        boolean isInitiator = eventMsg.getInitiator() == null || initiator.equals(eventMsg.getInitiator());
+        if (!result && eventMsg.getRequest() != null && !StringUtils.isEmpty(eventMsg.getMessage()) && isInitiator)
             ToastUtils.showLongToast(context, eventMsg.getMessage());
-        if (srlRefreshHead.length > 0 && srlRefreshHead[0] != null && eventMsg.getRequest() != null ) {
+        if (srlRefreshHead.length > 0 && srlRefreshHead[0] != null && eventMsg.getRequest() != null) {
             srlRefreshHead[0].finishRefresh(result);
             srlRefreshHead[0].finishLoadMore(result);
         }
