@@ -106,13 +106,21 @@ public class ListUtils<T> {
         return (List<T>) result;
     }
 
-    public static void listMapToStringList(List<Map<String, Object>> maps, String label, List<String> strings) {
-        strings.clear();
+    /**
+     * 从List<Map<String,Object>>里获取指定key 为List<String>
+     *
+     * @param maps maps
+     * @param key  key
+     * @return List<String>
+     */
+    public static List<String> listMapToStringList(List<Map<String, Object>> maps, String key) {
+        List<String> strings = new ArrayList<>();
         for (Map<String, Object> map : maps) {
-            String value = map.get(label).toString();
+            String value = map.get(key).toString();
             if (!value.isEmpty())
                 strings.add(value);
         }
+        return strings;
     }
 
     /**

@@ -64,7 +64,7 @@ public class ImageUtils {
      * @param imageView      imageView
      * @param roundingRadius 圆角的度数
      */
-    public  static <T extends BitmapTransformation> void setImageCorners(ImageView imageView,  Object path,T type, int roundingRadius) {
+    public static <T extends BitmapTransformation> void setImageCorners(ImageView imageView, Object path, T type, int roundingRadius) {
         //设置图片为圆角
         RoundedCorners roundedCorners = new RoundedCorners(roundingRadius);//数字为圆角度数
         RequestOptions coverRequestOptions = new RequestOptions()
@@ -419,4 +419,31 @@ public class ImageUtils {
         }.execute();
     }
 
+    /**
+     * 获取Bitmap,已经获取过，从缓存的bitmaps获取
+     *
+     * @param context context
+     * @param bitmaps bitmaps
+     * @param urls    urls
+     * @param url     url
+     * @return Bitmap
+     */
+    public static Bitmap urlToBitmapCaching(Context context, List<Bitmap> bitmaps, List<String> urls, String url) {
+        for (int i = 0; i < urls.size(); i++) {
+            if (urls.get(i).equals(url)) {
+                return bitmaps.get(i);
+            }
+        }
+        Bitmap bitmap = null;
+        try {
+            bitmap = Glide.with(context)
+                    .asBitmap()
+                    .load(url)
+                    //360*480,原始大小设置为Target.SIZE_ORIGINAL
+                    .submit(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL).get();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return bitmap;
+    }
 }
