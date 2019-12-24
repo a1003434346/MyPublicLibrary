@@ -64,7 +64,7 @@ public class ImageUtils {
      * @param imageView      imageView
      * @param roundingRadius 圆角的度数
      */
-    public  static <T extends BitmapTransformation> void setImageCorners(ImageView imageView, T type, Object path, int roundingRadius) {
+    public  static <T extends BitmapTransformation> void setImageCorners(ImageView imageView,  Object path,T type, int roundingRadius) {
         //设置图片为圆角
         RoundedCorners roundedCorners = new RoundedCorners(roundingRadius);//数字为圆角度数
         RequestOptions coverRequestOptions = new RequestOptions()
