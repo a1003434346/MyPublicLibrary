@@ -133,7 +133,7 @@ public class ImageUtils {
      * @return true/false
      * 调用示例： saveImageToDirectory(getContext(), "WaterAcademy/Image", bitmap);
      */
-    public boolean saveImageToDirectory(Context context, String saveDirectory, Bitmap bmp) {
+    public static boolean saveImageToDirectory(Context context, String saveDirectory, Bitmap bmp) {
         // 首先保存图片
         String storePath = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + saveDirectory;
         File appDir = new File(storePath);
@@ -148,15 +148,9 @@ public class ImageUtils {
                 fos.close();
                 //把文件插入到系统图库
                 //MediaStore.Images.Media.insertImage(context.getContentResolver(), file.getAbsolutePath(), fileName, null);
-
                 //保存图片后发送广播通知更新数据库
-                Uri uri = Uri.fromFile(file);
-                context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, uri));
-                if (isSuccess) {
-                    return true;
-                } else {
-                    return false;
-                }
+                context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(file)));
+              return isSuccess;
             } catch (IOException e) {
                 e.printStackTrace();
             }
