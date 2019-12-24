@@ -22,7 +22,9 @@ import androidx.annotation.IntRange;
 import androidx.palette.graphics.Palette;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.Transformation;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
@@ -62,11 +64,11 @@ public class ImageUtils {
      * @param imageView      imageView
      * @param roundingRadius 圆角的度数
      */
-    public static void setImageCorners(ImageView imageView, Object path, int roundingRadius) {
+    public  static <T extends BitmapTransformation> void setImageCorners(ImageView imageView, T type, Object path, int roundingRadius) {
         //设置图片为圆角
         RoundedCorners roundedCorners = new RoundedCorners(roundingRadius);//数字为圆角度数
         RequestOptions coverRequestOptions = new RequestOptions()
-                .transforms(new CenterCrop(), roundedCorners)
+                .transforms(type, roundedCorners)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)//磁盘缓存
                 .skipMemoryCache(false);//跳过内存缓存
         //Glide 加载图片简单用法
@@ -150,7 +152,7 @@ public class ImageUtils {
                 //MediaStore.Images.Media.insertImage(context.getContentResolver(), file.getAbsolutePath(), fileName, null);
                 //保存图片后发送广播通知更新数据库
                 context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(file)));
-              return isSuccess;
+                return isSuccess;
             } catch (IOException e) {
                 e.printStackTrace();
             }
