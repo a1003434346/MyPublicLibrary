@@ -32,4 +32,14 @@ public class FileUtils {
     public static File getPathToFile(String path) {
         return new File(path);
     }
+
+    /**
+     * 判断目录是否存在，不存在则判断是否创建成功
+     *
+     * @param file file
+     * @return true/false
+     */
+    public static boolean createOrExistsDir(final File file) {
+        return file != null && (file.exists() ? file.isDirectory() : file.mkdirs());
+    }
 }

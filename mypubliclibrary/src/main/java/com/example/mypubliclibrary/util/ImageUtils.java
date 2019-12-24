@@ -1,6 +1,7 @@
 package com.example.mypubliclibrary.util;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.BitmapShader;
@@ -10,7 +11,9 @@ import android.graphics.Paint;
 import android.graphics.RectF;
 import android.graphics.Shader;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Environment;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -30,6 +33,9 @@ import com.example.mypubliclibrary.base.BasesActivity;
 import com.example.mypubliclibrary.view.activity.PreviewPhotoActivity;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
 import java.util.TreeMap;
@@ -74,7 +80,7 @@ public class ImageUtils {
      * @param imageView imageView
      * @param path      path
      */
-    public static void setImageCrop( ImageView imageView, Object path) {
+    public static void setImageCrop(ImageView imageView, Object path) {
         Glide.with(imageView).load(path)
                 .apply(RequestOptions.bitmapTransform(new CircleCrop()))
                 .into(imageView);
@@ -116,6 +122,46 @@ public class ImageUtils {
      */
     public static void setImageDrawable(ImageView imageView, int resId) {
         imageView.setImageResource(resId);
+    }
+
+    /**
+     * 保存图片到指定目录
+     *
+     * @param context       context
+     * @param saveDirectory 目录
+     * @param bmp           bitmap
+     * @return true/false
+     * 调用示例： saveImageToDirectory(getContext(), "WaterAcademy/Image", bitmap);
+     */
+    public boolean saveImageToDirectory(Context context, String saveDirectory, Bitmap bmp) {
+        // 首先保存图片
+        String storePath = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + saveDirectory;
+        File appDir = new File(storePath);
+        if (FileUtils.createOrExistsDir(appDir)) {
+            String fileName = System.currentTimeMillis() + ".jpg";
+            File file = new File(appDir, fileName);
+            try {
+                FileOutputStream fos = new FileOutputStream(file);
+                //通过io流的方式来压缩保存图片
+                boolean isSuccess = bmp.compress(Bitmap.CompressFormat.JPEG, 60, fos);
+                fos.flush();
+                fos.close();
+                //把文件插入到系统图库
+                //MediaStore.Images.Media.insertImage(context.getContentResolver(), file.getAbsolutePath(), fileName, null);
+
+                //保存图片后发送广播通知更新数据库
+                Uri uri = Uri.fromFile(file);
+                context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, uri));
+                if (isSuccess) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return false;
     }
 
     /**
