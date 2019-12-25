@@ -102,7 +102,7 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
     //    //是否智能为状态栏设置背景色，默认为true
 //    protected boolean isSetStatusColor;
     //是否开启跳转动画，默认为开启
-    protected boolean mJumpAnim;
+    public boolean mJumpAnim;
     //是否允许滑动Finish
     protected boolean isSlideFinish;
 

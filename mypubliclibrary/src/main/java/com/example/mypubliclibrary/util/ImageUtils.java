@@ -441,6 +441,7 @@ public class ImageUtils {
                     .load(url)
                     //360*480,原始大小设置为Target.SIZE_ORIGINAL
                     .submit(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL).get();
+            if (bitmap != null) bitmaps.add(bitmap);
         } catch (Exception e) {
             e.printStackTrace();
         }
