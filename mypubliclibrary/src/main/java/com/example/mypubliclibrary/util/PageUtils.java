@@ -45,25 +45,25 @@ public class PageUtils {
         ((TextView) leaveView).setTextColor(leavePageColor);
     }
 
-    /**
-     * title状态改变
-     *
-     * @param enterColor    进入的颜色
-     * @param leaveColor    离开的颜色
-     * @param additionScale 大于0代表有缩放
-     */
-    public static void titleChange(View enterView, View leaveView, int enterColor, int leaveColor, float additionScale) {
-        ((TextView) enterView).setTextColor(enterColor);
-        ((TextView) leaveView).setTextColor(leaveColor);
-        if (additionScale > 0) {
-            enterView.setScaleX(1.0f + additionScale);
-            enterView.setScaleY(1.0f + additionScale);
-            if (leaveView.getScaleX() > 1.0f && leaveView.getScaleY() > 1.0f) {
-                leaveView.setScaleX(1.0f);
-                leaveView.setScaleY(1.0f);
-            }
-        }
-    }
+//    /**
+//     * title状态改变
+//     *
+//     * @param enterColor    进入的颜色
+//     * @param leaveColor    离开的颜色
+//     * @param additionScale 大于0代表有缩放
+//     */
+//    public static void titleChange(View enterView, View leaveView, int enterColor, int leaveColor, float additionScale) {
+//        ((TextView) enterView).setTextColor(enterColor);
+//        ((TextView) leaveView).setTextColor(leaveColor);
+//        if (additionScale > 0) {
+//            enterView.setScaleX(1.0f + additionScale);
+//            enterView.setScaleY(1.0f + additionScale);
+//            if (leaveView.getScaleX() > 1.0f && leaveView.getScaleY() > 1.0f) {
+//                leaveView.setScaleX(1.0f);
+//                leaveView.setScaleY(1.0f);
+//            }
+//        }
+//    }
 
 
 }

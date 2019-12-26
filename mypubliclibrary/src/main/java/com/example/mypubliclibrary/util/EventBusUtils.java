@@ -46,12 +46,10 @@ public class EventBusUtils {
      * @return true请求成功
      */
     public static boolean isSuccess(Context context, EventMsg eventMsg, String initiator, boolean currentValid, SmartRefreshLayout... srlRefreshHead) {
-        //判断当前发起人是否有效
-        boolean isValid = !currentValid || initiator.equals(eventMsg.getInitiator());
+        //判断当前发起人是否有效，如果接口中的发起人为空，代表不区分发起人
+        boolean isValid = !currentValid || initiator.equals(eventMsg.getInitiator()) || StringUtils.isEmpty(eventMsg.getInitiator());
         boolean result = eventMsg.getRequest() != null && eventMsg.getMessage() != null && eventMsg.getMessage().equals(DataInterface.SUCCESS) && isValid;
-        //因为之前的写法有一些eventMsg.getInitiator()是Null,所以导致不会报错误信息，全部更改工作量暂时有点大
-        boolean isInitiator = StringUtils.isEmpty(eventMsg.getInitiator()) || initiator.equals(eventMsg.getInitiator());
-        if (!result && eventMsg.getRequest() != null && !StringUtils.isEmpty(eventMsg.getMessage()) && isInitiator)
+        if (!result && eventMsg.getRequest() != null && !StringUtils.isEmpty(eventMsg.getMessage()) && !eventMsg.getMessage().equals(DataInterface.SUCCESS))
             ToastUtils.showLongToast(context, eventMsg.getMessage());
         if (srlRefreshHead.length > 0 && srlRefreshHead[0] != null && eventMsg.getRequest() != null) {
             srlRefreshHead[0].finishRefresh(result);
