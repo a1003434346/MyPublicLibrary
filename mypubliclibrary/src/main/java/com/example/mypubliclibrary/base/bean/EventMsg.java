@@ -12,6 +12,9 @@ public class EventMsg {
     private String mMessage;
     //事件类型，一般用来处理逻辑
     private String mType;
+    //请求行为
+    private String mRequestBehavior;
+
     //当前请求的Request，对应请求数据接口的枚举类型（可选）
     private Object mRequest;
 
@@ -44,7 +47,7 @@ public class EventMsg {
     }
 
     public String getInitiator() {
-        return mInitiator ;
+        return mInitiator;
     }
 
     public EventMsg setInitiator(String initiator) {
@@ -58,6 +61,15 @@ public class EventMsg {
 
     public EventMsg setMessage(String message) {
         this.mMessage = message;
+        return this;
+    }
+
+    public String getRequestBehavior() {
+        return mRequestBehavior;
+    }
+
+    public EventMsg setRequestBehavior(String mRequestBehavior) {
+        this.mRequestBehavior = mRequestBehavior;
         return this;
     }
 }
