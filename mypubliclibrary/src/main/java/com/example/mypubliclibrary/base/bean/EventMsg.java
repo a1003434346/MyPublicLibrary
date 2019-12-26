@@ -12,7 +12,7 @@ public class EventMsg {
     private String mMessage;
     //事件类型，一般用来处理逻辑
     private String mType;
-    //请求行为
+    //接口请求的行为
     private String mRequestBehavior;
 
     //当前请求的Request，对应请求数据接口的枚举类型（可选）
