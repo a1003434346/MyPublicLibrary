@@ -65,7 +65,7 @@ public class EventMsg {
     }
 
     public String getRequestBehavior() {
-        return mRequestBehavior;
+        return mRequestBehavior == null ? "" : mRequestBehavior;
     }
 
     public EventMsg setRequestBehavior(String mRequestBehavior) {
