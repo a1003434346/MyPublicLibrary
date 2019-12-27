@@ -91,6 +91,12 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
     //初始化事件
     protected abstract void initListener();
 
+    /**
+     * 刷新数据
+     * 会在onResume回调里调用该方法
+     */
+    protected abstract void refreshData();
+
     //Ui是否加载完成
     protected boolean mUiLoadDone;
 
@@ -341,6 +347,11 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
 //        }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        refreshData();
+    }
 
     /**
      * 跳转到Activity
