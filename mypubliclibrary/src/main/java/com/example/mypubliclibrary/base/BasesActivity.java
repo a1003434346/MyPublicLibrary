@@ -137,6 +137,7 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
         mJumpAnim = true;
         setStatusBar();
         setSwipeBackEnable(!isSlideFinish);
+        initSupportFragmentManager();
         setContentView(onRegistered());
         //设置状态栏的背景色为title的背景色,如果有title,给title增加状态栏间距
         setStatusTitle();
@@ -155,7 +156,6 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
                 //获取代表该类的唯一值
                 mOnlyMark = System.nanoTime() + "";
                 //Ui线程空闲下来后去执行（所有生命周期执行完以后才会去执行）
-                initSupportFragmentManager();
                 getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
                 imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 mPresenter = ObjectUtil.getT(BasesActivity.this.getClass());
