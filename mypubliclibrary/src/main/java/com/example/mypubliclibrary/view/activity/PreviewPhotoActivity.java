@@ -71,7 +71,7 @@ public class PreviewPhotoActivity extends BasesActivity {
     }
 
     @Override
-    protected void refreshData() {
+    protected void mayRefreshData() {
 
     }
 

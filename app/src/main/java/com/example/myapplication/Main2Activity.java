@@ -36,7 +36,7 @@ public class Main2Activity extends BasesActivity {
     }
 
     @Override
-    protected void refreshData() {
+    protected void mayRefreshData() {
 
     }
 

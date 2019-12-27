@@ -59,7 +59,7 @@ public class MainActivity extends BasesActivity<TestPre> {
     }
 
     @Override
-    protected void refreshData() {
+    protected void mayRefreshData() {
 
     }
 

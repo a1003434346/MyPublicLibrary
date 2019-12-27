@@ -61,7 +61,7 @@ public class WebViewActivity extends BasesActivity {
     }
 
     @Override
-    protected void refreshData() {
+    protected void mayRefreshData() {
 
     }
 

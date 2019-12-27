@@ -57,10 +57,10 @@ public abstract class BasesFragment<T> extends Fragment implements View.OnClickL
     protected abstract void initListener();
 
     /**
-     * 刷新数据
+     * 可能会刷新的数据
      * 会在onShowFragment回调里调用该方法
      */
-    protected abstract void refreshData();
+    protected abstract void mayRefreshData();
 
 //    protected abstract void getBaseActivity();
 
@@ -434,7 +434,7 @@ public abstract class BasesFragment<T> extends Fragment implements View.OnClickL
      */
     protected void onShowFragment() {
         Log.i("BasesFragment", "执行了onShowFragment:" + this.getClass().getSimpleName());
-        refreshData();
+        mayRefreshData();
         if (myView != null)
             WindowUtils.setStatusTitle(getContext(), myView);
 //        if (isSetStatus)
