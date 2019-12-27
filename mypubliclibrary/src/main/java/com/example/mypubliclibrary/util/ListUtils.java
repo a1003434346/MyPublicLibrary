@@ -129,12 +129,28 @@ public class ListUtils<T> {
      * @param tList  tList
      * @param length length
      */
-    public static <T> List<T> listToLength(List<T> tList, int length) {
+    public static <T> List<T> listToLengthBack(List<T> tList, int length) {
         List<T> result = new ArrayList<>();
         for (int i = 0; i < length; i++) {
             if (i < tList.size())
                 result.add(tList.get(i));
         }
         return result;
+    }
+
+    /**
+     * 把List变为指定长度
+     *
+     * @param tList  tList
+     * @param length length
+     */
+    public static <T> void listToLength(List<T> tList, int length) {
+        List<T> result = new ArrayList<>();
+        for (int i = 0; i < length; i++) {
+            if (i < tList.size())
+                result.add(tList.get(i));
+        }
+        tList.clear();
+        tList.addAll(result);
     }
 }
