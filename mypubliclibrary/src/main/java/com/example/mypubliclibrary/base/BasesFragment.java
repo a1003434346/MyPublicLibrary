@@ -23,9 +23,12 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.mypubliclibrary.base.bean.EventMsg;
+import com.example.mypubliclibrary.base.interfaces.HttpRequestCall;
+import com.example.mypubliclibrary.util.EventBusUtils;
 import com.example.mypubliclibrary.util.ObjectUtil;
 import com.example.mypubliclibrary.util.SelectorUtils;
 import com.example.mypubliclibrary.util.WindowUtils;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -37,7 +40,7 @@ import java.util.List;
  * describe:
  * Created By LiQiang on 2019/7/5.
  */
-public abstract class BasesFragment<T> extends Fragment implements View.OnClickListener {
+public abstract class BasesFragment<T> extends Fragment implements View.OnClickListener, HttpRequestCall {
     protected T mPresenter;
     //当前页面的唯一标识
     public String mOnlyMark;
@@ -125,16 +128,16 @@ public abstract class BasesFragment<T> extends Fragment implements View.OnClickL
         mOnlyMark = System.nanoTime() + "";
     }
 
-    /**
-     * 设置背景色和圆角
-     *
-     * @param color  背景色
-     * @param radius 圆角
-     * @return StateListDrawable
-     */
-    public StateListDrawable getBackRadius(int color, int radius) {
-        return SelectorUtils.newShapeSelector().setDefaultBgColor(color).setCornerRadius(new float[]{getDP(radius)}).create();
-    }
+//    /**
+//     * 设置背景色和圆角
+//     *
+//     * @param color  背景色
+//     * @param radius 圆角
+//     * @return StateListDrawable
+//     */
+//    public StateListDrawable getBackRadius(int color, int radius) {
+//        return SelectorUtils.newShapeSelector().setDefaultBgColor(color).setCornerRadius(new float[]{getDP(radius)}).create();
+//    }
 
     public void setBackground(View view, Drawable backGround) {
         view.setBackground(backGround);
@@ -339,6 +342,16 @@ public abstract class BasesFragment<T> extends Fragment implements View.OnClickL
      */
     public void setTextColor(int viewId, int color) {
         ((TextView) bindId(viewId)).setTextColor(getResourcesColor(color));
+    }
+
+    /**
+     * 获取接口请求状态
+     *
+     * @param eventMsg     消息
+     * @param currentValid 是否只对当前发起人有效
+     */
+    protected void getRequestStatus(EventMsg eventMsg, boolean currentValid, SmartRefreshLayout... srlRefreshHead) {
+        EventBusUtils.isSuccess(getContext(), eventMsg, mOnlyMark, currentValid, this, srlRefreshHead);
     }
 
 

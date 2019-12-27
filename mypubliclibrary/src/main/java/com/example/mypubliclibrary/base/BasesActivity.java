@@ -35,11 +35,13 @@ import androidx.fragment.app.FragmentTransaction;
 import com.example.mypubliclibrary.R;
 import com.example.mypubliclibrary.base.bean.EventMsg;
 import com.example.mypubliclibrary.base.interfaces.CallPermission;
+import com.example.mypubliclibrary.base.interfaces.HttpRequestCall;
 import com.example.mypubliclibrary.util.ColorUtils;
 import com.example.mypubliclibrary.util.EventBusUtils;
 import com.example.mypubliclibrary.util.ListUtils;
 import com.example.mypubliclibrary.util.ObjectUtil;
 import com.example.mypubliclibrary.util.SelectorUtils;
+import com.example.mypubliclibrary.util.StringUtils;
 import com.example.mypubliclibrary.util.ToastUtils;
 import com.example.mypubliclibrary.util.WindowUtils;
 import com.example.mypubliclibrary.util.constant.DataInterface;
@@ -50,6 +52,7 @@ import com.example.mypubliclibrary.widget.dialog.build.BuildInputAttribute;
 import com.example.mypubliclibrary.widget.dialog.build.BuildIosAttribute;
 import com.example.mypubliclibrary.widget.photo.GifSizeFilter;
 import com.example.mypubliclibrary.widget.photo.MyGlideEngine;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
 import com.zhihu.matisse.filter.Filter;
@@ -74,7 +77,7 @@ import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
  * describe:
  * Created By LiQiang on 2019/7/5.
  */
-public abstract class BasesActivity<T> extends SwipeBackActivity implements View.OnClickListener, CallPermission {
+public abstract class BasesActivity<T> extends SwipeBackActivity implements View.OnClickListener, CallPermission, HttpRequestCall {
     protected T mPresenter;
 //    public CProgressDialog loadingDialog;
 
@@ -449,6 +452,16 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
         if (!isPermission(params)) {//请求权限
             requestPermission(1, params);
         }
+    }
+
+    /**
+     * 获取接口请求状态
+     *
+     * @param eventMsg     消息
+     * @param currentValid 是否只对当前发起人有效
+     */
+    protected void getRequestStatus(EventMsg eventMsg, boolean currentValid, SmartRefreshLayout... srlRefreshHead) {
+        EventBusUtils.isSuccess(this, eventMsg, mOnlyMark, currentValid, this, srlRefreshHead);
     }
 
 

@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.example.mypubliclibrary.base.BasesActivity;
 import com.example.mypubliclibrary.base.bean.EventMsg;
+import com.example.mypubliclibrary.base.interfaces.HttpRequestCall;
 import com.example.mypubliclibrary.util.constant.DataInterface;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -43,19 +44,21 @@ public class EventBusUtils {
      * @param eventMsg     消息
      * @param initiator    发起人
      * @param currentValid 是否只对当前发起人有效
-     * @return true请求成功
      */
-    public static boolean isSuccess(Context context, EventMsg eventMsg, String initiator, boolean currentValid, SmartRefreshLayout... srlRefreshHead) {
+    public static void isSuccess(Context context, EventMsg eventMsg, String initiator, boolean currentValid, HttpRequestCall httpRequestCall, SmartRefreshLayout... srlRefreshHead) {
         //判断当前发起人是否有效，如果接口中的发起人为空，代表强制不区分发起人
         boolean isValid = !currentValid || initiator.equals(eventMsg.getInitiator()) || StringUtils.isEmpty(eventMsg.getInitiator());
         boolean result = eventMsg.getRequest() != null && eventMsg.getMessage() != null && eventMsg.getMessage().equals(DataInterface.SUCCESS) && isValid;
-        if (!result && eventMsg.getRequest() != null && !StringUtils.isEmpty(eventMsg.getMessage()) && !eventMsg.getMessage().equals(DataInterface.SUCCESS))
-            ToastUtils.showLongToast(context, eventMsg.getMessage());
         if (srlRefreshHead.length > 0 && srlRefreshHead[0] != null && eventMsg.getRequest() != null) {
             srlRefreshHead[0].finishRefresh(result);
             srlRefreshHead[0].finishLoadMore(result);
         }
-        return result;
+        if (!result && eventMsg.getRequest() != null && !StringUtils.isEmpty(eventMsg.getMessage()) && !eventMsg.getMessage().equals(DataInterface.SUCCESS)) {
+            ToastUtils.showLongToast(context, eventMsg.getMessage());
+            httpRequestCall.onQuestError(eventMsg);
+            return;
+        }
+        httpRequestCall.onQuestSuccess(eventMsg);
     }
 
 

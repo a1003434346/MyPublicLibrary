@@ -70,4 +70,14 @@ public class WebViewActivity extends BasesActivity {
     public void onClick(View view) {
 
     }
+
+    @Override
+    public void onQuestError(EventMsg message) {
+
+    }
+
+    @Override
+    public void onQuestSuccess(EventMsg message) {
+
+    }
 }

@@ -131,4 +131,14 @@ public class MainActivity extends BasesActivity<TestPre> {
         super.onResume();
         CodeUtils.getInstance().readCountdown("", bindId(R.id.tv_test), "点击重发验证码");
     }
+
+    @Override
+    public void onQuestError(EventMsg message) {
+
+    }
+
+    @Override
+    public void onQuestSuccess(EventMsg message) {
+
+    }
 }

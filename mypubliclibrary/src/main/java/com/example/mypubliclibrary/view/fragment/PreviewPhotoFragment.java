@@ -71,4 +71,14 @@ public class PreviewPhotoFragment extends BasesFragment {
             getActivity().finish();
         }
     }
+
+    @Override
+    public void onQuestError(EventMsg message) {
+
+    }
+
+    @Override
+    public void onQuestSuccess(EventMsg message) {
+
+    }
 }

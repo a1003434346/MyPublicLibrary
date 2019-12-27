@@ -45,4 +45,14 @@ public class Main2Activity extends BasesActivity {
     public void onClick(View v) {
         finish();
     }
+
+    @Override
+    public void onQuestError(EventMsg message) {
+
+    }
+
+    @Override
+    public void onQuestSuccess(EventMsg message) {
+
+    }
 }

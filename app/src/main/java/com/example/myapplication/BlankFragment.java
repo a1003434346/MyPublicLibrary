@@ -63,4 +63,14 @@ public class BlankFragment extends BasesFragment<TestFragment> {
     public void onClick(View v) {
 
     }
+
+    @Override
+    public void onQuestError(EventMsg message) {
+
+    }
+
+    @Override
+    public void onQuestSuccess(EventMsg message) {
+
+    }
 }

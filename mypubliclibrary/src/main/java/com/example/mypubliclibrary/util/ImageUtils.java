@@ -11,6 +11,7 @@ import android.graphics.Paint;
 import android.graphics.RectF;
 import android.graphics.Shader;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
@@ -234,6 +235,10 @@ public class ImageUtils {
      */
     public static Bitmap toRoundCorner(final Bitmap src, final float radius) {
         return toRoundCorner(src, radius, 0, 0, false);
+    }
+
+    public static Drawable bitmap2Drawable(Context context, Bitmap bitmap) {
+        return new BitmapDrawable(context.getResources(), bitmap);
     }
 
     /**

@@ -86,6 +86,16 @@ public class PreviewPhotoActivity extends BasesActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
     }
 
+    @Override
+    public void onQuestError(EventMsg message) {
+
+    }
+
+    @Override
+    public void onQuestSuccess(EventMsg message) {
+
+    }
+
 //    @Override
 //    public void finish() {
 //        super.finish();
