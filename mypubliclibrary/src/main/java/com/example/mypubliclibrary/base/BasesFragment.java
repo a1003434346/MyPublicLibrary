@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -99,19 +100,12 @@ public abstract class BasesFragment<T> extends Fragment implements View.OnClickL
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (myView == null) {
             myView = inflater.inflate(onRegistered(), container, false);
-//            if (isSetStatus)
-            WindowUtils.setStatusTitle(getContext(), myView);
+            initAttribute();
             initView();
-//            mPresenter = ObjectUtil.getT(this.getClass());
-//            initData();
-//            initEvent();
             Looper.myQueue().addIdleHandler(new MessageQueue.IdleHandler() {
                 @Override
                 public boolean queueIdle() {
                     mUiLoadDone = true;
-//                    mSimpleName = BasesFragment.this.getClass().getSimpleName();
-                    //获取代表该类的唯一值
-                    mOnlyMark = System.nanoTime() + "";
                     //Ui线程空闲下来后去执行（所有生命周期执行完以后才会去执行）
                     mPresenter = ObjectUtil.getT(BasesFragment.this.getClass());
                     initData();
@@ -125,6 +119,12 @@ public abstract class BasesFragment<T> extends Fragment implements View.OnClickL
             initData();
         }
         return myView;
+    }
+
+    private void initAttribute() {
+        WindowUtils.setStatusTitle(getContext(), myView);
+        //获取代表该类的唯一值
+        mOnlyMark = System.nanoTime() + "";
     }
 
     /**
