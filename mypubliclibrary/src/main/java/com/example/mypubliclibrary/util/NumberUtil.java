@@ -123,6 +123,16 @@ public class NumberUtil {
     }
 
     /**
+     * 将科学计数法转换为正常的数字
+     *
+     * @param number number
+     * @return string
+     */
+    public static String formatScientificNotation(String number) {
+        return new BigDecimal(number).toPlainString();
+    }
+
+    /**
      * 判断是否是数字
      *
      * @param s string

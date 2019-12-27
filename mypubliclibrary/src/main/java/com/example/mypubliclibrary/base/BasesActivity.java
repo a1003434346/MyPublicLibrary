@@ -61,6 +61,7 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.TreeMap;
@@ -111,6 +112,7 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
     public boolean mJumpAnim;
     //是否允许滑动Finish
     protected boolean isSlideFinish;
+
 
     //拍照
     private MediaStoreCompat mMediaStoreCompat;
