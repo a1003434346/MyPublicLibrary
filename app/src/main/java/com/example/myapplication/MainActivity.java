@@ -58,6 +58,11 @@ public class MainActivity extends BasesActivity<TestPre> {
         bindClick(new ListUtils<Integer>().add(R.id.tv_test, R.id.tv_test1));
     }
 
+    @Override
+    protected void refreshData() {
+
+    }
+
 
     boolean test;
     Timer mTimer;

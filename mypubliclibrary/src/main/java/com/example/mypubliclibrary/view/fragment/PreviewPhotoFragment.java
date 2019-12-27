@@ -55,7 +55,7 @@ public class PreviewPhotoFragment extends BasesFragment {
     }
 
     @Override
-    protected void requestData() {
+    protected void refreshData() {
 
     }
 

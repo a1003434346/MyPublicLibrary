@@ -35,6 +35,11 @@ public class Main2Activity extends BasesActivity {
         bindClick(R.id.tv_2);
     }
 
+    @Override
+    protected void refreshData() {
+
+    }
+
 
     @Override
     public void onClick(View v) {

@@ -71,6 +71,11 @@ public class PreviewPhotoActivity extends BasesActivity {
     }
 
     @Override
+    protected void refreshData() {
+
+    }
+
+    @Override
     public void onClick(View v) {
 
     }
