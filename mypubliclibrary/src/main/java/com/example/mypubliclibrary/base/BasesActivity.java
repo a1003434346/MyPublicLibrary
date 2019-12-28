@@ -89,6 +89,9 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
     //初始化View
     protected abstract void initView();
 
+    //初始化样式，紧跟着initView后面
+    protected abstract void initStyle();
+
     //初始化数据
     protected abstract void initData();
 
@@ -150,12 +153,7 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
         //设置状态栏的背景色为title的背景色,如果有title,给title增加状态栏间距
         setStatusTitle();
         initView();
-//        mFragmentManager = getSupportFragmentManager();
-//        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
-//        imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-//        mPresenter = ObjectUtil.getT(this.getClass());
-//        initData();
-//        initListener();
+        initStyle();
         Looper.myQueue().addIdleHandler(new MessageQueue.IdleHandler() {
             @Override
             public boolean queueIdle() {

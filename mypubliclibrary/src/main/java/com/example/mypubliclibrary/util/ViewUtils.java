@@ -18,7 +18,6 @@ public class ViewUtils {
     /**
      * 单选模式更新选择状态
      *
-     * @param view               布局容器,null为当前类的全局布局文件
      * @param checkId            想要选中的Id
      * @param viewContainer      需要单选的控件容器
      * @param checkColor         选中的颜色
@@ -27,14 +26,14 @@ public class ViewUtils {
      * @param notCheckBackground 未选中的BackGround
      * @return 选择的索引(对应容器里面的顺序, 下标从0开始)
      */
-    public static int checkType(View view, int checkId, List<Integer> viewContainer, int checkColor, int notCheckColor, Drawable checkBackground, Drawable notCheckBackground) {
+    public static int checkType(int checkId, List<View> viewContainer, int checkColor, int notCheckColor, Drawable checkBackground, Drawable notCheckBackground) {
         boolean isCheckId = false;
         boolean updateColor = false;
         boolean updateBackground = false;
         int checkIndex = -1;
-        for (int viewId : viewContainer) {
+        for (View view : viewContainer) {
             checkIndex++;
-            if (checkId == viewId) {
+            if (checkId == view.getId()) {
                 isCheckId = true;
                 if (checkColor != 0) updateColor = true;
                 if (checkBackground != null) updateBackground = true;
@@ -43,12 +42,14 @@ public class ViewUtils {
         }
         //对选中的设置选中状态,未选中的还原初始状态
         if (isCheckId) {
-            for (int viewId : viewContainer) {
+            for (View view : viewContainer) {
                 if (updateColor)
-                    setTvColor(view, viewId, checkId != viewId ? notCheckColor : checkColor);
+                    setTvColor(view, checkId != view.getId() ? notCheckColor : checkColor);
                 if (updateBackground)
-                    setBackground(view, viewId, checkId != viewId ? notCheckBackground : checkBackground);
+                    setBackground(view, checkId != view.getId() ? notCheckBackground : checkBackground);
             }
+        } else {
+            checkIndex = -1;
         }
         return checkIndex;
     }
@@ -94,12 +95,11 @@ public class ViewUtils {
     /**
      * 设置TextView的文字颜色
      *
-     * @param view   哪一个布局容器里的view
-     * @param viewId viewId
-     * @param color  设置的颜色
+     * @param view  哪一个布局容器里的view
+     * @param color 设置的颜色
      */
-    public static void setTvColor(View view, int viewId, int color) {
-        ((TextView) view.findViewById(viewId)).setTextColor(view.getResources().getColor(color));
+    private static void setTvColor(View view, int color) {
+        ((TextView) view).setTextColor(view.getResources().getColor(color));
     }
 
     /**
@@ -149,7 +149,7 @@ public class ViewUtils {
      * @param view     哪一个view
      * @param drawable 设置的drawable
      */
-    public static void setBackground(View view, Drawable drawable) {
+    private static void setBackground(View view, Drawable drawable) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             view.setBackground(drawable);
         }

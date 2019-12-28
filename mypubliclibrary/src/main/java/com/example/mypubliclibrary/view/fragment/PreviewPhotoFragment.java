@@ -45,6 +45,11 @@ public class PreviewPhotoFragment extends BasesFragment {
     }
 
     @Override
+    protected void initStyle() {
+
+    }
+
+    @Override
     protected void initData() {
 
     }

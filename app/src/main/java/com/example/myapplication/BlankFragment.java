@@ -44,6 +44,11 @@ public class BlankFragment extends BasesFragment<TestFragment> {
     }
 
     @Override
+    protected void initStyle() {
+
+    }
+
+    @Override
     protected void initData() {
 
     }

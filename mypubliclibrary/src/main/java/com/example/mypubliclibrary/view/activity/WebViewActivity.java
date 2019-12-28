@@ -38,6 +38,11 @@ public class WebViewActivity extends BasesActivity {
     }
 
     @Override
+    protected void initStyle() {
+
+    }
+
+    @Override
     protected void initData() {
         String title = getIntent().getStringExtra("title");
         if (title == null || title.isEmpty()) {

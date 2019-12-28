@@ -53,6 +53,9 @@ public abstract class BasesFragment<T> extends Fragment implements View.OnClickL
     //初始化View
     protected abstract void initView();
 
+    //初始化样式，紧跟着initView后面
+    protected abstract void initStyle();
+
     //初始化数据
     protected abstract void initData();
 
@@ -103,6 +106,7 @@ public abstract class BasesFragment<T> extends Fragment implements View.OnClickL
             myView = inflater.inflate(onRegistered(), container, false);
             initAttribute();
             initView();
+            initStyle();
             Looper.myQueue().addIdleHandler(new MessageQueue.IdleHandler() {
                 @Override
                 public boolean queueIdle() {

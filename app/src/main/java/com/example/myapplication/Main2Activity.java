@@ -26,6 +26,11 @@ public class Main2Activity extends BasesActivity {
     }
 
     @Override
+    protected void initStyle() {
+
+    }
+
+    @Override
     protected void initData() {
 
     }
