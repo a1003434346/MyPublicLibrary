@@ -22,6 +22,7 @@ import androidx.annotation.ColorInt;
 import androidx.annotation.IntRange;
 import androidx.palette.graphics.Palette;
 
+import com.blankj.utilcode.util.Utils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.Transformation;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -237,8 +238,8 @@ public class ImageUtils {
         return toRoundCorner(src, radius, 0, 0, false);
     }
 
-    public static Drawable bitmap2Drawable(Context context, Bitmap bitmap) {
-        return new BitmapDrawable(context.getResources(), bitmap);
+    public static Drawable bitmap2Drawable(Bitmap bitmap) {
+        return bitmap == null ? null : new BitmapDrawable(Utils.getApp().getResources(), bitmap);
     }
 
     /**
@@ -343,6 +344,16 @@ public class ImageUtils {
         return (bytes == null || bytes.length == 0)
                 ? null
                 : BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+    }
+
+    /**
+     * Bytes to drawable.
+     *
+     * @param bytes The bytes.
+     * @return drawable
+     */
+    public static Drawable bytes2Drawable(final byte[] bytes) {
+        return bitmap2Drawable(bytes2Bitmap(bytes));
     }
 
     /**

@@ -110,12 +110,14 @@ public abstract class BuildWarningAttribute extends ViewAttribute {
         return btn1TextColor;
     }
 
-    public void setBtnClick2Dismiss(boolean btnClick2Dismiss) {
+    public BuildWarningAttribute setBtnClick2Dismiss(boolean btnClick2Dismiss) {
         this.btnClick2Dismiss = btnClick2Dismiss;
+        return this;
     }
 
-    public void setBtnMiddleDismiss(boolean btnMiddleDismiss) {
+    public BuildWarningAttribute setBtnMiddleDismiss(boolean btnMiddleDismiss) {
         this.btnMiddleDismiss = btnMiddleDismiss;
+        return this;
     }
 
     public BuildWarningAttribute setBtn1TextColor(int btn1TextColor) {
@@ -185,20 +187,20 @@ public abstract class BuildWarningAttribute extends ViewAttribute {
         return new WarningDialog(context) {
             @Override
             protected void btnOneClick() {
-                oneClick();
                 if (btnClick1Dismiss) dismiss();
+                oneClick();
             }
 
             @Override
             protected void btnTwoClick() {
-                twoClick();
                 if (btnClick2Dismiss) dismiss();
+                twoClick();
             }
 
             @Override
             protected void btnMiddleClick() {
-                middleClick();
                 if (btnMiddleDismiss) dismiss();
+                middleClick();
             }
         }.setViewAttribute(this);
     }

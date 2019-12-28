@@ -39,16 +39,6 @@ public abstract class WarningDialog extends CenterPopupView {
                 .popupAnimation(PopupAnimation.TranslateFromBottom);
     }
 
-    //
-//    private View popView;
-//
-//    private PopupWindow popWindow;
-//    //按钮1的单击接口
-//    private WidgetInterface.Warning clickBtn1;
-//    //按钮2的单击接口
-//    private WidgetInterface.Warning clickBtn2;
-//    //中间按钮的单击接口
-//    private WidgetInterface.Warning middleOne;
     //按钮1
     private Button btnClick1;
     //按钮1
