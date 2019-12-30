@@ -17,6 +17,7 @@ import java.util.List;
  */
 public abstract class BasesAdapter<T> extends CommonAdapter<T> implements AdapterOnClick<T>, View.OnClickListener {
     protected BasesActivity mActivity;
+    protected String mInitiator;
     private AdapterOnClick<T> mAdapterOnClicks;
 
 
@@ -37,4 +38,6 @@ public abstract class BasesAdapter<T> extends CommonAdapter<T> implements Adapte
         mActivity = (BasesActivity) context;
         mAdapterOnClicks = this;
     }
+
+    public abstract <A> A setInitiator(String initiator);
 }

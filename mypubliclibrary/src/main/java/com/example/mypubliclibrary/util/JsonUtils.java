@@ -1,5 +1,7 @@
 package com.example.mypubliclibrary.util;
 
+import com.blankj.utilcode.util.GsonUtils;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -36,5 +38,14 @@ public class JsonUtils {
             e.printStackTrace();
         }
         return t;
+    }
+
+    public static boolean isJson(String json) {
+        try {
+            GsonUtils.fromJson(json, Object.class);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 }
