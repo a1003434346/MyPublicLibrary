@@ -17,9 +17,11 @@ import java.util.List;
  */
 public abstract class BasesAdapter<T> extends CommonAdapter<T> implements AdapterOnClick<T>, View.OnClickListener {
     protected BasesActivity mActivity;
-    protected String mInitiator;
+    public String mInitiator;
     private AdapterOnClick<T> mAdapterOnClicks;
 
+    //如果Adapter里需要访问接口，实现该方法来设置发起人是谁
+    public abstract <A> A setInitiator(String initiator);
 
     public void setOnClickListener(View view, int position) {
         view.setTag(position);
@@ -39,5 +41,4 @@ public abstract class BasesAdapter<T> extends CommonAdapter<T> implements Adapte
         mAdapterOnClicks = this;
     }
 
-    public abstract <A> A setInitiator(String initiator);
 }

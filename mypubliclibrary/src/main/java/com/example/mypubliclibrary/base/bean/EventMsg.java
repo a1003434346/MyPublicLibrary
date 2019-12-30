@@ -51,7 +51,7 @@ public class EventMsg {
     }
 
     public EventMsg setInitiator(String initiator) {
-        this.mInitiator = initiator;
+        this.mInitiator = initiator == null ? "" : initiator;
         return this;
     }
 
