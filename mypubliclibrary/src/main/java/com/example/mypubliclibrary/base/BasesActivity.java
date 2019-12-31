@@ -23,6 +23,7 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -509,6 +510,10 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
     public void setBackground(int viewId, Bitmap bitmap) {
 
         bindId(viewId).setBackground(new BitmapDrawable(getResources(), bitmap));
+    }
+
+    public void setImage(int viewId, int resId) {
+        ((ImageView) bindId(viewId)).setImageResource(resId);
     }
 
     public void setBackground(View view, Bitmap bitmap) {
