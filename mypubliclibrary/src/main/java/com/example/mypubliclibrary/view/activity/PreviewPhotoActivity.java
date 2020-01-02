@@ -59,6 +59,11 @@ public class PreviewPhotoActivity extends BasesActivity {
     }
 
     @Override
+    protected void getPageRequestData() {
+
+    }
+
+    @Override
     protected void initData() {
         // 设置适配器,绑定每页要显示的内容
         photos = new ArrayList<>();

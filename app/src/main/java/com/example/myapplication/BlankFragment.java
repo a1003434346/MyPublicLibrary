@@ -49,6 +49,11 @@ public class BlankFragment extends BasesFragment<TestFragment> {
     }
 
     @Override
+    protected void getPageRequestData() {
+
+    }
+
+    @Override
     protected void initData() {
 
     }

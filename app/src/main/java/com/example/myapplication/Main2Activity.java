@@ -31,6 +31,11 @@ public class Main2Activity extends BasesActivity {
     }
 
     @Override
+    protected void getPageRequestData() {
+
+    }
+
+    @Override
     protected void initData() {
 
     }

@@ -53,6 +53,11 @@ public class MainActivity extends BasesActivity<TestPre> {
     }
 
     @Override
+    protected void getPageRequestData() {
+
+    }
+
+    @Override
     protected void initData() {
         mPresenter.test(this);
 //        EventBusUtils.post(new EventMsg<>().setType("test"));

@@ -50,6 +50,11 @@ public class PreviewPhotoFragment extends BasesFragment {
     }
 
     @Override
+    protected void getPageRequestData() {
+
+    }
+
+    @Override
     protected void initData() {
 
     }
