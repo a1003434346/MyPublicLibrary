@@ -7,4 +7,7 @@ package com.example.mypubliclibrary.util.constant;
  */
 public interface DataInterface {
     String SUCCESS = "success";
+    //删除请求
+    String DELETE_REQUEST = "DeleteRequest";
+
 }

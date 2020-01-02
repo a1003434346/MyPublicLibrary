@@ -45,7 +45,7 @@ public class EventBusUtils {
      * @param initiator    发起人
      * @param currentValid 是否只对当前发起人有效
      */
-    public static void isSuccess(Context context, EventMsg eventMsg, String initiator, boolean currentValid, HttpRequestCall httpRequestCall, SmartRefreshLayout... srlRefreshHead) {
+    public static boolean isSuccess(Context context, EventMsg eventMsg, String initiator, boolean currentValid, HttpRequestCall httpRequestCall, SmartRefreshLayout... srlRefreshHead) {
         //判断当前发起人是否有效，如果接口中的发起人为空，代表强制不区分发起人
         boolean isValid = !currentValid || initiator.equals(eventMsg.getInitiator()) || StringUtils.isEmpty(eventMsg.getInitiator());
         boolean result = eventMsg.getRequest() != null && eventMsg.getMessage() != null && eventMsg.getMessage().equals(DataInterface.SUCCESS) && isValid;
@@ -56,9 +56,10 @@ public class EventBusUtils {
         if (!result && eventMsg.getRequest() != null && !StringUtils.isEmpty(eventMsg.getMessage()) && !eventMsg.getMessage().equals(DataInterface.SUCCESS)) {
             ToastUtils.showLongToast(context, eventMsg.getMessage());
             httpRequestCall.onQuestError(eventMsg);
-            return;
+            return false;
         }
         httpRequestCall.onQuestSuccess(eventMsg);
+        return true;
     }
 
 

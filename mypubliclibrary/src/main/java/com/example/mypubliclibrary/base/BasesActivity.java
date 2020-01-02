@@ -93,6 +93,9 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
     //初始化样式，紧跟着initView后面
     protected abstract void initStyle();
 
+    //获取页面请求数据，在initView前面
+    protected abstract void getPageRequestData();
+
     //初始化数据
     protected abstract void initData();
 
@@ -153,6 +156,7 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
         setContentView(onRegistered());
         //设置状态栏的背景色为title的背景色,如果有title,给title增加状态栏间距
         setStatusTitle();
+        getPageRequestData();
         initView();
         initStyle();
         Looper.myQueue().addIdleHandler(new MessageQueue.IdleHandler() {
@@ -460,7 +464,9 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
      * @param currentValid 是否只对当前发起人有效
      */
     protected void getRequestStatus(EventMsg eventMsg, boolean currentValid, SmartRefreshLayout... srlRefreshHead) {
-        EventBusUtils.isSuccess(this, eventMsg, mOnlyMark, currentValid, this, srlRefreshHead);
+        if (EventBusUtils.isSuccess(this, eventMsg, mOnlyMark, currentValid, this, srlRefreshHead) && eventMsg.isRefresh()) {
+            EventBusUtils.post(new EventMsg().setType("DeleteRequest").setRequest(eventMsg.getRequest()));
+        }
     }
 
 

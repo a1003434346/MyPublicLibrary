@@ -19,6 +19,8 @@ public class EventMsg {
     private Object mRequest;
 
     private Object mData;
+    //是否为刷新
+    private boolean isRefresh;
 
     public <T> T getRequest() {
         return (T) mRequest;
@@ -33,8 +35,17 @@ public class EventMsg {
         return this;
     }
 
-    public void setRequest(Object mRequest) {
+    public boolean isRefresh() {
+        return isRefresh;
+    }
+
+    public void setRefresh(boolean refresh) {
+        isRefresh = refresh;
+    }
+
+    public EventMsg setRequest(Object mRequest) {
         this.mRequest = mRequest;
+        return this;
     }
 
     public <T> T getData() {
