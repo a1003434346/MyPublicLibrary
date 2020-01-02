@@ -82,6 +82,10 @@ public class StringUtils {
         return value.substring(start, start + length);
     }
 
+    public static boolean equals(String value, String equalsValue) {
+        return value != null && value.equals(equalsValue);
+    }
+
 
     /**
      * 字符串去除指定内容
