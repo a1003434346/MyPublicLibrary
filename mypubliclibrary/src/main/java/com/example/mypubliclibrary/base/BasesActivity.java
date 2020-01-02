@@ -453,9 +453,23 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
     public void requestPermission(String... params) {
         //判断权限
         if (!isPermission(params)) {//请求权限
-            requestPermission(1, params);
+            upPermission(1, params);
         }
     }
+
+    /**
+     * 请求权限
+     *
+     * @param params      权限列表
+     * @param requestCode 请求权限码
+     */
+    public void requestPermission(int requestCode, String... params) {
+        //判断权限
+        if (!isPermission(params)) {//请求权限
+            upPermission(requestCode, params);
+        }
+    }
+
 
     /**
      * 获取接口请求状态
@@ -571,11 +585,12 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
      * @param requestCode 请求码,如果要对拒绝请求做处理，可以用requestCode判断来自于哪一个申请
      * @param permissions Manifest.permission.XX(权限名称)
      */
-    protected void requestPermission(int requestCode, String... permissions) {
+    protected void upPermission(int requestCode, String... permissions) {
         if (!isPermission(permissions) && android.os.Build.VERSION.SDK_INT >= 23) {
             requestPermissions(permissions, requestCode);
         }
     }
+
 
     /**
      * 是否已经注册权限

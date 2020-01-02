@@ -2,12 +2,16 @@ package com.example.mypubliclibrary.base;
 
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.StateListDrawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Looper;
 import android.os.MessageQueue;
+import android.provider.Settings;
 import android.text.InputFilter;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,13 +24,16 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.mypubliclibrary.base.bean.EventMsg;
+import com.example.mypubliclibrary.base.interfaces.CallPermission;
 import com.example.mypubliclibrary.base.interfaces.HttpRequestCall;
 import com.example.mypubliclibrary.util.EventBusUtils;
 import com.example.mypubliclibrary.util.ObjectUtil;
 import com.example.mypubliclibrary.util.SelectorUtils;
+import com.example.mypubliclibrary.util.ToastUtils;
 import com.example.mypubliclibrary.util.WindowUtils;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
@@ -34,13 +41,15 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * function:
  * describe:
  * Created By LiQiang on 2019/7/5.
  */
-public abstract class BasesFragment<T> extends Fragment implements View.OnClickListener, HttpRequestCall {
+public abstract class BasesFragment<T> extends Fragment implements View.OnClickListener, CallPermission, HttpRequestCall {
     protected T mPresenter;
     //当前页面的唯一标识
     public String mOnlyMark;
@@ -161,12 +170,135 @@ public abstract class BasesFragment<T> extends Fragment implements View.OnClickL
     public void onStart() {
 //        WindowUtils.setStatusBar(getActivity());
 //        setStatusBar();
-
         super.onStart();
     }
 
     public String getTextValue(int textId) {
         return ((TextView) bindId(textId)).getText().toString();
+    }
+
+    /**
+     * 请求权限
+     *
+     * @param params 权限列表
+     */
+    public void requestPermission(String... params) {
+        //判断权限
+        if (!isPermission(params)) {//请求权限
+            upPermission(1, params);
+        }
+    }
+
+    /**
+     * 请求权限
+     *
+     * @param params      权限列表
+     * @param requestCode 请求权限码
+     */
+    public void requestPermission(int requestCode, String... params) {
+        //判断权限
+        if (!isPermission(params)) {//请求权限
+            upPermission(requestCode, params);
+        }
+    }
+
+    /**
+     * 是否已经注册权限
+     *
+     * @param permissions 权限
+     * @return true/false
+     */
+    protected boolean isPermission(String... permissions) {
+        if (permissions.length > 0 && android.os.Build.VERSION.SDK_INT >= 23) {
+            for (String permission : permissions) {
+                if (getContext().checkSelfPermission(permission) != PackageManager.PERMISSION_GRANTED)
+                    return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * 请求权限，一般配合isPermission使用，调用示例：
+     * //判断权限
+     * if (!isPermission(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.RECORD_AUDIO
+     * , Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE
+     * )) {
+     * //请求权限
+     * requestPermission(1, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.RECORD_AUDIO
+     * , Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE
+     * );
+     * }
+     * 请求成功后如果需要对成功的结果做回调，需要重写onPermissionSuccess方法
+     * 用户拒绝权限请求，默认会弹出“未获得权限”的提示，如果需要额外对拒绝请求做出回调，需要重写onPermissionError方法
+     * 如果用户勾选了不再询问，那么默认会提醒用户打开权限，并在2秒后自动跳转到设置权限页面，如果需要对不再询问单独做处理，需要重写onPermissionForbid方法
+     *
+     * @param requestCode 请求码,如果要对拒绝请求做处理，可以用requestCode判断来自于哪一个申请
+     * @param permissions Manifest.permission.XX(权限名称)
+     */
+    protected void upPermission(int requestCode, String... permissions) {
+        if (!isPermission(permissions) && android.os.Build.VERSION.SDK_INT >= 23) {
+            requestPermissions(permissions, requestCode);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        boolean isSuccess = true;
+        if (grantResults.length > 0) {
+            for (int i = 0; i < grantResults.length; i++) {
+                if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
+                    if (!ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), permissions[i])) {
+                        //禁用的回调
+                        onPermissionForbid();
+                    } else {
+                        //调用失败的回调
+                        onPermissionError(requestCode);
+                    }
+                    isSuccess = false;
+                    break;
+                }
+            }
+        }
+        //调用成功的回调
+        if (isSuccess)
+            onPermissionSuccess(requestCode);
+    }
+
+    /**
+     * 权限请求成功的回调
+     */
+    @Override
+    public void onPermissionSuccess(int requestCode) {
+
+    }
+
+    /**
+     * 权限请求失败的回调
+     */
+    @Override
+    public void onPermissionError(int requestCode) {
+        ToastUtils.showLongToast(getContext(), "未获得权限");
+    }
+
+    /**
+     * 禁止申请的回调
+     */
+    @Override
+    public void onPermissionForbid() {
+        ToastUtils.showLongToast(getContext(), "请手动打开权限");
+        // 延迟2s再发送
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            public void run() {
+                Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                Uri uri = Uri.fromParts("package", getContext().getPackageName(), null);
+                intent.setData(uri);
+                startActivityForResult(intent, 0x006);
+                this.cancel();
+            }
+        }, 2000);// 这里百毫秒
     }
 
 
