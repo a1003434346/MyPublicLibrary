@@ -53,13 +53,13 @@ public class EventBusUtils {
             srlRefreshHead[0].finishRefresh(result);
             srlRefreshHead[0].finishLoadMore(result);
         }
-        if (!result && eventMsg.getRequest() != null && !StringUtils.isEmpty(eventMsg.getMessage()) && !eventMsg.getMessage().equals(DataInterface.SUCCESS)) {
+        if (!result && initiator.equals(eventMsg.getInitiator())) {
             ToastUtils.showLongToast(context, eventMsg.getMessage());
             httpRequestCall.onQuestError(eventMsg);
             return false;
         }
-        httpRequestCall.onQuestSuccess(eventMsg);
-        return true;
+        if (result) httpRequestCall.onQuestSuccess(eventMsg);
+        return result;
     }
 
 
