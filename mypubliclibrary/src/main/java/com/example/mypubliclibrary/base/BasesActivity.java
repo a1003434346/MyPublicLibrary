@@ -446,7 +446,7 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
     }
 
     /**
-     * 请求权限
+     * 请求权限，如果已经拥有权限，则会回调onPermissionSuccess
      *
      * @param params 权限列表
      */
@@ -454,11 +454,13 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
         //判断权限
         if (!isPermission(params)) {//请求权限
             upPermission(1, params);
+        } else {
+            onPermissionSuccess(1);
         }
     }
 
     /**
-     * 请求权限
+     * 请求权限，如果已经拥有权限，则会回调onPermissionSuccess
      *
      * @param params      权限列表
      * @param requestCode 请求权限码
@@ -467,7 +469,10 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
         //判断权限
         if (!isPermission(params)) {//请求权限
             upPermission(requestCode, params);
+        } else {
+            onPermissionSuccess(requestCode);
         }
+
     }
 
 
