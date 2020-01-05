@@ -1,5 +1,6 @@
 package com.example.myapplication;
 
+import android.graphics.Color;
 import android.os.Looper;
 import android.util.Log;
 import android.view.View;
@@ -43,6 +44,8 @@ public class MainActivity extends BasesActivity<TestPre> {
     protected void initView() {
         EventBusUtils.register(this);
         Log.i("testId", bindId(R.id.ctl_content).getId() + "");
+        int colors[] = { Color.parseColor("#ee0a1f") ,Color.parseColor("#f15628") };//分别为开始颜色，中间夜色，结束颜色
+        setBackground(R.id.tv_test1, getBackRadius(Color.parseColor("#EE0E1F"), 6).setDefaultGdColor(colors).create());
         SharedPreferencesUtils.getInstance().init(this);
 
     }

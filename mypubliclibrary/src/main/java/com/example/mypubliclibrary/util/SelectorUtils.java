@@ -50,6 +50,8 @@ public class SelectorUtils {
         private int mFocusedBgColor;
         //设置聚焦时的描边色
         private int mFocusedStrokeColor;
+        //设置默认的渐变颜色,长度为2：0为开始颜色，1为结束颜色。长度为3：0为开始颜色，1为中间颜色，2为结束颜色。 不设置默认色的话0为默认色
+        private int[] mDefaultGradientColor;
 
 
         //构造方法，初始化参数
@@ -79,6 +81,8 @@ public class SelectorUtils {
             mFocusedStrokeColor = Color.TRANSPARENT;
             //初始化默认圆角
             mCornerRadius = new float[]{0};
+            //初始化默认的渐变颜色
+            mDefaultGradientColor = new int[]{};
         }
 
 
@@ -92,6 +96,12 @@ public class SelectorUtils {
                 mSelectedBgColor = color;
             if (mFocusedBgColor == Color.TRANSPARENT)
                 mFocusedBgColor = color;
+            return this;
+        }
+
+        public SelectorUtils.ShapeSelector setDefaultGdColor(@ColorInt int[] colors) {
+            mDefaultGradientColor = colors;
+            if (mDefaultBgColor == Color.TRANSPARENT) setDefaultBgColor(colors[0]);
             return this;
         }
 
@@ -147,9 +157,14 @@ public class SelectorUtils {
                 //设置按下改变背景色状态
                 selector.addState(new int[]{android.R.attr.state_pressed}, pressedShape);
             }
-
-            GradientDrawable defaultShape = getItemShape(mShape, mCornerRadius,
-                    mDefaultBgColor, mStrokeWidth, mDefaultStrokeColor);
+            GradientDrawable defaultShape;
+            if (mDefaultGradientColor.length > 0) {
+                defaultShape = getItemShape(mShape, mCornerRadius,
+                        mDefaultGradientColor, mStrokeWidth, mDefaultStrokeColor);
+            } else {
+                defaultShape = getItemShape(mShape, mCornerRadius,
+                        mDefaultBgColor, mStrokeWidth, mDefaultStrokeColor);
+            }
             //添加默认状态
             selector.addState(new int[]{}, defaultShape);
 
@@ -334,6 +349,20 @@ public class SelectorUtils {
                 drawable.setCornerRadius((int) cornerRadius[0]);
             }
             drawable.setColor(solidColor);
+            return drawable;
+        }
+
+        private GradientDrawable getItemShape(int shape, float[] cornerRadius,
+                                              int[] solidColor, int strokeWidth, int strokeColor) {
+            GradientDrawable drawable = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, solidColor);
+            drawable.setShape(shape);
+            drawable.setStroke(strokeWidth, strokeColor);
+            if (cornerRadius.length == 8) {
+                drawable.setCornerRadii(cornerRadius);
+            } else {
+                drawable.setCornerRadius((int) cornerRadius[0]);
+            }
+            drawable.setColors(solidColor);
             return drawable;
         }
     }
