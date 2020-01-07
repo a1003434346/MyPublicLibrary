@@ -58,7 +58,7 @@ public class WebViewActivity extends BasesActivity {
         ctlWeb = (ConstraintLayout) bindId(R.id.ctl_web);
         AgentWeb agentWeb = AgentWeb.with(this)
                 .setAgentWebParent(ctlWeb, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT))
-                .useDefaultIndicator()
+                .closeIndicator()
                 .createAgentWeb()
                 .ready()
                 .go(getIntent().getStringExtra("url"));
