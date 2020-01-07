@@ -99,7 +99,7 @@ public class SelectorUtils {
             return this;
         }
 
-        public SelectorUtils.ShapeSelector setDefaultGdColor(@ColorInt int[] colors) {
+        public SelectorUtils.ShapeSelector setDefaultGdColor(@ColorInt int... colors) {
             mDefaultGradientColor = colors;
             if (mDefaultBgColor == Color.TRANSPARENT) setDefaultBgColor(colors[0]);
             return this;
