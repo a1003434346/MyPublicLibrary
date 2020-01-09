@@ -36,6 +36,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.example.mypubliclibrary.R;
 import com.example.mypubliclibrary.base.bean.EventMsg;
 import com.example.mypubliclibrary.base.interfaces.CallPermission;
+import com.example.mypubliclibrary.base.interfaces.CodePublicLibrary;
 import com.example.mypubliclibrary.base.interfaces.HttpRequestCall;
 import com.example.mypubliclibrary.util.ColorUtils;
 import com.example.mypubliclibrary.util.EventBusUtils;
@@ -203,8 +204,8 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
 
     /**
      * 选择照片
-     * 观察者Type为pictures  Data返回的是一个String
-     * 观察者Type为selectPhoto  Data返回的是一个List<String>
+     * 观察者Type为pictures  代表拍照，Data返回的是一个String
+     * 观察者Type为selectPhoto 代表相册选择 Data返回的是一个List<String>
      */
     public void selectPhoto(int maxSelect) {
         Matisse.from(this)
@@ -264,10 +265,10 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
         if (requestCode == 199 && resultCode == RESULT_OK) {
             if (data == null) {
                 //拍照的
-                EventBusUtils.post(new EventMsg().setType("pictures").setData(mMediaStoreCompat.getCurrentPhotoPath()).setMessage(DataInterface.SUCCESS));
+                EventBusUtils.post(new EventMsg().setType(CodePublicLibrary.PICTURES).setData(mMediaStoreCompat.getCurrentPhotoPath()).setMessage(DataInterface.SUCCESS));
             } else {
                 //选择相册的
-                EventBusUtils.post(new EventMsg().setType("selectPhoto").setData(Matisse.obtainPathResult(data)).setMessage(DataInterface.SUCCESS));
+                EventBusUtils.post(new EventMsg().setType(CodePublicLibrary.SELECT_PHOTO).setData(Matisse.obtainPathResult(data)).setMessage(DataInterface.SUCCESS));
             }
         }
     }
