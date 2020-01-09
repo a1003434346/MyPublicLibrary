@@ -126,7 +126,7 @@ public class ViewUtils {
      * @param color 设置的颜色
      */
     public static void setTvColor(TextView view, int color) {
-        view.setTextColor(view.getResources().getColor(color));
+        view.setTextColor(color);
     }
 
 

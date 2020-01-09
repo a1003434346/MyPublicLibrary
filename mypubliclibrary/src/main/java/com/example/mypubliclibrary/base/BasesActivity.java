@@ -288,8 +288,8 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
         if (!loadingDialog.isShowing()) {
             loadingDialog.cancelable(cancelable.length == 0 || cancelable[0]);
             loadingDialog.show();
-            loadingDialog.setProgressText(text);
         }
+        loadingDialog.setProgressText(text);
     }
 
     /**
