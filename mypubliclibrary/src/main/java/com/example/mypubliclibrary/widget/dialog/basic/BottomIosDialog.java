@@ -100,6 +100,7 @@ public abstract class BottomIosDialog extends BottomPopupView implements View.On
                 .setDefaultBgColor(mViewAttribute.itemBackgroundColor())
                 .setPressedBgColor(mViewAttribute.itemParseColor());
         cancelView.setBackground(shapeSelector.setCornerRadius(new float[]{getDP(12)}).create());
+        cancelView.setTextColor(mViewAttribute.itemTextColor());
         for (int i = 0; i < items.size(); i++) {
             if (i == 0) {
                 //添加第一个View
