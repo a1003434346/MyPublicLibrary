@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
@@ -17,6 +18,7 @@ import android.os.Looper;
 import android.os.MessageQueue;
 import android.provider.Settings;
 import android.text.InputFilter;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -240,7 +242,7 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
      *                  选择完成以后在EventBus的事件里接收，pictures为拍照，Data值为String（图片Path）
      *                  selectPhoto为选择相册，Data值为List<String>（图片Path）
      */
-    public void getPhotoView(int maxSelect) {
+    public void getPhotoView(int maxSelect, int... textColor) {
         new BuildIosAttribute(this) {
             @Override
             protected void itemClick(Button button, int position) {
@@ -255,9 +257,11 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
             }
         }.items(new ListUtils<String>().add("从手机相册选择", "拍照"))
                 .isShowLine(false)
+                .itemTextColor(textColor.length == 0 ? Color.parseColor("#000000") : textColor[0])
                 .createWindow()
                 .show();
     }
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
