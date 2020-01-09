@@ -49,6 +49,8 @@ import com.example.mypubliclibrary.util.StringUtils;
 import com.example.mypubliclibrary.util.ToastUtils;
 import com.example.mypubliclibrary.util.WindowUtils;
 import com.example.mypubliclibrary.util.constant.DataInterface;
+import com.example.mypubliclibrary.util.style.PublicLibraryStyle;
+import com.example.mypubliclibrary.widget.dialog.basic.CProgressDialog;
 import com.example.mypubliclibrary.widget.dialog.basic.InputDialog;
 import com.example.mypubliclibrary.widget.dialog.basic.InputDialogTest;
 import com.example.mypubliclibrary.widget.dialog.basic.WarningDialog;
@@ -87,6 +89,9 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public abstract void onEvent(EventMsg message);
+
+    //加载窗口
+    private CProgressDialog loadingDialog;
 
     protected abstract int onRegistered();
 
@@ -242,8 +247,8 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
      *                  选择完成以后在EventBus的事件里接收，pictures为拍照，Data值为String（图片Path）
      *                  selectPhoto为选择相册，Data值为List<String>（图片Path）
      */
-    public void getPhotoView(int maxSelect, int... textColor) {
-        int themeColor = textColor.length == 0 ? Color.parseColor("#000000") : textColor[0];
+    public void getPhotoView(int maxSelect) {
+        int themeColor = PublicLibraryStyle.colorTheme == 0 ? Color.parseColor("#000000") : PublicLibraryStyle.colorTheme;
         new BuildIosAttribute(this) {
             @Override
             protected void itemClick(Button button, int position) {
@@ -263,6 +268,38 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
                 .show();
     }
 
+
+    /**
+     * 显示加载提示
+     */
+    public void showLoading(boolean... cancelable) {
+        if (loadingDialog == null) loadingDialog = new CProgressDialog(this);
+        if (!loadingDialog.isShowing()) {
+            loadingDialog.cancelable(cancelable.length == 0 || cancelable[0]);
+            loadingDialog.show();
+        }
+    }
+
+    /**
+     * 显示加载提示
+     */
+    public void showLoading(String text, boolean... cancelable) {
+        if (loadingDialog == null) loadingDialog = new CProgressDialog(this);
+        if (!loadingDialog.isShowing()) {
+            loadingDialog.cancelable(cancelable.length == 0 || cancelable[0]);
+            loadingDialog.show();
+            loadingDialog.setProgressText(text);
+        }
+    }
+
+    /**
+     * 关闭加载提示
+     */
+    public void dismissLoading() {
+        if (loadingDialog != null && loadingDialog.isShowing()) {
+            loadingDialog.dismiss();
+        }
+    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -489,7 +526,7 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
      * @param currentValid 是否只对当前发起人有效
      */
     protected void getRequestStatus(EventMsg eventMsg, boolean currentValid, SmartRefreshLayout... srlRefreshHead) {
-        if (EventBusUtils.isSuccess(this, eventMsg, mOnlyMark, currentValid, this, srlRefreshHead) && eventMsg.isRefresh()) {
+        if (EventBusUtils.isSuccess(this, eventMsg, mOnlyMark, currentValid, this, loadingDialog, srlRefreshHead) && eventMsg.isRefresh()) {
             EventBusUtils.post(new EventMsg().setType("DeleteRequest").setRequest(eventMsg.getRequest()));
         }
     }

@@ -14,6 +14,7 @@ import com.example.mypubliclibrary.util.ListUtils;
 import com.example.mypubliclibrary.util.NumberUtil;
 import com.example.mypubliclibrary.util.SharedPreferencesUtils;
 import com.example.mypubliclibrary.util.ToastUtils;
+import com.example.mypubliclibrary.util.style.PublicLibraryStyle;
 import com.example.mypubliclibrary.widget.dialog.basic.WarningDialog;
 import com.example.mypubliclibrary.widget.dialog.build.BuildPasswordAttribute;
 import com.example.mypubliclibrary.widget.dialog.build.BuildSelectTextAttribute;
@@ -43,6 +44,9 @@ public class MainActivity extends BasesActivity<TestPre> {
     @Override
     protected void initView() {
         EventBusUtils.register(this);
+        PublicLibraryStyle.colorThemes = new int[]{Color.parseColor("#f50116"), Color.parseColor("#f95532")};
+        PublicLibraryStyle.colorTheme = Color.parseColor("#f50116");
+        showLoading("正在上传图片中...", false);
         Log.i("testId", bindId(R.id.ctl_content).getId() + "");
 //        int colors[] = { Color.parseColor("#ee0a1f") ,Color.parseColor("#f15628") };//分别为开始颜色，中间夜色，结束颜色
 //        setBackground(R.id.tv_test1, getBackRadius(Color.parseColor("#EE0E1F"), 6).setDefaultGdColor(colors).create());

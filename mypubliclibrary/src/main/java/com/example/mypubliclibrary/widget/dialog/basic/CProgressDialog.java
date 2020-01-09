@@ -1,6 +1,8 @@
 package com.example.mypubliclibrary.widget.dialog.basic;
 
 import android.content.Context;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.StateListDrawable;
 import android.os.Build;
 import android.view.View;
 import android.view.WindowManager;
@@ -11,6 +13,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.mypubliclibrary.R;
+import com.example.mypubliclibrary.util.SelectorUtils;
+import com.example.mypubliclibrary.util.WindowUtils;
+import com.example.mypubliclibrary.util.style.PublicLibraryStyle;
 
 
 /**
@@ -50,8 +55,16 @@ public class CProgressDialog extends BaseDialog {
     @Override
     protected void initView() {
         ivLoading = (ImageView) bindId(R.id.iv_loading);
+        GradientDrawable d = (GradientDrawable) context.getResources().getDrawable(R.drawable.loading_shape);
+        d.setColors(PublicLibraryStyle.colorThemes);
+        bindId(R.id.iv_loading).setBackground(d);
         progressTvText = (TextView) bindId(R.id.progress_tv_text);
+        progressTvText.setTextColor(PublicLibraryStyle.colorTheme);
         initData();
+    }
+
+    private int getDp(int dp) {
+        return WindowUtils.dip2px(context, dp);
     }
 
     private void initData() {
@@ -69,7 +82,7 @@ public class CProgressDialog extends BaseDialog {
     public void show() {
         super.show();
         setCancelable(cancelable);
-        if (cancelable) getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+//        if (cancelable) getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
         ivLoading.setAnimation(rotateAnimation);
     }
 

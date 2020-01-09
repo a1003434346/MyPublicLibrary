@@ -6,6 +6,7 @@ import com.example.mypubliclibrary.base.BasesActivity;
 import com.example.mypubliclibrary.base.bean.EventMsg;
 import com.example.mypubliclibrary.base.interfaces.HttpRequestCall;
 import com.example.mypubliclibrary.util.constant.DataInterface;
+import com.example.mypubliclibrary.widget.dialog.basic.CProgressDialog;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 
@@ -45,7 +46,7 @@ public class EventBusUtils {
      * @param initiator    发起人
      * @param currentValid 是否只对当前发起人有效
      */
-    public static boolean isSuccess(Context context, EventMsg eventMsg, String initiator, boolean currentValid, HttpRequestCall httpRequestCall, SmartRefreshLayout... srlRefreshHead) {
+    public static boolean isSuccess(Context context, EventMsg eventMsg, String initiator, boolean currentValid, HttpRequestCall httpRequestCall, CProgressDialog loadingDialog, SmartRefreshLayout... srlRefreshHead) {
         //判断当前发起人是否有效，如果接口中的发起人为空，代表强制不区分发起人
         boolean isValid = !currentValid || initiator.equals(eventMsg.getInitiator()) || StringUtils.isEmpty(eventMsg.getInitiator());
         boolean result = eventMsg.getRequest() != null && eventMsg.getMessage() != null && eventMsg.getMessage().equals(DataInterface.SUCCESS) && isValid;
@@ -58,6 +59,7 @@ public class EventBusUtils {
             httpRequestCall.onQuestError(eventMsg);
             return false;
         }
+        if (loadingDialog != null && loadingDialog.isShowing()) loadingDialog.dismiss();
         if (result) httpRequestCall.onQuestSuccess(eventMsg);
         return result;
     }

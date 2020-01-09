@@ -50,8 +50,16 @@ public class SelectorUtils {
         private int mFocusedBgColor;
         //设置聚焦时的描边色
         private int mFocusedStrokeColor;
+        //厚度
+        private int mThickness;
         //设置默认的渐变颜色,长度为2：0为开始颜色，1为结束颜色。长度为3：0为开始颜色，1为中间颜色，2为结束颜色。 不设置默认色的话0为默认色
         private int[] mDefaultGradientColor;
+        //设置内半径
+        private int mInnerRadius;
+        //设置Size的宽和高
+        private int mWidth, mHeight;
+        //设置渐变类型 示例: GradientDrawable.SWEEP_GRADIENT
+        private int mGradientType;
 
 
         //构造方法，初始化参数
@@ -83,6 +91,17 @@ public class SelectorUtils {
             mCornerRadius = new float[]{0};
             //初始化默认的渐变颜色
             mDefaultGradientColor = new int[]{};
+            //初始化厚度
+            mThickness = 0;
+            //初始化内半径
+            mInnerRadius = 0;
+            //初始化Size的宽
+            mWidth = 0;
+            //初始化Size的高
+            mHeight = 0;
+            //初始化渐变类型
+            mGradientType = -1;
+
         }
 
 
@@ -102,6 +121,27 @@ public class SelectorUtils {
         public SelectorUtils.ShapeSelector setDefaultGdColor(@ColorInt int... colors) {
             mDefaultGradientColor = colors;
             if (mDefaultBgColor == Color.TRANSPARENT) setDefaultBgColor(colors[0]);
+            return this;
+        }
+
+        public SelectorUtils.ShapeSelector setThickness(@ColorInt int thickness) {
+            mThickness = thickness;
+            return this;
+        }
+
+        public SelectorUtils.ShapeSelector setInnerRadius(int innerRadius) {
+            mInnerRadius = innerRadius;
+            return this;
+        }
+
+        public SelectorUtils.ShapeSelector setSize(int width, int height) {
+            mWidth = width;
+            mHeight = height;
+            return this;
+        }
+
+        public SelectorUtils.ShapeSelector setGradientType(int gradientType) {
+            mGradientType = gradientType;
             return this;
         }
 
@@ -157,14 +197,8 @@ public class SelectorUtils {
                 //设置按下改变背景色状态
                 selector.addState(new int[]{android.R.attr.state_pressed}, pressedShape);
             }
-            GradientDrawable defaultShape;
-            if (mDefaultGradientColor.length > 0) {
-                defaultShape = getItemShape(mShape, mCornerRadius,
-                        mDefaultGradientColor, mStrokeWidth, mDefaultStrokeColor);
-            } else {
-                defaultShape = getItemShape(mShape, mCornerRadius,
-                        mDefaultBgColor, mStrokeWidth, mDefaultStrokeColor);
-            }
+            GradientDrawable defaultShape = createShape(mShape, mCornerRadius,
+                    mDefaultBgColor, mStrokeWidth, mDefaultStrokeColor);
             //添加默认状态
             selector.addState(new int[]{}, defaultShape);
 
@@ -318,7 +352,7 @@ public class SelectorUtils {
         /**
          * 设置形状
          *
-         * @param shape shape
+         * @param shape shape  示例 GradientDrawable.RING
          * @return ShapeSelector
          */
         public SelectorUtils.ShapeSelector setShape(int shape) {
@@ -338,6 +372,37 @@ public class SelectorUtils {
             return this;
         }
 
+        private GradientDrawable createShape(int shape, float[] cornerRadius,
+                                             int solidColor, int strokeWidth, int strokeColor) {
+            GradientDrawable drawable;
+            boolean isGradientColor = mDefaultGradientColor.length > 0;
+//            if (isGradientColor) {
+//                drawable = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, mDefaultGradientColor);
+//            } else {
+                drawable = new GradientDrawable();
+//            }
+            drawable.setShape(shape);
+            drawable.setStroke(strokeWidth, strokeColor);
+            //如果是ring,需要设置为false,不然圆形不显示
+            if (shape == GradientDrawable.RING) drawable.setUseLevel(false);
+//            if (mInnerRadius > 0) drawable.setInnerRadius(mInnerRadius);
+            if (mThickness > 0) drawable.setThickness(mThickness);
+            if (mHeight > 0 && mWidth > 0) drawable.setSize(mWidth, mHeight);
+            if (mGradientType > -1) drawable.setGradientType(mGradientType);
+            if (cornerRadius.length == 8) {
+                drawable.setCornerRadii(cornerRadius);
+            } else {
+                drawable.setCornerRadius((int) cornerRadius[0]);
+            }
+            if (isGradientColor) {
+                drawable.setColors(mDefaultGradientColor);
+            } else {
+                drawable.setColor(solidColor);
+            }
+
+            return drawable;
+        }
+
         private GradientDrawable getItemShape(int shape, float[] cornerRadius,
                                               int solidColor, int strokeWidth, int strokeColor) {
             GradientDrawable drawable = new GradientDrawable();
@@ -349,20 +414,6 @@ public class SelectorUtils {
                 drawable.setCornerRadius((int) cornerRadius[0]);
             }
             drawable.setColor(solidColor);
-            return drawable;
-        }
-
-        private GradientDrawable getItemShape(int shape, float[] cornerRadius,
-                                              int[] solidColor, int strokeWidth, int strokeColor) {
-            GradientDrawable drawable = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, solidColor);
-            drawable.setShape(shape);
-            drawable.setStroke(strokeWidth, strokeColor);
-            if (cornerRadius.length == 8) {
-                drawable.setCornerRadii(cornerRadius);
-            } else {
-                drawable.setCornerRadius((int) cornerRadius[0]);
-            }
-            drawable.setColors(solidColor);
             return drawable;
         }
     }

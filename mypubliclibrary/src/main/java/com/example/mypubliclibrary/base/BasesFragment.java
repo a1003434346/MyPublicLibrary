@@ -36,6 +36,7 @@ import com.example.mypubliclibrary.util.ObjectUtil;
 import com.example.mypubliclibrary.util.SelectorUtils;
 import com.example.mypubliclibrary.util.ToastUtils;
 import com.example.mypubliclibrary.util.WindowUtils;
+import com.example.mypubliclibrary.widget.dialog.basic.CProgressDialog;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -59,6 +60,9 @@ public abstract class BasesFragment<T> extends Fragment implements View.OnClickL
     public abstract void onEvent(EventMsg message);
 
     protected abstract int onRegistered();
+
+    //加载窗口
+    private CProgressDialog loadingDialog;
 
     //初始化View
     protected abstract void initView();
@@ -221,6 +225,7 @@ public abstract class BasesFragment<T> extends Fragment implements View.OnClickL
                     return false;
             }
         }
+
         return true;
     }
 
@@ -308,33 +313,26 @@ public abstract class BasesFragment<T> extends Fragment implements View.OnClickL
     }
 
 
-//    /**
-//     * 显示加载提示，可取消为透明背景色，不可取消为蒙色背景
-//     */
-//    public void showLoading(boolean... cancelable) {
-//        activity.showLoading(cancelable);
-////        if (loadingDialog == null)
-////            loadingDialog = new CProgressDialog(getContext());
-////        if (!loadingDialog.isShowing()) {
-////            loadingDialog.cancelable(cancelable);
-////            loadingDialog.show();
-////        }
-////        return loadingDialog;
-//
-//
-////        loadingDialog.setProgressText(text.length > 0 ? text[0] : "加载中...");
-//    }
+    /**
+     * 显示加载提示，true为透明背景色，false为蒙色背景，不传默认为false
+     */
+    public void showLoading(boolean... cancelable) {
+        if (loadingDialog == null) loadingDialog = new CProgressDialog(getContext());
+        if (!loadingDialog.isShowing()) {
+            loadingDialog.cancelable(cancelable.length == 0 || cancelable[0]);
+            loadingDialog.show();
+        }
+//        loadingDialog.setProgressText(text.length > 0 ? text[0] : "加载中...");
+    }
 
-//    /**
-//     * 关闭加载等待
-//     */
-//    public void dismissLoading() {
-////        if (loadingDialog != null && loadingDialog.isShowing()) {
-////            loadingDialog.dismiss();
-////        }
-//
-//        activity.dismissLoading();
-//    }
+    /**
+     * 关闭加载提示
+     */
+    public void dismissLoading() {
+        if (loadingDialog != null && loadingDialog.isShowing()) {
+            loadingDialog.dismiss();
+        }
+    }
 
 //
 //    /**
@@ -501,7 +499,7 @@ public abstract class BasesFragment<T> extends Fragment implements View.OnClickL
      * @param currentValid 是否只对当前发起人有效
      */
     protected void getRequestStatus(EventMsg eventMsg, boolean currentValid, SmartRefreshLayout... srlRefreshHead) {
-        if (EventBusUtils.isSuccess(getContext(), eventMsg, mOnlyMark, currentValid, this, srlRefreshHead) && eventMsg.isRefresh()) {
+        if (EventBusUtils.isSuccess(getContext(), eventMsg, mOnlyMark, currentValid, this, loadingDialog, srlRefreshHead) && eventMsg.isRefresh()) {
             EventBusUtils.post(new EventMsg().setType("DeleteRequest").setRequest(eventMsg.getRequest()));
         }
     }
