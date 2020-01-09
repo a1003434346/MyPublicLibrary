@@ -43,8 +43,8 @@ public class NumberUtil {
      * @param num num
      * @return stringNum
      */
-    public static String doubleTransl(double num) {
-        if (num % 1.0 == 0) {
+    public static String doubleTransl(Object num) {
+        if (Double.parseDouble(num.toString()) % 1.0 == 0) {
             return String.valueOf((long) num);
         }
         return String.valueOf(num);
