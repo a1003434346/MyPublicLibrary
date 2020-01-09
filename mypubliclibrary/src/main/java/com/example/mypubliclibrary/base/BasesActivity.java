@@ -793,6 +793,10 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
         }
     }
 
+    protected void bindClick(Integer... ids) {
+        bindClick(new ListUtils<Integer>().add(ids));
+    }
+
     public void bindClick(View view) {
         view.setOnClickListener(this);
     }

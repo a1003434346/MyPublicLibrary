@@ -31,6 +31,7 @@ import com.example.mypubliclibrary.base.bean.EventMsg;
 import com.example.mypubliclibrary.base.interfaces.CallPermission;
 import com.example.mypubliclibrary.base.interfaces.HttpRequestCall;
 import com.example.mypubliclibrary.util.EventBusUtils;
+import com.example.mypubliclibrary.util.ListUtils;
 import com.example.mypubliclibrary.util.ObjectUtil;
 import com.example.mypubliclibrary.util.SelectorUtils;
 import com.example.mypubliclibrary.util.ToastUtils;
@@ -448,6 +449,10 @@ public abstract class BasesFragment<T> extends Fragment implements View.OnClickL
 
     public void bindClick(int viewId) {
         myView.findViewById(viewId).setOnClickListener(this);
+    }
+
+    protected void bindClick(Integer... ids) {
+        bindClick(new ListUtils<Integer>().add(ids));
     }
 
     protected void bindClick(List<Integer> integers) {
