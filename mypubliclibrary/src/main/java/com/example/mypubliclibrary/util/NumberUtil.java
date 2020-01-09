@@ -44,10 +44,11 @@ public class NumberUtil {
      * @return stringNum
      */
     public static String doubleTransl(Object num) {
-        if (Double.parseDouble(num.toString()) % 1.0 == 0) {
-            return String.valueOf((long) num);
+        double value = Double.parseDouble(num.toString());
+        if (value % 1.0 == 0) {
+            return String.valueOf((long) value);
         }
-        return String.valueOf(num);
+        return String.valueOf(num.toString());
     }
 
     /**
@@ -99,11 +100,12 @@ public class NumberUtil {
      * @param num num
      * @return stringNum
      */
-    public static Double doubleTransD(double num) {
-        if (num % 1.0 == 0) {
-            return Double.valueOf((long) num);
+    public static Double doubleTransD(Object num) {
+        double value = Double.parseDouble(num.toString());
+        if (value % 1.0 == 0) {
+            return Double.valueOf((long) value);
         }
-        return Double.valueOf(num);
+        return value;
     }
 
 
