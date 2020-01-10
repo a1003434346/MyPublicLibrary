@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.widget.Button;
 
+import com.example.mypubliclibrary.util.style.PublicLibraryStyle;
 import com.example.mypubliclibrary.widget.bean.ViewAttribute;
 import com.example.mypubliclibrary.widget.dialog.basic.BottomIosDialog;
 
@@ -15,7 +16,7 @@ public abstract class BuildIosAttribute extends ViewAttribute {
 
     @Override
     protected void initAttribute() {
-        itemTextColor = Color.parseColor("#52CAC1");
+        itemTextColor = PublicLibraryStyle.colorTheme;
         lineColor = Color.parseColor("#f5f5f5");
         lineHeight = 2;
         itemParseColor = Color.parseColor("#f5f5f5");

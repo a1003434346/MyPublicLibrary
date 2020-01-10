@@ -46,7 +46,7 @@ public class MainActivity extends BasesActivity<TestPre> {
         EventBusUtils.register(this);
         PublicLibraryStyle.colorThemes = new int[]{Color.parseColor("#f50116"), Color.parseColor("#f95532")};
         PublicLibraryStyle.colorTheme = Color.parseColor("#f50116");
-        showLoading("正在上传图片中...", false);
+//        showLoading("正在上传图片中...", false);
         Log.i("testId", bindId(R.id.ctl_content).getId() + "");
 //        int colors[] = { Color.parseColor("#ee0a1f") ,Color.parseColor("#f15628") };//分别为开始颜色，中间夜色，结束颜色
 //        setBackground(R.id.tv_test1, getBackRadius(Color.parseColor("#EE0E1F"), 6).setDefaultGdColor(colors).create());
@@ -98,21 +98,21 @@ public class MainActivity extends BasesActivity<TestPre> {
 //                        .setMoney("￥ 100.00")
 //                        .createWindow()
 //                        .show();
-                new BuildWarningAttribute(this) {
-                    @Override
-                    protected void oneClick() {
-
-                    }
-
-                    @Override
-                    protected void twoClick() {
-
-                    }
-                }.setTitle("登录")
-                        .setShowValue("登录后才可以继续，是否现在去登录？")
-                        .createWindow()
-                        .show();
-//                getPhotoView(3);
+//                new BuildWarningAttribute(this) {
+//                    @Override
+//                    protected void oneClick() {
+//
+//                    }
+//
+//                    @Override
+//                    protected void twoClick() {
+//
+//                    }
+//                }.setTitle("登录")
+//                        .setShowValue("登录后才可以继续，是否现在去登录？")
+//                        .createWindow()
+//                        .show();
+                getPhotoView(3);
 //                ImageUtils.previewPhoto(this, new ListUtils<>().add("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1548756837006&di=551df0dcf59d1d71673c3d46b33f0d93&imgtype=0&src=http%3A%2F%2Fimg5.duitang.com%2Fuploads%2Fitem%2F201308%2F04%2F20130804155912_wCRnE.thumb.700_0.jpeg",
 //                        "https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=2279952540,2544282724&fm=26&gp=0.jpg", "https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=851052518,4050485518&fm=26&gp=0.jpg"));
 //                CodeUtils.getInstance().startTiming("", bindId(R.id.tv_test), "点击重发验证码");
@@ -132,7 +132,7 @@ public class MainActivity extends BasesActivity<TestPre> {
 //                }.setBackgroundColor(Color.parseColor("#000000")).setLineColor(Color.parseColor("#565656")).setCancelShow(false).show();
                 break;
             case R.id.tv_test1:
-                mTimer.cancel();
+//                mTimer.cancel();
                 break;
         }
     }

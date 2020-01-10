@@ -248,7 +248,6 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
      *                  selectPhoto为选择相册，Data值为List<String>（图片Path）
      */
     public void getPhotoView(int maxSelect) {
-        int themeColor = PublicLibraryStyle.colorTheme == 0 ? Color.parseColor("#000000") : PublicLibraryStyle.colorTheme;
         new BuildIosAttribute(this) {
             @Override
             protected void itemClick(Button button, int position) {
@@ -263,7 +262,6 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
             }
         }.items(new ListUtils<String>().add("从手机相册选择", "拍照"))
                 .isShowLine(false)
-                .itemTextColor(themeColor)
                 .createWindow()
                 .show();
     }
