@@ -21,6 +21,8 @@ public class EventMsg {
     private Object mData;
     //是否为刷新
     private boolean isRefresh;
+    //发起人的页面
+    private Object mInitiatorPage;
 
     public <T> T getRequest() {
         return (T) mRequest;
@@ -28,6 +30,14 @@ public class EventMsg {
 
     public String getType() {
         return mType == null ? "" : mType;
+    }
+
+    public <T> T getInitiatorPage() {
+        return (T) mInitiatorPage;
+    }
+
+    public void setInitiatorPage(Object initiatorPage) {
+        this.mInitiatorPage = initiatorPage;
     }
 
     public EventMsg setType(String mType) {
