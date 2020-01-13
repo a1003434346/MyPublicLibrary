@@ -40,6 +40,26 @@ public class CodeUtils {
         return codeUtils;
     }
 
+//    /**
+//     * 是否在发送中
+//     *
+//     * @return true/false
+//     */
+//    public boolean getIsSendIng() {
+//        long codeSendTime = Long.parseLong(SharedPreferencesUtils.getInstance().getParam("CodeSendTime", Long.parseLong("0")).toString());
+//        if (codeSendTime == 0) {
+//            initSend();
+//        } else {
+//            mSendIntervalTime = DateUtils.getIntervalSeconds(System.currentTimeMillis(), codeSendTime);
+//            if (mSendIntervalTime < mOutTime) {
+//                isSendInge = true;
+//            } else {
+//                initSend();
+//            }
+//        }
+//        return isSendInge;
+//    }
+
     /**
      * 是否在发送中
      *
@@ -47,31 +67,26 @@ public class CodeUtils {
      */
     public boolean getIsSendIng() {
         long codeSendTime = Long.parseLong(SharedPreferencesUtils.getInstance().getParam("CodeSendTime", Long.parseLong("0")).toString());
-        if (codeSendTime == 0) {
-            initSend();
-        } else {
+        if (codeSendTime > 0) {
             mSendIntervalTime = DateUtils.getIntervalSeconds(System.currentTimeMillis(), codeSendTime);
-            if (mSendIntervalTime < mOutTime) {
-                isSendInge = true;
-            } else {
-                initSend();
-            }
+            if (mSendIntervalTime < mOutTime) isSendInge = true;
         }
         return isSendInge;
     }
 
-    /**
-     * 初始化发送
-     */
-    private void initSend() {
-        SharedPreferencesUtils.getInstance().setParam("CodeSendTime", System.currentTimeMillis());
-        isSendInge = false;
-        mSendIntervalTime = 0;
-    }
+
+//    /**
+//     * 初始化发送
+//     */
+//    private void initSend() {
+//        SharedPreferencesUtils.getInstance().setParam("CodeSendTime", System.currentTimeMillis());
+//        isSendInge = false;
+//        mSendIntervalTime = 0;
+//    }
 
 
     /**
-     * 读取倒计时
+     * 开始读取倒计时
      *
      * @param number        验证码
      * @param countdownView 设置显示倒计时的控件
@@ -80,8 +95,10 @@ public class CodeUtils {
      *                      Ui销毁时记得调用CodeUtils.getInstance().cancel(); 否则会造成内存泄露
      *                      采用本地时间进行计算的，下次开始会自动拾取区间进行倒计时
      */
-    public void readCountdown(String number, TextView countdownView, String originalText) {
+    public void startCountdown(String number, TextView countdownView, String originalText) {
 //        boolean result = !getIsSendIng();
+        if (!isSendInge)
+            SharedPreferencesUtils.getInstance().setParam("CodeSendTime", System.currentTimeMillis());
         timing(number, countdownView, originalText);
 //        return result;
     }
@@ -112,6 +129,8 @@ public class CodeUtils {
                 countdownView.setText(originalText);
                 SharedPreferencesUtils.getInstance().remove("CodeSendTime");
                 code = "0";
+                mSendIntervalTime = 0;
+                isSendInge = false;
                 cancel();
             }
         }.start();
