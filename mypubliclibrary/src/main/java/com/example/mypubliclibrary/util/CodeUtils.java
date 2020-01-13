@@ -97,8 +97,11 @@ public class CodeUtils {
      */
     public void startCountdown(String number, TextView countdownView, String originalText) {
 //        boolean result = !getIsSendIng();
-        if (!isSendInge)
+        if (!isSendInge) {
             SharedPreferencesUtils.getInstance().setParam("CodeSendTime", System.currentTimeMillis());
+            mSendIntervalTime = 0;
+        }
+
         timing(number, countdownView, originalText);
 //        return result;
     }
