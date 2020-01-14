@@ -37,6 +37,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.example.mypubliclibrary.R;
 import com.example.mypubliclibrary.base.bean.EventMsg;
+import com.example.mypubliclibrary.base.interfaces.BasesActivityCall;
 import com.example.mypubliclibrary.base.interfaces.CallPermission;
 import com.example.mypubliclibrary.base.interfaces.CodePublicLibrary;
 import com.example.mypubliclibrary.base.interfaces.HttpRequestCall;
@@ -921,40 +922,22 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
      *
      * @param textHint hint
      * @param viewId   要给哪个文本框显示
-     * @param connect  是否关联实时显示,不设置默认为true
      * @return InputDialog
      */
-    public InputDialog getInputDialog(String textHint, final int viewId, boolean... connect) {
-//        TextView inputView = bindId(viewId);
-//        BuildInputAttribute inputAttribute = new BuildInputAttribute(this) {
-//            @Override
-//            protected void onSubmitValue(String value) {
-//                inputView.setText(value);
-//            }
-//        }.textHint(textHint);
-//        if (connect.length == 0) {
-//            //关联显示TextView,不显示提交按钮，并且键盘右下角显示为完成
-//            inputAttribute.connectTextView(inputView);
-//            inputAttribute.submitVisibility(false);
-//        } else {
-//            inputAttribute.submitText("提交");
-//        }
-//        inputAttribute.inputValue(inputView.getText().toString());
-//        return inputAttribute.createWindow();
-
-        TextView inputView = bindId(viewId);
+    public InputDialog getInputDialog(String textHint, final int viewId, BasesActivityCall.InputDialog... inputDialogs) {
         InputDialog inputDialog = new InputDialog(this) {
             @Override
             protected void submitValue(String value) {
-                inputView.setText(value);
+                if (viewId > 0) setTextValue(viewId, value);
+                if (inputDialogs.length > 0) inputDialogs[0].onInputDone(value);
             }
         }.setTextHint(textHint);
-        if (connect.length == 0) {
-            //关联显示TextView,不显示提交按钮，并且键盘右下角显示为完成
+        if (viewId > 0) {
+            TextView inputView = bindId(viewId);
+            //关联显示TextView
             inputDialog.connectView(inputView);
-//            inputDialog.setSubmitVisibility(false);
+            inputDialog.setInputValue(inputView.getText().toString());
         }
-        inputDialog.setInputValue(inputView.getText().toString());
         return inputDialog;
 
     }

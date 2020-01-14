@@ -324,8 +324,7 @@ public class ImageUtils {
      * @param checkDrawable    选中的图片
      * @param notCheckDrawable 未选中的图片
      *                         请求示例：
-     *                         ImageUtils.setCheckImage(this, R.id.iv_drag_play, R.drawable.drag_play, R.drawable.drag_pause);
-     * @return 当前选择后是否为选中状态
+     *                         ImageUtils.setListCheckImage(views, R.id.iv_drag_play, R.drawable.drag_play, R.drawable.drag_pause);
      */
     public static void setListCheckImage(List<View> views, int checkId, int checkDrawable, int notCheckDrawable) {
         for (View view : views) {
