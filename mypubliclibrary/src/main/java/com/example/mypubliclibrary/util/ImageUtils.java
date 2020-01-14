@@ -287,14 +287,14 @@ public class ImageUtils {
 
 
     //判断图片是否使用某一个图片
-    public static boolean isEqualsDrawable(BasesActivity activity, ImageView imageView, int drawableId) {
-        return imageView.getDrawable().getConstantState().equals(activity.getResources().getDrawable(drawableId).getConstantState());
+    public static boolean isEqualsDrawable(Context context, ImageView imageView, int drawableId) {
+        return imageView.getDrawable().getConstantState().equals(context.getResources().getDrawable(drawableId).getConstantState());
     }
 
     /**
      * 设置选中和未选中的图片
      *
-     * @param activity         activity
+     * @param context          context
      * @param view             view
      * @param checkDrawable    选中的图片
      * @param notCheckDrawable 未选中的图片
@@ -302,11 +302,11 @@ public class ImageUtils {
      *                         ImageUtils.setCheckImage(this, R.id.iv_drag_play, R.drawable.drag_play, R.drawable.drag_pause);
      * @return 当前选择后是否为选中状态
      */
-    public static boolean setCheckImage(BasesActivity activity, View view, int checkDrawable, int notCheckDrawable) {
+    public static boolean setCheckImage(Context context, View view, int checkDrawable, int notCheckDrawable) {
         //是否选中
         boolean isCheck;
         ImageView imageView = (ImageView) view;
-        if (ImageUtils.isEqualsDrawable(activity, imageView, checkDrawable)) {
+        if (ImageUtils.isEqualsDrawable(context, imageView, checkDrawable)) {
             ImageUtils.setImageDrawable(imageView, notCheckDrawable);
             isCheck = false;
         } else {
@@ -314,6 +314,24 @@ public class ImageUtils {
             isCheck = true;
         }
         return isCheck;
+    }
+
+    /**
+     * 从一个List<View>里面设置单选
+     *
+     * @param views            views
+     * @param checkId          需要选中的ViewId
+     * @param checkDrawable    选中的图片
+     * @param notCheckDrawable 未选中的图片
+     *                         请求示例：
+     *                         ImageUtils.setCheckImage(this, R.id.iv_drag_play, R.drawable.drag_play, R.drawable.drag_pause);
+     * @return 当前选择后是否为选中状态
+     */
+    public static void setListCheckImage(List<View> views, int checkId, int checkDrawable, int notCheckDrawable) {
+        for (View view : views) {
+            ImageView imageView = (ImageView) view;
+            ImageUtils.setImageDrawable(imageView, imageView.getId() == checkId ? checkDrawable : notCheckDrawable);
+        }
     }
 
     /**
