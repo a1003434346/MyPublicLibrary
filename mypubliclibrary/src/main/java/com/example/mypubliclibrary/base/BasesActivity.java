@@ -163,11 +163,11 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
         super.onCreate(savedInstanceState);
         initAttribute();
         setContentView(onRegistered());
-        //设置状态栏的背景色为title的背景色,如果有title,给title增加状态栏间距
-        setStatusTitle();
         getPageRequestData();
         initView();
         initStyle();
+        //设置状态栏的背景色为title的背景色,如果有title,给title增加状态栏间距
+        setStatusTitle();
         Looper.myQueue().addIdleHandler(new MessageQueue.IdleHandler() {
             @Override
             public boolean queueIdle() {

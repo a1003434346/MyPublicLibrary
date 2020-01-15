@@ -6,6 +6,7 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.pm.ActivityInfo;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -131,6 +132,24 @@ public class WindowUtils {
                 setStatusBarColor((Activity) context, false);
             }
         }
+    }
+
+    /**
+     * 旋转屏幕
+     *
+     * @param activity activity
+     */
+    public static void rotateScreen(BasesActivity activity) {
+        activity.setRequestedOrientation(isFullState(activity) ? ActivityInfo.SCREEN_ORIENTATION_PORTRAIT : ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+    }
+
+    /**
+     * 当前是否是全屏
+     *
+     * @param activity activity
+     */
+    public static boolean isFullState(BasesActivity activity) {
+        return activity.getRequestedOrientation() == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
     }
 
 

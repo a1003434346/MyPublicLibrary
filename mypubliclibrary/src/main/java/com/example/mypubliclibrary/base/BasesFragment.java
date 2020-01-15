@@ -125,6 +125,7 @@ public abstract class BasesFragment<T> extends Fragment implements View.OnClickL
             getPageRequestData();
             initView();
             initStyle();
+            WindowUtils.setStatusTitle(getContext(), myView);
             Looper.myQueue().addIdleHandler(new MessageQueue.IdleHandler() {
                 @Override
                 public boolean queueIdle() {
@@ -145,7 +146,6 @@ public abstract class BasesFragment<T> extends Fragment implements View.OnClickL
     }
 
     private void initAttribute() {
-        WindowUtils.setStatusTitle(getContext(), myView);
         //获取代表该类的唯一值
         mOnlyMark = System.nanoTime() + "";
     }
