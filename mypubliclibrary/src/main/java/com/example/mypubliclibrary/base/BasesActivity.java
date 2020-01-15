@@ -168,6 +168,7 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
         initStyle();
         //设置状态栏的背景色为title的背景色,如果有title,给title增加状态栏间距
         setStatusTitle();
+        addBackClick();
         Looper.myQueue().addIdleHandler(new MessageQueue.IdleHandler() {
             @Override
             public boolean queueIdle() {
@@ -599,6 +600,10 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
     @Override
     public void onContentChanged() {
         super.onContentChanged();
+
+    }
+
+    private void addBackClick() {
         View view = bindId(R.id.iv_back);
         if (view != null)
             view.setOnClickListener(new View.OnClickListener() {
