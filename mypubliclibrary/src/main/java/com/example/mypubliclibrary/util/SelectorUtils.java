@@ -376,11 +376,11 @@ public class SelectorUtils {
                                              int solidColor, int strokeWidth, int strokeColor) {
             GradientDrawable drawable;
             boolean isGradientColor = mDefaultGradientColor.length > 0;
-//            if (isGradientColor) {
-//                drawable = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, mDefaultGradientColor);
-//            } else {
+            if (isGradientColor) {
+                drawable = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, mDefaultGradientColor);
+            } else {
                 drawable = new GradientDrawable();
-//            }
+            }
             drawable.setShape(shape);
             drawable.setStroke(strokeWidth, strokeColor);
             //如果是ring,需要设置为false,不然圆形不显示
@@ -394,12 +394,7 @@ public class SelectorUtils {
             } else {
                 drawable.setCornerRadius((int) cornerRadius[0]);
             }
-            if (isGradientColor) {
-                drawable.setColors(mDefaultGradientColor);
-            } else {
-                drawable.setColor(solidColor);
-            }
-
+            if (!isGradientColor) drawable.setColor(solidColor);
             return drawable;
         }
 

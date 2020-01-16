@@ -6,11 +6,9 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
-import android.graphics.drawable.StateListDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -18,7 +16,6 @@ import android.os.Looper;
 import android.os.MessageQueue;
 import android.provider.Settings;
 import android.text.InputFilter;
-import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -46,16 +43,11 @@ import com.example.mypubliclibrary.util.EventBusUtils;
 import com.example.mypubliclibrary.util.ListUtils;
 import com.example.mypubliclibrary.util.ObjectUtil;
 import com.example.mypubliclibrary.util.SelectorUtils;
-import com.example.mypubliclibrary.util.StringUtils;
 import com.example.mypubliclibrary.util.ToastUtils;
 import com.example.mypubliclibrary.util.WindowUtils;
 import com.example.mypubliclibrary.util.constant.DataInterface;
-import com.example.mypubliclibrary.util.style.PublicLibraryStyle;
 import com.example.mypubliclibrary.widget.dialog.basic.CProgressDialog;
 import com.example.mypubliclibrary.widget.dialog.basic.InputDialog;
-import com.example.mypubliclibrary.widget.dialog.basic.InputDialogTest;
-import com.example.mypubliclibrary.widget.dialog.basic.WarningDialog;
-import com.example.mypubliclibrary.widget.dialog.build.BuildInputAttribute;
 import com.example.mypubliclibrary.widget.dialog.build.BuildIosAttribute;
 import com.example.mypubliclibrary.widget.photo.GifSizeFilter;
 import com.example.mypubliclibrary.widget.photo.MyGlideEngine;
@@ -71,11 +63,11 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.TreeMap;
 
+import me.imid.swipebacklayout.lib.SwipeBackLayout;
 import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
 
 
@@ -129,8 +121,6 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
 //    protected boolean isSetStatusColor;
     //是否开启跳转动画，默认为开启
     public boolean mJumpAnim;
-    //是否允许滑动Finish
-    protected boolean isSlideFinish;
 
 
     //拍照
@@ -189,7 +179,8 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
     private void initAttribute() {
         mJumpAnim = true;
         setStatusBar();
-        setSwipeBackEnable(!isSlideFinish);
+        //是否允许侧滑返回
+        setSwipeBackEnable(true);
         initSupportFragmentManager();
         mOnlyMark = System.nanoTime() + "";
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
