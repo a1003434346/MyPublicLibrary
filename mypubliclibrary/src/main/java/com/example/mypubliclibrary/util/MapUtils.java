@@ -49,7 +49,7 @@ public class MapUtils<K, V> {
     }
 
 
-    public static <T> T getNotNullValue(Map map, String param) {
+    public static <T> T getValue(Map map, String param) {
         T result = null;
         if (map != null && map.get(param) != null) {
             result = (T) map.get(param);
