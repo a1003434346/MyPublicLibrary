@@ -102,22 +102,22 @@ public class WindowUtils {
                 ViewGroup.LayoutParams layoutParams = titleView.getLayoutParams();
                 //设置间距
                 setLayoutMargin(layoutParams, 0, statusHeight, 0, 0);
+                //是否有添加状态栏View
+                View statusView = rootView.findViewById(R.id.status_back);
+                if (statusView == null) {
+                    statusView = new View(context);
+                    statusView.setId(R.id.status_back);
+                    //添加状态栏View
+                    ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, 0);
+                    params.topToTop = ConstraintSet.PARENT_ID;
+                    params.bottomToTop = titleView.getId();
+                    if (rootView instanceof ConstraintLayout) {
+                        ((ConstraintLayout) rootView).addView(statusView, params);
+                    }
+                }
                 //设置状态栏的背景色
                 ColorDrawable colorDrawable = (ColorDrawable) titleView.getBackground();
                 if (colorDrawable != null) {
-                    //是否有添加状态栏View
-                    View statusView = rootView.findViewById(R.id.status_back);
-                    if (statusView == null) {
-                        statusView = new View(context);
-                        statusView.setId(R.id.status_back);
-                        //添加状态栏View
-                        ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, 0);
-                        params.topToTop = ConstraintSet.PARENT_ID;
-                        params.bottomToTop = titleView.getId();
-                        if (rootView instanceof ConstraintLayout) {
-                            ((ConstraintLayout) rootView).addView(statusView, params);
-                        }
-                    }
                     int titleColor = colorDrawable.getColor();
                     //改变状态栏电量时间颜色
                     setStatusBarColor((Activity) context, titleColor != 0 && ColorUtils.isLightColor(titleColor));
