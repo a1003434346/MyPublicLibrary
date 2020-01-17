@@ -107,6 +107,17 @@ public class WindowUtils {
                 if (statusView == null) {
                     statusView = new View(context);
                     statusView.setId(R.id.status_back);
+                    //设置状态栏的背景色
+                    ColorDrawable colorDrawable = (ColorDrawable) titleView.getBackground();
+                    if (colorDrawable != null) {
+                        int titleColor = colorDrawable.getColor();
+                        //改变状态栏电量时间颜色
+                        setStatusBarColor((Activity) context, titleColor != 0 && ColorUtils.isLightColor(titleColor));
+                        //设置状态栏背景色为标题背景色
+                        statusView.setBackgroundColor(titleColor);
+                        //设置状态栏背景色为标题背景色
+//                        ((Activity) context).getWindow().setStatusBarColor(colorDrawable.getColor());
+                    }
                     //添加状态栏View
                     ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, 0);
                     params.topToTop = ConstraintSet.PARENT_ID;
@@ -114,17 +125,6 @@ public class WindowUtils {
                     if (rootView instanceof ConstraintLayout) {
                         ((ConstraintLayout) rootView).addView(statusView, params);
                     }
-                }
-                //设置状态栏的背景色
-                ColorDrawable colorDrawable = (ColorDrawable) titleView.getBackground();
-                if (colorDrawable != null) {
-                    int titleColor = colorDrawable.getColor();
-                    //改变状态栏电量时间颜色
-                    setStatusBarColor((Activity) context, titleColor != 0 && ColorUtils.isLightColor(titleColor));
-                    //设置状态栏背景色为标题背景色
-                    statusView.setBackgroundColor(titleColor);
-                    //设置状态栏背景色为标题背景色
-//                        ((Activity) context).getWindow().setStatusBarColor(colorDrawable.getColor());
                 }
             } else {
                 //设置状态栏背景色为透明色
