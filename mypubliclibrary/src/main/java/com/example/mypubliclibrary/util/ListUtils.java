@@ -108,20 +108,21 @@ public class ListUtils<T> {
     }
 
     /**
-     * 从List<Map<String,Object>>里获取指定key 为List<String>
+     * 从List<Map<String,Object>>里获取指定key 为List
      *
      * @param maps maps
      * @param key  key
      * @return List<String>
      */
-    public static List<String> listMapToStringList(List<Map<String, Object>> maps, String key) {
-        List<String> strings = new ArrayList<>();
+    public static <T> List<T> listMapToList(List<Map<String, Object>> maps, String key) {
+        List<T> tList = new ArrayList<>();
         for (Map<String, Object> map : maps) {
-            String value = map.get(key).toString();
-            if (!value.isEmpty())
-                strings.add(value);
+            if (map.get(key) != null) {
+                T value = (T) map.get(key);
+                tList.add(value);
+            }
         }
-        return strings;
+        return tList;
     }
 
     /**
