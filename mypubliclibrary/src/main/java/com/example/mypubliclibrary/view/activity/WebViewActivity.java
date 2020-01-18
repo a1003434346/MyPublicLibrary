@@ -56,13 +56,21 @@ public class WebViewActivity extends BasesActivity {
             setTextValue(R.id.tv_title, title);
         }
         ctlWeb = (ConstraintLayout) bindId(R.id.ctl_web);
-        AgentWeb agentWeb = AgentWeb.with(this)
-                .setAgentWebParent(ctlWeb, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT))
-                .closeIndicator()
+        AgentWeb.IndicatorBuilder setAgentWebParent = AgentWeb.with(this)
+                .setAgentWebParent(ctlWeb, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
+        AgentWeb.CommonBuilder commonBuilder;
+        if (getIntent().getBooleanExtra("isShowLoadingBar", true)) {
+            commonBuilder = setAgentWebParent.useDefaultIndicator();
+        } else {
+            commonBuilder = setAgentWebParent.closeIndicator();
+        }
+        commonBuilder
                 .createAgentWeb()
                 .ready()
-                .go(getIntent().getStringExtra("url"));
-        agentWeb.getAgentWebSettings().getWebSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
+                .go(getIntent().getStringExtra("url"))
+                .getAgentWebSettings()
+                .getWebSettings()
+                .setCacheMode(WebSettings.LOAD_NO_CACHE);
     }
 
     @Override
