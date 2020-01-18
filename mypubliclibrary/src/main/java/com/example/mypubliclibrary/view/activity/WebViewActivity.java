@@ -1,5 +1,6 @@
 package com.example.mypubliclibrary.view.activity;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
@@ -17,6 +18,7 @@ import com.example.mypubliclibrary.R;
 import com.example.mypubliclibrary.base.BasesActivity;
 import com.example.mypubliclibrary.base.bean.EventMsg;
 import com.example.mypubliclibrary.base.interfaces.WebCall;
+import com.example.mypubliclibrary.util.EventBusUtils;
 import com.just.agentweb.AgentWeb;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -26,13 +28,30 @@ public class WebViewActivity extends BasesActivity {
 
 
     @Override
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(EventMsg message) {
-
+        switch (message.getType()) {
+            case "webCall":
+                mWebCall = message.getData();
+                break;
+        }
     }
 
     @Override
     protected int onRegistered() {
         return R.layout.activity_web_view;
+    }
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBusUtils.unregister(this);
     }
 
     private ConstraintLayout ctlWeb;
@@ -44,6 +63,7 @@ public class WebViewActivity extends BasesActivity {
 
     @Override
     protected void initView() {
+        EventBusUtils.register(this);
         ctlWeb = (ConstraintLayout) findViewById(R.id.ctl_web);
 
     }

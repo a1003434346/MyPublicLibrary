@@ -1,6 +1,7 @@
 package com.example.mypubliclibrary.util;
 
 import com.example.mypubliclibrary.base.BasesActivity;
+import com.example.mypubliclibrary.base.bean.EventMsg;
 import com.example.mypubliclibrary.base.interfaces.WebCall;
 import com.example.mypubliclibrary.view.activity.WebViewActivity;
 
@@ -18,9 +19,9 @@ public class WebUtils {
         treeMap.put("title", title);
         treeMap.put("url", url);
         treeMap.put("isShowLoadingBar", true);
-//        if (webCalls.length > 0)
-//            treeMap.put("webCall", webCalls[0]);
         activity.jumpActivity(WebViewActivity.class, treeMap);
+        if (webCalls.length > 0)
+            EventBusUtils.post(new EventMsg().setType("webCall").setData(webCalls[0]));
     }
 
     public static void jumpWeb(final BasesActivity activity, String url, final String title, boolean isShowLoadingBar, WebCall... webCalls) {
