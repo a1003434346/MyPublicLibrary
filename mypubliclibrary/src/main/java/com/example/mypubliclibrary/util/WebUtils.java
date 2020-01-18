@@ -1,8 +1,10 @@
 package com.example.mypubliclibrary.util;
 
 import com.example.mypubliclibrary.base.BasesActivity;
+import com.example.mypubliclibrary.base.interfaces.WebCall;
 import com.example.mypubliclibrary.view.activity.WebViewActivity;
 
+import java.io.Serializable;
 import java.util.TreeMap;
 
 /**
@@ -11,11 +13,23 @@ import java.util.TreeMap;
  * Created By LiQiang on 2019/8/26.
  */
 public class WebUtils {
-    public static void jumpWeb(final BasesActivity activity, String url, final String title, boolean... isShowLoadingBar) {
+    public static void jumpWeb(final BasesActivity activity, String url, final String title, WebCall... webCalls) {
         TreeMap<String, Object> treeMap = new TreeMap<>();
         treeMap.put("title", title);
         treeMap.put("url", url);
-        treeMap.put("isShowLoadingBar", isShowLoadingBar.length == 0 || isShowLoadingBar[0]);
+        treeMap.put("isShowLoadingBar", true);
+//        if (webCalls.length > 0)
+//            treeMap.put("webCall", webCalls[0]);
+        activity.jumpActivity(WebViewActivity.class, treeMap);
+    }
+
+    public static void jumpWeb(final BasesActivity activity, String url, final String title, boolean isShowLoadingBar, WebCall... webCalls) {
+        TreeMap<String, Object> treeMap = new TreeMap<>();
+        treeMap.put("title", title);
+        treeMap.put("url", url);
+        treeMap.put("isShowLoadingBar", isShowLoadingBar);
+//        if (webCalls.length > 0)
+//            treeMap.put("webCall", webCalls[0]);
         activity.jumpActivity(WebViewActivity.class, treeMap);
     }
 

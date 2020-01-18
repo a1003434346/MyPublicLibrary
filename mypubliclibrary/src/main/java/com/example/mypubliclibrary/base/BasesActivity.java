@@ -455,7 +455,6 @@ public abstract class BasesActivity<T> extends SwipeBackActivity implements View
             if (value instanceof byte[]) {
                 intent.putExtra(key, (byte[]) paramMap.get(key));
             }
-
             if (value instanceof Bundle) {
                 intent.putExtras((Bundle) value);
             }
