@@ -29,6 +29,14 @@ public class EventBusUtils {
     }
 
     /**
+     * 解除所有粘性事件
+     */
+    public static void removeAllStickyEvents() {
+        EventBus.getDefault().removeAllStickyEvents();
+    }
+
+
+    /**
      * 注册
      *
      * @param subscriber context
@@ -54,19 +62,22 @@ public class EventBusUtils {
             srlRefreshHead[0].finishRefresh(result);
             srlRefreshHead[0].finishLoadMore(result);
         }
+        if (loadingDialog != null && loadingDialog.isShowing()) loadingDialog.dismiss();
+        if (result) httpRequestCall.onQuestSuccess(eventMsg);
         if (!result && initiator.equals(eventMsg.getInitiator())) {
             ToastUtils.showLongToast(context, eventMsg.getMessage());
             httpRequestCall.onQuestError(eventMsg);
-            return false;
         }
-        if (loadingDialog != null && loadingDialog.isShowing()) loadingDialog.dismiss();
-        if (result) httpRequestCall.onQuestSuccess(eventMsg);
         return result;
     }
 
 
     public static void post(EventMsg eventMsg) {
         EventBus.getDefault().post(eventMsg);
+    }
+
+    public static void postSticky(EventMsg eventMsg) {
+        EventBus.getDefault().postSticky(eventMsg);
     }
 
 }

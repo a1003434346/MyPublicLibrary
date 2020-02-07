@@ -28,11 +28,39 @@ public class WebViewActivity extends BasesActivity {
 
 
     @Override
-    @Subscribe(threadMode = ThreadMode.MAIN)
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     public void onEvent(EventMsg message) {
         switch (message.getType()) {
             case "webCall":
                 mWebCall = message.getData();
+                AgentWeb.IndicatorBuilder setAgentWebParent = AgentWeb.with(this)
+                        .setAgentWebParent(ctlWeb, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
+                AgentWeb.CommonBuilder commonBuilder;
+                if (getIntent().getBooleanExtra("isShowLoadingBar", true)) {
+                    commonBuilder = setAgentWebParent.useDefaultIndicator();
+                } else {
+                    commonBuilder = setAgentWebParent.closeIndicator();
+                }
+                WebChromeClient mWebChromeClient = new WebChromeClient() {
+                    @Override
+                    public void onProgressChanged(WebView view, int newProgress) {
+                        //do you work
+                        if (newProgress == 100 && !isLoadDone) {
+                            isLoadDone = true;
+                            mWebCall.onLoadDone();
+                        }
+
+                    }
+                };
+                if (mWebCall != null)
+                    commonBuilder = commonBuilder.setWebChromeClient(mWebChromeClient);
+                commonBuilder
+                        .createAgentWeb()
+                        .ready()
+                        .go(getIntent().getStringExtra("url"))
+                        .getAgentWebSettings()
+                        .getWebSettings()
+                        .setCacheMode(WebSettings.LOAD_NO_CACHE);
                 break;
         }
     }
@@ -45,13 +73,14 @@ public class WebViewActivity extends BasesActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        EventBusUtils.register(this);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         EventBusUtils.unregister(this);
+        EventBusUtils.removeAllStickyEvents();
     }
 
     private ConstraintLayout ctlWeb;
@@ -63,9 +92,13 @@ public class WebViewActivity extends BasesActivity {
 
     @Override
     protected void initView() {
-        EventBusUtils.register(this);
-        ctlWeb = (ConstraintLayout) findViewById(R.id.ctl_web);
-
+        ctlWeb = (ConstraintLayout) bindId(R.id.ctl_web);
+        String title = getIntent().getStringExtra("title");
+        if (title == null || title.isEmpty()) {
+            hideView(R.id.ctl_title);
+        } else {
+            setTextValue(R.id.tv_title, title);
+        }
     }
 
     @Override
@@ -80,45 +113,6 @@ public class WebViewActivity extends BasesActivity {
 
     @Override
     protected void initData() {
-        String title = getIntent().getStringExtra("title");
-        if (title == null || title.isEmpty()) {
-            hideView(R.id.ctl_title);
-        } else {
-            setTextValue(R.id.tv_title, title);
-        }
-        ctlWeb = (ConstraintLayout) bindId(R.id.ctl_web);
-        if (getIntent().getExtras().getSerializable("webCall") != null) {
-            mWebCall = (WebCall) getIntent().getExtras().getSerializable("webCall");
-        }
-        AgentWeb.IndicatorBuilder setAgentWebParent = AgentWeb.with(this)
-                .setAgentWebParent(ctlWeb, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
-        AgentWeb.CommonBuilder commonBuilder;
-        if (getIntent().getBooleanExtra("isShowLoadingBar", true)) {
-            commonBuilder = setAgentWebParent.useDefaultIndicator();
-        } else {
-            commonBuilder = setAgentWebParent.closeIndicator();
-        }
-        WebChromeClient mWebChromeClient = new WebChromeClient() {
-            @Override
-            public void onProgressChanged(WebView view, int newProgress) {
-                //do you work
-                if (newProgress == 100 && !isLoadDone && mWebCall != null) {
-                    isLoadDone = true;
-                    mWebCall.onLoadDone();
-                }
-
-            }
-        };
-        commonBuilder
-                .setWebChromeClient(mWebChromeClient)
-                .createAgentWeb()
-                .ready()
-                .go(getIntent().getStringExtra("url"))
-                .getAgentWebSettings()
-                .getWebSettings()
-
-                .setCacheMode(WebSettings.LOAD_NO_CACHE);
-
 
     }
 

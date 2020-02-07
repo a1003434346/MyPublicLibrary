@@ -19,9 +19,8 @@ public class WebUtils {
         treeMap.put("title", title);
         treeMap.put("url", url);
         treeMap.put("isShowLoadingBar", true);
+        EventBusUtils.postSticky(new EventMsg().setType("webCall").setData(webCalls.length > 0 ? webCalls[0] : null));
         activity.jumpActivity(WebViewActivity.class, treeMap);
-        if (webCalls.length > 0)
-            EventBusUtils.post(new EventMsg().setType("webCall").setData(webCalls[0]));
     }
 
     public static void jumpWeb(final BasesActivity activity, String url, final String title, boolean isShowLoadingBar, WebCall... webCalls) {
@@ -29,8 +28,7 @@ public class WebUtils {
         treeMap.put("title", title);
         treeMap.put("url", url);
         treeMap.put("isShowLoadingBar", isShowLoadingBar);
-//        if (webCalls.length > 0)
-//            treeMap.put("webCall", webCalls[0]);
+        EventBusUtils.postSticky(new EventMsg().setType("webCall").setData(webCalls.length > 0 ? webCalls[0] : null));
         activity.jumpActivity(WebViewActivity.class, treeMap);
     }
 
